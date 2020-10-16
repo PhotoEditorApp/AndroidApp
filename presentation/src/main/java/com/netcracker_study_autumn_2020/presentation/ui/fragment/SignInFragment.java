@@ -1,0 +1,79 @@
+package com.netcracker_study_autumn_2020.presentation.ui.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.button.MaterialButton;
+import com.netcracker_study_autumn_2020.data.auth_manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.auth_manager.impl.CustomBackendAuthManagerImpl;
+import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
+import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
+import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
+import com.netcracker_study_autumn_2020.presentation.R;
+import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
+import com.netcracker_study_autumn_2020.presentation.mvp.presenter.AuthPresenter;
+import com.netcracker_study_autumn_2020.presentation.mvp.view.SignInView;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.StartActivity;
+
+public class SignInFragment extends BaseFragment implements SignInView {
+
+    private AuthPresenter authPresenter;
+
+    @Override
+    void initializePresenter() {
+        ThreadExecutor threadExecutor = JobExecutor.getInstance();
+        PostExecutionThread postExecutionThread = UIThread.getInstance();
+
+        AuthManager authManager = new CustomBackendAuthManagerImpl(threadExecutor,
+                postExecutionThread);
+        authPresenter = new AuthPresenter(authManager);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_signin, container, false);
+        initInteractions(root);
+        return root;
+    }
+
+
+
+    private void initInteractions(View root) {
+        StartActivity rootActivity = (StartActivity) getActivity();
+        TextView signUpLink = root.findViewById(R.id.to_register_user_link);
+        MaterialButton signIn = root.findViewById(R.id.button_sign_in);
+
+        EditText login = root.findViewById(R.id.enter_email);
+        EditText password = root.findViewById(R.id.enter_password);
+
+
+        signIn.setOnClickListener(v -> {
+            authPresenter.signInWithEmailAndPassword(
+                login.getText().toString(),
+                    password.getText().toString());
+        });
+        signUpLink.setOnClickListener(v -> {
+            if (rootActivity != null) {
+                rootActivity.navigateToSignUp();
+            }
+        });
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        authPresenter.setSignInView(this);
+    }
+
+
+}
