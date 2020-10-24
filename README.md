@@ -4,10 +4,10 @@
 The easiest way to test that android app with
 connection to server-side, without deploying:
 
-1. Install Android Studio and Android Device Emulator, if 
+1. Install Android Studio and Android Device Emulator (emulator should be included in Android Studio), if 
 you need it
 
-1. Clone those two repositories, if you have an opportunity -
+1. Clone these two repositories, if you have an opportunity -
 on separate computers (it's optional, but launched local server and android studio, mobile device emulator can be resource-intensive) 
 
 1. Run WebApp on **localhost:{PORT_NUMBER}**
