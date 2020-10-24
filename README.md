@@ -20,7 +20,7 @@ direct access to your localhost from outer networks
 **To establish a connection via https you need to 
 get ngrok Authtoken and run those commands once, then
 use command above**
-`ngrok.exe authtoken {PAST_YOUR_TOKEN_HERE}`
+`ngrok.exe authtoken {PASTE_YOUR_TOKEN_HERE}`
 `ngrok.exe http -host-header=localhost https://localhost:{PORT_NUMBER}`
 
 1. Copy printed link, which allows connecting to localhost 
