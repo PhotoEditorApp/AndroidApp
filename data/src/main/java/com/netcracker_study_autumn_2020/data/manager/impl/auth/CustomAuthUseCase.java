@@ -1,6 +1,6 @@
-package com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases;
+package com.netcracker_study_autumn_2020.data.manager.impl.auth;
 
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.AuthInteractor;
+import com.netcracker_study_autumn_2020.data.manager.impl.AuthInteractor;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 

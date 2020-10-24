@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
-import com.netcracker_study_autumn_2020.data.auth_manager.AuthManager;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.CustomBackendAuthManagerImpl;
+import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
@@ -29,8 +30,7 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
         PostExecutionThread postExecutionThread = UIThread.getInstance();
 
-        AuthManager authManager = new CustomBackendAuthManagerImpl(threadExecutor,
-                postExecutionThread);
+        AuthManager authManager = new RetrofitAuthManagerImpl();
         authPresenter = new AuthPresenter(authManager);
     }
 
@@ -45,8 +45,11 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
 
     private void initInteractions(View root) {
         StartActivity rootActivity = (StartActivity) getActivity();
-        EditText login = root.findViewById(R.id.enter_email);
+        EditText email = root.findViewById(R.id.enter_email);
+        EditText username = root.findViewById(R.id.enter_username);
         EditText password = root.findViewById(R.id.enter_password);
+        EditText repeatPassword = root.findViewById(R.id.enter_password_repeat);
+
 
         MaterialButton buttonSignUp = root.findViewById(R.id.button_sign_in);
         MaterialButton backToSignIn = root.findViewById(R.id.button_back_to_sign_in);
@@ -56,16 +59,42 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
             }
         });
         buttonSignUp.setOnClickListener(v -> {
-            authPresenter.registerUser(login.getText().toString(),
-                    password.getText().toString());
+            String password1 = password.getText().toString();
+            String password2 = repeatPassword.getText().toString();
+            String emailAddress = email.getText().toString();
+            String usernameInput = username.getText().toString();
+
+            if (password1.isEmpty() || password2.isEmpty() ||
+                    emailAddress.isEmpty() || usernameInput.isEmpty()){
+                showToastMessage(getString(R.string.empty_field_warning),
+                        true);
+            } else if (!isValidEmail(emailAddress)){
+               showToastMessage(getString(R.string.bad_email_warning),
+                       true);
+            } else if (password1.equals(password2)){
+                authPresenter.registerUser(emailAddress, usernameInput, password1);
+            }else{
+                this.showToastMessage(getString(R.string.passwords_warning),
+                        true);
+            }
         });
+    }
 
-
+    private boolean isValidEmail(CharSequence input){
+        if (input==null)
+            return false;
+        return Patterns.EMAIL_ADDRESS.matcher(input).matches();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         authPresenter.setSignUpView(this);
+    }
+
+
+    @Override
+    public void navigateToSignIn() {
+        ((StartActivity)getActivity()).navigateToSignIn();
     }
 }

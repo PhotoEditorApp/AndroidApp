@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">DispersIO</string>
+    <string name="app_name">Nostalgia</string>
     <string name="login_field_hint">Логин/E-mail</string>
     <string name="password_field_hint">Пароль</string>
     <string name="action_sign_in">Войти</string>
     <string name="register_user_suggestion">Еще нет аккаунта?</string>
     <string name="action_sign_up">Зарегистрироваться</string>
     <string name="back_to_previous_screen">« Назад</string>
+    <string name="passwords_warning">Пароли не совпадают!</string>
+    <string name="empty_field_warning">Заполните все поля!</string>
+    <string name="register_noun">Регистрация</string>
+    <string name="enter_your_email">Введите Ваш e-mail</string>
+    <string name="repeat_your_password">Повторите пароль</string>
+    <string name="username">Имя пользователя</string>
+    <string name="email_approval_hint">Вам на почту придет письмо для подтверждения почтового ящика</string>
+    <string name="login_error">Неверный логин или пароль</string>
+    <string name="empty_login_or_password">Введите имя пользователя и пароль</string>
+    <string name="sign_up_error">Ошибка при регистрации. Повторите попытку.</string>
+    <string name="bad_email_warning">Введите корректный e-mail</string>
 </resources>

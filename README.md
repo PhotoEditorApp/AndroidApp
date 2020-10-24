@@ -10,13 +10,18 @@ you need it
 1. Clone those two repositories, if you have an opportunity -
 on separate computers (it's optional, but launched local server and android studio, mobile device emulator can be resource-intensive) 
 
-1. Run WebApp on **localhost:{port_number}**
+1. Run WebApp on **localhost:{PORT_NUMBER}**
 
 1. Install **ngrok** (https://ngrok.com) to be able to create temporary
 direct access to your localhost from outer networks
 
 1. Execute command in command prompt 
-`ngrok.exe http {port_number}`
+`ngrok.exe http {PORT_NUMBER}`
+**To establish a connection via https you need to 
+get ngrok Authtoken and run those commands once, then
+use command above**
+`ngrok.exe authtoken {PAST_YOUR_TOKEN_HERE}`
+`ngrok.exe http -host-header=localhost https://localhost:{PORT_NUMBER}`
 
 1. Copy printed link, which allows connecting to localhost 
 

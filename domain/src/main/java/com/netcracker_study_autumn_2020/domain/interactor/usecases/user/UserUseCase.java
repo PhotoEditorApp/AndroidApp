@@ -1,4 +1,4 @@
-package com.netcracker_study_autumn_2020.domain.interactor.custom_usecases.user;
+package com.netcracker_study_autumn_2020.domain.interactor.usecases.user;
 
 import com.netcracker_study_autumn_2020.domain.interactor.Interactor;
 

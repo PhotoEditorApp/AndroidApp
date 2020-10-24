@@ -1,17 +1,18 @@
-package com.netcracker_study_autumn_2020.data.auth_manager.impl;
+package com.netcracker_study_autumn_2020.data.manager.impl;
 
 import android.util.Log;
 
-import com.netcracker_study_autumn_2020.data.auth_manager.AuthManager;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.CustomAuthUseCase;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.RegisterUserUseCase;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.SignInWithEmailAndPasswordUseCase;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.impl.RegisterUserUseCaseImpl;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.impl.SignInWithEmailAndPasswordUseCaseImpl;
+import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.RegisterUserUseCase;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.SignInWithEmailAndPasswordUseCase;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.impl.RegisterUserUseCaseImpl;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.impl.SignInWithEmailAndPasswordUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 
-public class CustomBackendAuthManagerImpl implements AuthManager {
+public class CustomBackendAuthManagerImpl {
+}
+        /*implements AuthManager {
 
     private ThreadExecutor threadExecutor;
     private PostExecutionThread postExecutionThread;
@@ -26,7 +27,7 @@ public class CustomBackendAuthManagerImpl implements AuthManager {
 
 
     @Override
-    public void registerUser(String login, String password,
+    public void registerUser(String login, String password, String username,
                              final RegisterUserCallback registerUserCallback) {
         RegisterUserUseCase register = new RegisterUserUseCaseImpl(threadExecutor,
                 postExecutionThread);
@@ -45,6 +46,8 @@ public class CustomBackendAuthManagerImpl implements AuthManager {
         });
     }
 
+
+
     @Override
     public void signInWithEmailAndPassword(String login, String password,
                                            final SignInWithEmailAndPasswordCallback signInCallback) {
@@ -55,7 +58,7 @@ public class CustomBackendAuthManagerImpl implements AuthManager {
             @Override
             public void onSignedIn(String response) {
                 Log.d("TEST", "onSignedIn");
-                signInCallback.onSignInFinished(response);
+                signInCallback.onSignInFinished(response,response);
             }
 
             @Override
@@ -71,7 +74,19 @@ public class CustomBackendAuthManagerImpl implements AuthManager {
     }
 
     @Override
-    public String getCurrentUserCredentials() {
+    public String getSessionToken() {
         return null;
     }
+
+    @Override
+    public void closeSession() {
+
+    }
+
+    @Override
+    public boolean haveToken() {
+        return false;
+    }
+
 }
+**/

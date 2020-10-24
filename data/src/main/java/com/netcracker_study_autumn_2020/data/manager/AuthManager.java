@@ -1,13 +1,15 @@
-package com.netcracker_study_autumn_2020.data.auth_manager;
+package com.netcracker_study_autumn_2020.data.manager;
+
 
 public interface AuthManager {
+
     interface SignInWithEmailAndPasswordCallback{
-        void onSignInFinished(String response);
+        void onSignInFinished(int code, String sessionToken);
         void onError(Exception e);
     }
 
     interface RegisterUserCallback{
-        void onRegisterFinished(String response);
+        void onRegisterFinished(int code);
         void onError(Exception e);
     }
 
@@ -16,10 +18,14 @@ public interface AuthManager {
         void onError(Exception e);
     }
 
-    void registerUser(String login, String password,
+    void registerUser(String email, String password, String username,
                       RegisterUserCallback registerUserCallback);
     void signInWithEmailAndPassword(String login, String password,
                                     SignInWithEmailAndPasswordCallback signIn);
     void signOut(SignOutCallback signOut);
-    String getCurrentUserCredentials();
+
+    String getSessionToken();
+    void openSession(String sessionToken);
+    void closeSession();
+    boolean isSessionOpened();
 }

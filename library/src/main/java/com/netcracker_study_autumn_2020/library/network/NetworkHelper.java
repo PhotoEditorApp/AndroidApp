@@ -24,12 +24,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
-public class NetworkHelper {
+import static com.netcracker_study_autumn_2020.library.network.NetworkUtils.API_ADDRESS;
+import static com.netcracker_study_autumn_2020.library.network.NetworkUtils.CONNECTION_TIMEOUT;
 
-    //Таймаут в миллисекундах
-    private static final int CONNECTION_TIMEOUT = 10000;
-    //Текущий адрес бэкенда
-    private static final String API_ADDRESS = "http://d28ec137d7b2.ngrok.io";
+//После внедрения Retrofit больше не используется
+public class NetworkHelper {
 
     //public static String getApiAddress() {
         //return API_ADDRESS;

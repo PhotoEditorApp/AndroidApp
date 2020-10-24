@@ -1,7 +1,7 @@
-package com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.impl;
+package com.netcracker_study_autumn_2020.data.manager.impl.auth.impl;
 
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.CustomAuthUseCase;
-import com.netcracker_study_autumn_2020.data.auth_manager.impl.custom_backend_auth_usecases.RegisterUserUseCase;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.CustomAuthUseCase;
+import com.netcracker_study_autumn_2020.data.manager.impl.auth.RegisterUserUseCase;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.library.network.NetworkHelper;
