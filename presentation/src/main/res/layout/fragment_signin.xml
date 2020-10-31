@@ -66,7 +66,7 @@
                 android:layout_marginTop="@dimen/indent_enormous"
                 android:layout_marginEnd="@dimen/indent_huge"
                 android:background="@drawable/input_field_shape"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:paddingStart="@dimen/indent_medium"
                 android:paddingEnd="@dimen/indent_medium"
                 app:layout_constraintEnd_toEndOf="parent"

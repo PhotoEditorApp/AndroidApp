@@ -10,6 +10,9 @@ public class SignInResult {
     @SerializedName("token")
     @Expose
     private String token;
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     SignInResult(){
         super();

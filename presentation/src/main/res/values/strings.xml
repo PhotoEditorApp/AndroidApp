@@ -17,4 +17,7 @@
     <string name="empty_login_or_password">Введите имя пользователя и пароль</string>
     <string name="sign_up_error">Ошибка при регистрации. Повторите попытку.</string>
     <string name="bad_email_warning">Введите корректный e-mail</string>
+    <string name="nav_user_profile">Профиль</string>
+    <string name="nav_my_workspaces">Мои пространства</string>
+    <string name="nav_settings">Настройки</string>
 </resources>

@@ -70,6 +70,8 @@ public class SignInFragment extends BaseFragment implements SignInView {
                 //DEBUG
                 if (!api.isEmpty()){
                     NetworkUtils.setApiAddress(api);
+                    AuthManager authManager = new RetrofitAuthManagerImpl();
+                    authPresenter = new AuthPresenter(authManager);
                 }
                 authPresenter.signInWithEmailAndPassword(
                         username, passwordInput);

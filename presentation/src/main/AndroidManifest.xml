@@ -20,7 +20,7 @@
 
         </activity>
 
-        <activity android:name=".ui.activity.WorkspacesActivity"
+        <activity android:name=".ui.activity.MainNavigationActivity"
             android:screenOrientation="portrait"/>
     </application>
 
