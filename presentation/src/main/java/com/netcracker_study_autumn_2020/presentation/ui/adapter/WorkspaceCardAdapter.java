@@ -11,15 +11,15 @@ import androidx.core.content.ContextCompat;
 import com.loopeer.cardstack.CardStackView;
 import com.loopeer.cardstack.StackAdapter;
 import com.netcracker_study_autumn_2020.presentation.R;
-import com.netcracker_study_autumn_2020.presentation.mvp.model.Workspace;
+import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 
-public class WorkspaceCardAdapter extends StackAdapter<Workspace> {
+public class WorkspaceCardAdapter extends StackAdapter<WorkspaceModel> {
     public WorkspaceCardAdapter(Context context) {
         super(context);
     }
 
     @Override
-    public void bindView(Workspace data, int position, CardStackView.ViewHolder holder) {
+    public void bindView(WorkspaceModel data, int position, CardStackView.ViewHolder holder) {
         if (holder instanceof ColorItemLargeHeaderViewHolder) {
             ColorItemLargeHeaderViewHolder h = (ColorItemLargeHeaderViewHolder) holder;
             h.onBind(data.getColor(), position);

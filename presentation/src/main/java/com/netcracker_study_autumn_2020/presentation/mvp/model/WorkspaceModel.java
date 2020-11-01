@@ -5,15 +5,16 @@ import android.graphics.Color;
 import java.sql.Timestamp;
 import java.util.Random;
 
-public class Workspace {
+public class WorkspaceModel {
     private int id;
     private int ownerId;
     private int color;
+    private String name;
     private String description;
     private Timestamp creationTime;
     private Timestamp lastModified;
 
-    public Workspace(
+    public WorkspaceModel(
             int ownerId
     ){
         this.ownerId = ownerId;
