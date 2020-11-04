@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.netcracker_study_autumn_2020.presentation.R;
+import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserProfileFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.WorkspacesFragment;
 
@@ -85,5 +86,13 @@ public class MainNavigationActivity extends BaseActivity {
             case R.id.navigation_settings:
                 break;
         }
+    }
+
+    public void navigateToPhotoView(WorkspaceModel workspaceModel){
+        navigator.navigateToPhotosActivity(this, workspaceModel);
+    }
+
+    public void navigateToCreateWorkspace(int userId){
+        navigator.navigateToCreateWorkspaceActivity(this, userId);
     }
 }

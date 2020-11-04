@@ -1,0 +1,191 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_sign_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@android:color/transparent"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="25">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_back_to_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:background="@android:color/transparent"
+                android:text="@string/back_to_previous_screen"
+
+                android:textColor="@color/black"
+                app:elevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/create_workspace_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_huge"
+                android:layout_marginEnd="@dimen/indent_huge"
+                android:paddingStart="@dimen/indent_huge"
+                android:paddingEnd="@dimen/indent_huge"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:padding="@dimen/indent_large"
+                android:text="Создать новое рабочее пространство"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_23"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="45">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <EditText
+                android:id="@+id/enter_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_huge"
+                android:layout_marginTop="@dimen/indent_medium"
+                android:layout_marginEnd="@dimen/indent_huge"
+                android:background="@drawable/input_field_shape_big"
+                android:padding="@dimen/indent_small"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:lines="4"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                android:paddingStart="@dimen/indent_medium"
+                android:paddingEnd="@dimen/indent_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_workspace_description_hint" />
+
+
+            <EditText
+                android:id="@+id/enter_workspace_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_field_height"
+                android:layout_marginStart="@dimen/indent_huge"
+                android:layout_marginTop="@dimen/indent_medium"
+                android:layout_marginEnd="@dimen/indent_huge"
+                android:background="@drawable/input_field_shape"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/indent_medium"
+                android:paddingEnd="@dimen/indent_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_workspace_name_hint" />
+
+            <TextView
+                android:id="@+id/create_workspace_name_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_enormous"
+                android:text="Введите имя нового проятранства:"
+                android:textColor="@color/primaryMiddle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/create_workspace_description_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Введите описание нового пространства:"
+                android:textColor="@color/primaryMiddle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enter_workspace_name" />
+
+            <TextView
+                android:id="@+id/create_workspace_description_hint2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Выберете цвет карточки:"
+                android:textColor="@color/primaryMiddle"
+                app:layout_constraintStart_toStartOf="@+id/create_workspace_description_hint"
+                app:layout_constraintTop_toBottomOf="@+id/enter_username" />
+
+            <ImageView
+                android:id="@+id/create_workspace_color_marker"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="@+id/create_workspace_description_hint2"
+                app:layout_constraintEnd_toEndOf="@+id/enter_username"
+                app:layout_constraintTop_toTopOf="@+id/create_workspace_description_hint2"
+                app:srcCompat="@color/colorPrimary" />
+
+            <ImageButton
+                android:id="@+id/button_chose_workspace_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/create_workspace_description_hint2"
+                app:layout_constraintEnd_toStartOf="@+id/create_workspace_color_marker"
+                app:layout_constraintTop_toTopOf="@+id/create_workspace_description_hint2"
+                app:srcCompat="@drawable/abc_vector_test" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_sign_in"
+                style="@style/SignInOutButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_huge"
+                android:layout_marginEnd="@dimen/indent_huge"
+                android:text="Создать пространство"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sign_in_screen_register_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/indent_medium"
+                android:gravity="center"
+                android:paddingLeft="@dimen/indent_enormous"
+                android:paddingRight="@dimen/indent_enormous"
+                android:text="Используя рабочие пространства, Вы сможете делится изображениями с другими пользователями и совместно работать над ними!"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>

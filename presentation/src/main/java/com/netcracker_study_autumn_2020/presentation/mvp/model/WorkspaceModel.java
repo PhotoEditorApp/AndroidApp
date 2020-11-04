@@ -2,10 +2,12 @@ package com.netcracker_study_autumn_2020.presentation.mvp.model;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Random;
 
-public class WorkspaceModel {
+public class WorkspaceModel implements Serializable {
     private int id;
     private int ownerId;
     private int color;
@@ -15,11 +17,27 @@ public class WorkspaceModel {
     private Timestamp lastModified;
 
     public WorkspaceModel(
-            int ownerId
+            int ownerId,
+            String name,
+            String description,
+            Timestamp creationTime,
+            Timestamp lastModified
     ){
         this.ownerId = ownerId;
+        this.name = name;
+        this.description = description;
+        this.creationTime = creationTime;
+        this.lastModified = lastModified;
         Random rnd = new Random();
         color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getColor() {

@@ -44,7 +44,7 @@ public class StartActivity extends BaseActivity {
 
     }
 
-    public void navigateToWorkspaces() {
-        navigator.navigateToWorkspaces(this);
+    public void navigateToWorkspaces(int userId) {
+        navigator.navigateToMainNavigationActivity(this, userId);
     }
 }

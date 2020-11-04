@@ -17,6 +17,10 @@ public class AuthPresenter extends BasePresenter {
     private SignInView signInView;
     private SignUpView signUpView;
 
+    public int getUserId(){
+        return authManager.getCurrentUserId();
+    }
+
     public void setSignInView(SignInView signInView) {
         this.signInView = signInView;
     }
@@ -54,7 +58,6 @@ public class AuthPresenter extends BasePresenter {
                 public void onSignInFinished(int code, String sessionToken) {
                     Log.d("AUTH_PRESENTER_IN", String.valueOf(code));
                     Log.d("AUTH_PRESENTER_IN", sessionToken);
-                    authManager.openSession(sessionToken);
                     ((SignInFragment)signInView).showToastMessage(code +
                             sessionToken, false);
                     if (authManager.isSessionOpened()){

@@ -12,18 +12,31 @@
     <FrameLayout
         android:id="@+id/frame_list_card_item"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="120dp"
         android:background="@drawable/rectangle_with_radius_shape">
+        <TextView
+            android:id="@+id/workspace_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Название"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginStart="95dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="5sp"
+            />
 
         <TextView
-            android:id="@+id/text_list_card_title"
+            android:id="@+id/workspace_card_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:textColor="@android:color/white"
             android:textSize="40sp"
             android:textStyle="bold"
-            tools:text="12"/>
+            tools:text="122"/>
     </FrameLayout>
 
     <LinearLayout
@@ -31,13 +44,90 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="Every corner must (initially) be provided a corner radius greater than 1, or else no corners are rounded. If you want specific corners to not be rounded, a work-around is to use android:radius to set a default corner radius greater than 1, but then override each and every corner with the values you really want, providing zero (0dp) where you don't want rounded corners."
-            />
+            android:layout_height="match_parent"
+            android:padding="@dimen/indent_medium">
+
+            <TextView
+                android:id="@+id/workspace_card_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="dlkfjglskdjfglks ldkjgklsjdfg dflskjglkdsjf
+djfgkljsd;fkjgsldkfjglskdjfgl dlfkjsglksjdfglkjsdlfkg ndsflgjk"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/workspace_card_creation_time_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/indent_medium"
+                android:text="Создано:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workspace_card_description" />
+
+            <TextView
+                android:id="@+id/workspace_card_modified_time_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Последнее изменение:"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workspace_card_creation_time_hint" />
+
+            <TextView
+                android:id="@+id/workspace_card_modified_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/indent_medium"
+                android:text="20.01.2012 12:00"
+                app:layout_constraintStart_toEndOf="@+id/workspace_card_modified_time_hint"
+                app:layout_constraintTop_toTopOf="@+id/workspace_card_modified_time_hint" />
+            <TextView
+                android:id="@+id/workspace_card_creation_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/indent_medium"
+                android:text="20.01.2012 12:00"
+                app:layout_constraintStart_toEndOf="@+id/workspace_card_creation_time_hint"
+                app:layout_constraintTop_toTopOf="@+id/workspace_card_creation_time_hint" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_open_workspace"
+                style="@style/SignInOutButtonStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Открыть"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workspace_card_modified_time_hint" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_delete_workspace"
+                style="@style/WarningButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/indent_medium"
+                android:layout_marginEnd="8dp"
+                android:text="Удалить"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_open_workspace" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
     </LinearLayout>
 
 </LinearLayout>

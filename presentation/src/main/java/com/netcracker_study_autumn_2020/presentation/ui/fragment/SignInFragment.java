@@ -95,6 +95,6 @@ public class SignInFragment extends BaseFragment implements SignInView {
 
     @Override
     public void navigateToWorkspaces() {
-        ((StartActivity)getActivity()).navigateToWorkspaces();
+        ((StartActivity)getActivity()).navigateToWorkspaces(authPresenter.getUserId());
     }
 }

@@ -6,7 +6,7 @@ public abstract class NetworkUtils {
     public static final int CONNECTION_TIMEOUT = 5000;
     //Текущий адрес бэкенда
     //Не final для динамической отладки
-    public static  String API_ADDRESS = "http://3495637bb310.ngrok.io";
+    public static  String API_ADDRESS = " http://cf5a6c51340c.ngrok.io";
 
     public static void setApiAddress(String apiAddress){
         API_ADDRESS = apiAddress;

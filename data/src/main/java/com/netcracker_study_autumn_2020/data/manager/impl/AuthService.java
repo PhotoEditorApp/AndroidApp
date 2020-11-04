@@ -3,6 +3,7 @@ package com.netcracker_study_autumn_2020.data.manager.impl;
 import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.entity.api.response.SignInResult;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
+import com.netcracker_study_autumn_2020.library.UserSessionValues;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -15,5 +16,5 @@ public interface AuthService {
     Call<ResponseBody> signUp(@Body UserEntity user);
 
     @POST("login")
-    Call<ResponseBody> signIn(@Body UserCredentials credentials);
+    Call<UserSessionValues> signIn(@Body UserCredentials credentials);
 }

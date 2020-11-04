@@ -25,7 +25,10 @@ public interface AuthManager {
     void signOut(SignOutCallback signOut);
 
     String getSessionToken();
-    void openSession(String sessionToken);
+
+    int getCurrentUserId();
+
+    void openSession(String sessionToken, int userId);
     void closeSession();
     boolean isSessionOpened();
 }

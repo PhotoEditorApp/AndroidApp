@@ -22,6 +22,10 @@
 
         <activity android:name=".ui.activity.MainNavigationActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.CreateWorkspaceActivity"
+        android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.PhotosActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 

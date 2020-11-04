@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.button.MaterialButton;
 import com.loopeer.cardstack.CardStackView;
 import com.netcracker_study_autumn_2020.data.custom.workspace.WorkspaceEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
+import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
 import com.netcracker_study_autumn_2020.data.mapper.WorkspaceEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.WorkspacesRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
@@ -30,6 +33,7 @@ import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.WorkspacesPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.WorkspacesView;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.WorkspaceCardAdapter;
 
 import java.util.ArrayList;
@@ -38,13 +42,14 @@ import java.util.List;
 public class WorkspacesFragment extends BaseFragment implements CardStackView.ItemExpendListener,
         WorkspacesView {
 
-    //TODO передавть userId во фрагмент
     private WorkspacesPresenter workspacesPresenter;
     private CardStackView cardStackView;
     private WorkspaceCardAdapter workspaceCardAdapter;
 
     @Override
     void initializePresenter() {
+        AuthManager authManager = new RetrofitAuthManagerImpl();
+
         WorkspaceEntityStoreFactory workspaceEntityStoreFactory = new WorkspaceEntityStoreFactory();
         WorkspaceEntityDtoMapper workspaceEntityDtoMapper = new WorkspaceEntityDtoMapper();
 
@@ -62,7 +67,7 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
                 postExecutionThread, threadExecutor);
         EditWorkspaceUseCase editWorkspaceUseCase = new EditWorkspaceUseCaseImpl(workspaceRepository,
                 postExecutionThread, threadExecutor);
-        workspacesPresenter = new WorkspacesPresenter(getWorkspacesUseCase,deleteWorkspaceUseCase,
+        workspacesPresenter = new WorkspacesPresenter(authManager, getWorkspacesUseCase,deleteWorkspaceUseCase,
                 createWorkspaceUseCase, editWorkspaceUseCase);
 
     }
@@ -74,18 +79,22 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
         initCardStackView(root);
         initInteractions(root);
-        workspacesPresenter.refreshData(1212);
+        workspacesPresenter.refreshData();
         return root;
     }
 
     private void initInteractions(View root) {
+        MaterialButton createWorkspace = root.findViewById(R.id.button_add_workspace);
+        createWorkspace.setOnClickListener(l -> {
+            navigateToCreateWorkspace();
+        });
     }
 
     private void initCardStackView(View root) {
 
         cardStackView = root.findViewById(R.id.workspaces_cards);
         cardStackView.setItemExpendListener(this);
-        workspaceCardAdapter = new WorkspaceCardAdapter(getActivity());
+        workspaceCardAdapter = new WorkspaceCardAdapter(getActivity(), workspacesPresenter);
 
     }
 
@@ -102,8 +111,17 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
         cardStackView.setAdapter(workspaceCardAdapter);
     }
 
+    @Override
+    public void navigateToPhotosScreen(WorkspaceModel workspaceModel) {
+        ((MainNavigationActivity)getActivity()).navigateToPhotoView(workspaceModel);
+    }
+
+    public void navigateToCreateWorkspace(){
+        ((MainNavigationActivity)getActivity()).navigateToCreateWorkspace(workspacesPresenter.getCurrentUserId());
+    }
+
     private void updateWorkspaces(){
-        workspacesPresenter.refreshData(111);
+        workspacesPresenter.refreshData();
     }
 
 
