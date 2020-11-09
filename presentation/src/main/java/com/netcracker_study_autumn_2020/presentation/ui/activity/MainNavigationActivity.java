@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserProfileFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.WorkspacesFragment;
 
@@ -23,6 +24,7 @@ public class MainNavigationActivity extends BaseActivity {
 
     private UserProfileFragment userProfileFragment;
     private WorkspacesFragment workspacesFragment;
+    private ImagesFragment imagesFragment;
 
     //Позволяет передать пары ключ-значение другой Activity при старте
     public static Intent getCallingIntent(Context context, String userId){
@@ -88,8 +90,14 @@ public class MainNavigationActivity extends BaseActivity {
         }
     }
 
+
+
     public void navigateToPhotoView(WorkspaceModel workspaceModel){
-        navigator.navigateToPhotosActivity(this, workspaceModel);
+        imagesFragment = new ImagesFragment(workspaceModel);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.nav_host_fragment, imagesFragment)
+                .commit();
     }
 
     public void navigateToCreateWorkspace(int userId){

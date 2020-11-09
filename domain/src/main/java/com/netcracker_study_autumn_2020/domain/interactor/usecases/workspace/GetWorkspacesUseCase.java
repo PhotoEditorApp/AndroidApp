@@ -10,5 +10,5 @@ public interface GetWorkspacesUseCase {
         void onError(Exception e);
     }
 
-    void execute(int userId, GetWorkspacesUseCase.Callback callback);
+    void execute(long userId, GetWorkspacesUseCase.Callback callback);
 }

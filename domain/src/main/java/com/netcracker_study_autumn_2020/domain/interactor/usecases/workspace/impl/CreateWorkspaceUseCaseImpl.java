@@ -28,7 +28,7 @@ public class CreateWorkspaceUseCaseImpl extends WorkspaceUseCase implements Crea
     @Override
     public void execute(WorkspaceDto workspaceDto, CreateWorkspaceUseCase.Callback callback) {
         if(callback == null){
-            throw new IllegalArgumentException("GetWorkspaceUseCase: Invalid callback!");
+            throw new IllegalArgumentException("CreateWorkspaceUseCase: Invalid callback!");
         }
         super.execute();
         this.workspaceDto = workspaceDto;

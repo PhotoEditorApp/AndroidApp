@@ -30,9 +30,9 @@ public interface WorkspaceEntityStore {
         void onWorkspaceEdited();
     }
 
-    void getWorkspace(int userId, int spaceId, WorkspaceByIdCallback callback);
-    void allWorkspaces(int userId, WorkspaceListCallback callback);
+    void getWorkspace(long spaceId, WorkspaceByIdCallback callback);
+    void allWorkspaces(long userId, WorkspaceListCallback callback);
     void createWorkspace(WorkspaceEntity workspace, WorkspaceCreateCallback callback);
-    void deleteWorkspace(int userId, int spaceId, WorkspaceDeleteCallback callback);
+    void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
     void editWorkspace(WorkspaceEntity workspace, WorkspaceEditCallback callback);
 }

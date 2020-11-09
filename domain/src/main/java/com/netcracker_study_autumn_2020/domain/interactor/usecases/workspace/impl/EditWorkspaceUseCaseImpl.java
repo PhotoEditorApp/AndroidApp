@@ -28,7 +28,7 @@ public class EditWorkspaceUseCaseImpl extends WorkspaceUseCase implements EditWo
     @Override
     public void execute(WorkspaceDto workspaceDto, EditWorkspaceUseCase.Callback callback) {
         if(callback == null){
-            throw new IllegalArgumentException("GetWorkspaceUseCase: Invalid callback!");
+            throw new IllegalArgumentException("EditWorkspaceUseCase: Invalid callback!");
         }
         super.execute();
         this.workspaceDto = workspaceDto;

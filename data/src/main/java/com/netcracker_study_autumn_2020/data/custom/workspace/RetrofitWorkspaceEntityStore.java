@@ -28,12 +28,12 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     }
 
     @Override
-    public void getWorkspace(int userId, int spaceId, WorkspaceByIdCallback callback) {
+    public void getWorkspace(long spaceId, WorkspaceByIdCallback callback) {
 
     }
 
     @Override
-    public void allWorkspaces(int userId, WorkspaceListCallback callback) {
+    public void allWorkspaces(long userId, WorkspaceListCallback callback) {
         Response<List<WorkspaceEntity>> response;
         //try {
             //response = workspaceService.getUserWorkspaces(userId).execute();
@@ -51,7 +51,7 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     }
 
     @Override
-    public void deleteWorkspace(int userId, int spaceId, WorkspaceDeleteCallback callback) {
+    public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
 
     }
 

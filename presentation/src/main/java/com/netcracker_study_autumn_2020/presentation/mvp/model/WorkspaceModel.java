@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 import java.util.Random;
 
 public class WorkspaceModel implements Serializable {
-    private int id;
-    private int ownerId;
+    private long id;
+    private long ownerId;
     private int color;
     private String name;
     private String description;
@@ -17,7 +17,7 @@ public class WorkspaceModel implements Serializable {
     private Timestamp lastModified;
 
     public WorkspaceModel(
-            int ownerId,
+            long ownerId,
             String name,
             String description,
             Timestamp creationTime,
@@ -44,7 +44,7 @@ public class WorkspaceModel implements Serializable {
         return color;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -68,7 +68,7 @@ public class WorkspaceModel implements Serializable {
         this.ownerId = ownerId;
     }
 
-    public int getOwnerId() {
+    public long getOwnerId() {
         return ownerId;
     }
 

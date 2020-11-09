@@ -17,10 +17,10 @@ import retrofit2.http.POST;
 public interface WorkspaceService {
 
     @GET("")
-    Call<List<WorkspaceEntity>> getUserWorkspaces(int userId);
+    Call<List<WorkspaceEntity>> getUserWorkspaces(long userId);
 
     @GET("")
-    Call<WorkspaceEntity> getWorkspace(int userId, int workspaceId);
+    Call<WorkspaceEntity> getWorkspace(long workspaceId);
 
     @POST("")
     Call<ResponseBody> createWorkspace(@Body WorkspaceEntity workspaceEntity);
@@ -29,7 +29,7 @@ public interface WorkspaceService {
     Call<ResponseBody> editWorkspace(@Body WorkspaceEntity workspaceEntity);
 
     @DELETE("")
-    Call<ResponseBody> deleteWorkspace(int userId, int spaceId);
+    Call<ResponseBody> deleteWorkspace(long spaceId);
 
 
 }

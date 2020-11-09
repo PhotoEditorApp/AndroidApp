@@ -29,9 +29,9 @@ public interface UserEntityStore {
         void onUserLoaded();
     }
 
-    void getUserById(int userId, UserByIdCallback callback);
+    void getUserById(long userId, UserByIdCallback callback);
     void getUsersByEmail(String email, UserByEmailCallback callback);
-    void getUsersByName(String fullName, UsersByNameCallback callback);
+    void getUsersByFullName(String fullName, UsersByNameCallback callback);
     void createUserProfile(UserEntity userEntity, UserCreateCallback callback);
     void editUserProfile(UserEntity userEntity, UserEditCallback callback);
 }

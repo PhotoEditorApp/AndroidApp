@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DeleteWorkspaceUseCaseImpl extends WorkspaceUseCase implements DeleteWorkspaceUseCase {
     private DeleteWorkspaceUseCase.Callback callback;
-    private int workspaceId;
+    private long workspaceId;
 
     public DeleteWorkspaceUseCaseImpl(WorkspaceRepository workspaceRepository,
                                       PostExecutionThread postExecutionThread,
@@ -27,9 +27,9 @@ public class DeleteWorkspaceUseCaseImpl extends WorkspaceUseCase implements Dele
     }
 
     @Override
-    public void execute(int workspaceId, DeleteWorkspaceUseCase.Callback callback) {
+    public void execute(long workspaceId, DeleteWorkspaceUseCase.Callback callback) {
         if(callback == null){
-            throw new IllegalArgumentException("GetWorkspaceUseCase: Invalid callback!");
+            throw new IllegalArgumentException("DeleteWorkspaceUseCase: Invalid callback!");
         }
         super.execute();
         this.workspaceId = workspaceId;

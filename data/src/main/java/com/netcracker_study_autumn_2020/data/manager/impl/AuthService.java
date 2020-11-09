@@ -4,6 +4,7 @@ import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.entity.api.response.SignInResult;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
 import com.netcracker_study_autumn_2020.library.UserSessionValues;
+import com.netcracker_study_autumn_2020.library.UserSignUpCredentials;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,7 +14,7 @@ import retrofit2.http.POST;
 public interface AuthService {
 
     @POST("users/signup")
-    Call<ResponseBody> signUp(@Body UserEntity user);
+    Call<ResponseBody> signUp(@Body UserSignUpCredentials user);
 
     @POST("login")
     Call<UserSessionValues> signIn(@Body UserCredentials credentials);

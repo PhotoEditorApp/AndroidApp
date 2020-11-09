@@ -34,13 +34,13 @@ public class WorkspacesRepositoryImpl implements WorkspaceRepository {
     }
 
     @Override
-    public void getWorkspace(int spaceId, WorkspaceByIdCallback callback) {
+    public void getWorkspace(long spaceId, WorkspaceByIdCallback callback) {
 
 
     }
 
     @Override
-    public void allWorkspaces(int userId, WorkspaceListCallback callback) {
+    public void allWorkspaces(long userId, WorkspaceListCallback callback) {
         WorkspaceEntityStore workspaceEntityStore = workspaceEntityStoreFactory.create();
 
         workspaceEntityStore.allWorkspaces(userId, new WorkspaceEntityStore.WorkspaceListCallback() {
@@ -67,7 +67,7 @@ public class WorkspacesRepositoryImpl implements WorkspaceRepository {
     }
 
     @Override
-    public void deleteWorkspace(int spaceId, WorkspaceDeleteCallback callback) {
+    public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
 
     }
 

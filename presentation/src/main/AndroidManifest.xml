@@ -13,19 +13,19 @@
 
         <activity android:name=".ui.activity.StartActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
 
         </activity>
 
         <activity android:name=".ui.activity.MainNavigationActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.CreateWorkspaceActivity"
         android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.PhotosActivity"
-            android:screenOrientation="portrait"/>
     </application>
 
 

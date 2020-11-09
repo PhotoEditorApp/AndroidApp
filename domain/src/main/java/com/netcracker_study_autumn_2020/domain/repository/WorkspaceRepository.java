@@ -11,7 +11,7 @@ public interface WorkspaceRepository {
     }
 
     interface WorkspaceByIdCallback extends Error{
-        void onWorkspaceLoaded(WorkspaceDto workspaces);
+        void onWorkspaceLoaded(WorkspaceDto workspace);
     }
 
     interface WorkspaceListCallback extends Error{
@@ -30,9 +30,9 @@ public interface WorkspaceRepository {
         void onWorkspaceEdited();
     }
 
-    void getWorkspace(int spaceId, WorkspaceByIdCallback callback);
-    void allWorkspaces(int userId, WorkspaceListCallback callback);
+    void getWorkspace(long spaceId, WorkspaceByIdCallback callback);
+    void allWorkspaces(long userId, WorkspaceListCallback callback);
     void createWorkspace(WorkspaceDto workspace, WorkspaceCreateCallback callback);
-    void deleteWorkspace(int spaceId, WorkspaceDeleteCallback callback);
+    void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
     void editWorkspace(WorkspaceDto workspace, WorkspaceEditCallback callback);
 }

@@ -2,8 +2,14 @@ package com.netcracker_study_autumn_2020.data.custom.user;
 
 import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.custom.services.UserService;
+import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -22,7 +28,15 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     }
 
     @Override
-    public void getUserById(int userId, UserByIdCallback callback) {
+    public void getUserById(long userId, UserByIdCallback callback) {
+        //Response<UserEntity> response;
+        //try {
+            //response = userService.getUserById(userId).execute();
+            //callback.onUserLoaded(response.body());
+        //} catch (IOException e) {
+           // e.printStackTrace();
+       // }
+        //callback.onUserLoaded(new ArrayList<>());
     }
 
     @Override
@@ -31,7 +45,7 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     }
 
     @Override
-    public void getUsersByName(String fullName, UsersByNameCallback callback) {
+    public void getUsersByFullName(String fullName, UsersByNameCallback callback) {
 
     }
 

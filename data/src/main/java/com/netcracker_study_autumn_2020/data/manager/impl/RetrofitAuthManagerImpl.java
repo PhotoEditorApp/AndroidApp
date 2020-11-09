@@ -8,6 +8,7 @@ import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
 import com.netcracker_study_autumn_2020.library.UserSessionValues;
+import com.netcracker_study_autumn_2020.library.UserSignUpCredentials;
 
 import java.io.IOException;
 
@@ -45,7 +46,8 @@ public class RetrofitAuthManagerImpl implements AuthManager {
 
     @Override
     public void registerUser(String email, String username, String password, RegisterUserCallback signUpCallback) {
-        Call<ResponseBody> result = retrofitAuthService.signUp(new UserEntity(email, username, password));
+        Call<ResponseBody> result = retrofitAuthService.signUp(new UserSignUpCredentials
+                (email, username, password));
         result.enqueue(new Callback<ResponseBody>() {
 
             @Override

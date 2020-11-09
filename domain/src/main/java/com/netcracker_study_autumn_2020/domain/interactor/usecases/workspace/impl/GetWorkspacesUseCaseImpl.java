@@ -13,7 +13,7 @@ import java.util.List;
 public class GetWorkspacesUseCaseImpl extends WorkspaceUseCase implements GetWorkspacesUseCase {
 
     private GetWorkspacesUseCase.Callback callback;
-    private int userId;
+    private long userId;
 
     public GetWorkspacesUseCaseImpl(WorkspaceRepository workspaceRepository,
                                     PostExecutionThread postExecutionThread,
@@ -27,9 +27,9 @@ public class GetWorkspacesUseCaseImpl extends WorkspaceUseCase implements GetWor
     }
 
     @Override
-    public void execute(int userId, GetWorkspacesUseCase.Callback callback) {
+    public void execute(long userId, GetWorkspacesUseCase.Callback callback) {
         if(callback == null){
-            throw new IllegalArgumentException("GetWorkspaceUseCase: Invalid callback!");
+            throw new IllegalArgumentException("GetWorkspacesUseCase: Invalid callback!");
         }
         super.execute();
         this.userId = userId;

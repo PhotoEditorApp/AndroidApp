@@ -8,5 +8,5 @@ public interface DeleteWorkspaceUseCase {
         void onError(Exception e);
     }
 
-    void execute(int workspaceId, DeleteWorkspaceUseCase.Callback callback);
+    void execute(long workspaceId, DeleteWorkspaceUseCase.Callback callback);
 }
