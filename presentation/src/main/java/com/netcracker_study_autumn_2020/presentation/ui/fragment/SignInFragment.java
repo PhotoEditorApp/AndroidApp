@@ -13,12 +13,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
 import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
-import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
-import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
-import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
-import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.AuthPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.SignInView;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.StartActivity;
@@ -29,9 +25,6 @@ public class SignInFragment extends BaseFragment implements SignInView {
 
     @Override
     void initializePresenter() {
-        ThreadExecutor threadExecutor = JobExecutor.getInstance();
-        PostExecutionThread postExecutionThread = UIThread.getInstance();
-
         AuthManager authManager = new RetrofitAuthManagerImpl();
         authPresenter = new AuthPresenter(authManager);
     }
@@ -50,7 +43,7 @@ public class SignInFragment extends BaseFragment implements SignInView {
     private void initInteractions(View root) {
         StartActivity rootActivity = (StartActivity) getActivity();
         TextView signUpLink = root.findViewById(R.id.to_register_user_link);
-        MaterialButton signIn = root.findViewById(R.id.button_sign_in);
+        MaterialButton signIn = root.findViewById(R.id.button_create_workspace);
 
         EditText login = root.findViewById(R.id.enter_email);
         EditText password = root.findViewById(R.id.enter_password);

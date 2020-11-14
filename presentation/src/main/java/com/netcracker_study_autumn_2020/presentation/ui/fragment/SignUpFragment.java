@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
+import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
 import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
-import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -46,12 +46,12 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
     private void initInteractions(View root) {
         StartActivity rootActivity = (StartActivity) getActivity();
         EditText email = root.findViewById(R.id.enter_email);
-        EditText username = root.findViewById(R.id.enter_username);
+        EditText username = root.findViewById(R.id.enter_workspace_description);
         EditText password = root.findViewById(R.id.enter_password);
         EditText repeatPassword = root.findViewById(R.id.enter_password_repeat);
 
 
-        MaterialButton buttonSignUp = root.findViewById(R.id.button_sign_in);
+        MaterialButton buttonSignUp = root.findViewById(R.id.button_create_workspace);
         MaterialButton backToSignIn = root.findViewById(R.id.button_back_to_sign_in);
         backToSignIn.setOnClickListener(v -> {
             if (rootActivity != null) {

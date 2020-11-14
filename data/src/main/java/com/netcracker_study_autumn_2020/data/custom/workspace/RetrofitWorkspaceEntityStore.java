@@ -1,13 +1,17 @@
 package com.netcracker_study_autumn_2020.data.custom.workspace;
 
-import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.data.custom.services.WorkspaceService;
+import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
+import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,29 +39,81 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     @Override
     public void allWorkspaces(long userId, WorkspaceListCallback callback) {
         Response<List<WorkspaceEntity>> response;
-        //try {
-            //response = workspaceService.getUserWorkspaces(userId).execute();
-            //callback.onWorkspaceListLoaded(response.body());
-        //} catch (IOException e) {
-           // e.printStackTrace();
-        //}
-        callback.onWorkspaceListLoaded(new ArrayList<>());
+        try {
+            response = workspaceService.getUserWorkspaces(userId).execute();
+            if (response.body() != null) {
+                Log.d("WorkspaceEntityStore", response.body().toString());
+                WorkspaceEntity ww = response.body().get(0);
+                Log.d("WORKSPACE_ENTITY", ww.getName() + ww.getDescription()
+                        + ww.getCreatedTime());
+                callback.onWorkspaceListLoaded(response.body());
+            } else {
+                callback.onWorkspaceListLoaded(new ArrayList<>());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     @Override
     public void createWorkspace(WorkspaceEntity workspace, WorkspaceCreateCallback callback) {
-
+        Response<ResponseBody> response;
+        try {
+            response = workspaceService.createWorkspace(workspace.getOwnerId(),
+                    workspace).execute();
+            assert response.body() != null;
+            if (response.code() == 200) {
+                callback.onWorkspaceCreated();
+                Log.d("WorkspaceEntityStore", response.body().toString());
+            } else {
+                callback.onError(new EntityStoreException("Create workspace failed. Code:" +
+                        " " + response.code() +
+                        "\n Message: " + response.body().string()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
-
+        Response<ResponseBody> response;
+        try {
+            response = workspaceService.deleteWorkspace(spaceId).execute();
+            assert response.body() != null;
+            if (response.code() == 200) {
+                callback.onWorkspaceDeleted();
+            } else {
+                callback.onError(new EntityStoreException("Delete workspace failed. Code:" +
+                        " " + response.code() +
+                        "\n Message: " + response.body().string()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Override
     public void editWorkspace(WorkspaceEntity workspace, WorkspaceEditCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = workspaceService.editWorkspace(workspace.getOwnerId(),
+                    workspace).execute();
+            assert response.body() != null;
+            if (response.code() == 200) {
+                callback.onWorkspaceEdited();
+            } else {
+                callback.onError(new EntityStoreException("Edit workspace failed. Code:" +
+                        " " + response.code() +
+                        "\n Message: " + response.body().string()));
+            }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

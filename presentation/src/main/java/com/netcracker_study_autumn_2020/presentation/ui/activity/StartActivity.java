@@ -18,7 +18,6 @@ public class StartActivity extends BaseActivity {
     protected void initializeActivity(Bundle savedInstanceState) {
         initSupportedFragments();
         replaceFragment(R.id.ft_container, signInFragment);
-
     }
 
     private void initSupportedFragments() {
@@ -30,6 +29,7 @@ public class StartActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
     }
 
     public void navigateToSignIn(){

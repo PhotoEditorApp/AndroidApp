@@ -36,7 +36,6 @@ import com.netcracker_study_autumn_2020.presentation.mvp.view.WorkspacesView;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.WorkspaceCardAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorkspacesFragment extends BaseFragment implements CardStackView.ItemExpendListener,
@@ -95,6 +94,7 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
         cardStackView = root.findViewById(R.id.workspaces_cards);
         cardStackView.setItemExpendListener(this);
         workspaceCardAdapter = new WorkspaceCardAdapter(getActivity(), workspacesPresenter);
+        cardStackView.setAdapter(workspaceCardAdapter);
 
     }
 
@@ -105,11 +105,12 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
     }
 
      @Override
-     public void renderWorkspaces(){
-        List<WorkspaceModel> workspaceModels = workspacesPresenter.getWorkspaceModels();
-        workspaceCardAdapter.updateData(workspaceModels);
-        cardStackView.setAdapter(workspaceCardAdapter);
-    }
+     public void renderWorkspaces() {
+         List<WorkspaceModel> workspaceModels = workspacesPresenter.getWorkspaceModels();
+         workspaceCardAdapter.updateData(workspaceModels);
+         //cardStackView.setAdapter(workspaceCardAdapter);
+         //cardStackView.invalidate();
+     }
 
     @Override
     public void navigateToPhotosScreen(WorkspaceModel workspaceModel) {

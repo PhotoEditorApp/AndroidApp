@@ -22,8 +22,9 @@ public class CreateWorkspaceActivity extends BaseActivity {
 
     @Override
     protected void initializeActivity(Bundle savedInstanceState) {
+        createWorkspaceFragment = new CreateWorkspaceFragment();
         if (createWorkspaceFragment == null){
-            createWorkspaceFragment = new CreateWorkspaceFragment();
+
         }
         replaceFragment(R.id.ft_container, createWorkspaceFragment);
 

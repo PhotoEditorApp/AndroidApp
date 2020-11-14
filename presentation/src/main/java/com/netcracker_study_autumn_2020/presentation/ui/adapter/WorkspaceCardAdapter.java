@@ -1,14 +1,9 @@
 package com.netcracker_study_autumn_2020.presentation.ui.adapter;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
-import com.google.android.material.button.MaterialButton;
 import com.loopeer.cardstack.CardStackView;
 import com.loopeer.cardstack.StackAdapter;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -34,6 +29,7 @@ public class WorkspaceCardAdapter extends StackAdapter<WorkspaceModel> {
             });
             h.getButtonDelete().setOnClickListener(l -> {
                 workspacesPresenter.deleteWorkspace(data);
+                workspacesPresenter.refreshData();
             });
         }
     }
@@ -49,9 +45,4 @@ public class WorkspaceCardAdapter extends StackAdapter<WorkspaceModel> {
     public int getItemViewType(int position) {
         return R.layout.card_workspace;
     }
-
-
-
-
-
 }

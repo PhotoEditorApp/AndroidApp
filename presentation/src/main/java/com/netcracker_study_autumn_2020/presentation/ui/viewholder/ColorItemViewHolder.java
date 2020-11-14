@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.presentation.ui.viewholder;
 
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,11 +40,12 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
     }
 
     public void onBind(WorkspaceModel data, int position) {
+        Log.d("COLORITEM", position + data.getName());
         mLayout.getBackground().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_IN);
         cardNumber.setText(String.valueOf(position + 1));
-        cardTitle.setText(data.getDescription());
+        cardTitle.setText(data.getName());
         cardDescription.setText(data.getDescription());
-        cardModifiedTime.setText(data.getLastModified().toString());
+        cardModifiedTime.setText(data.getModificationTime().toString());
         cardCreationTime.setText(data.getCreationTime().toString());
     }
 

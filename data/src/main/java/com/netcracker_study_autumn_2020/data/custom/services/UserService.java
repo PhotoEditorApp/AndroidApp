@@ -8,12 +8,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface UserService {
 
-    @GET("")
-    Call<UserEntity> getUserById(long userId);
+    @GET("/profile/{user_id}")
+    Call<UserEntity> getUserById(@Path("user_id") long userId);
 
     @GET("")
     Call<UserEntity> getUserByEmail(String email);
@@ -21,7 +22,8 @@ public interface UserService {
     @GET("")
     Call<List<UserEntity>> getUsersByFullName(String fullName);
 
-    @POST("")
-    Call<ResponseBody> editUser(@Body UserEntity userEntity);
+    @PUT("/profile/{user_id}")
+    Call<ResponseBody> editUser(@Path("user_id") long userId,
+                                @Body UserEntity userEntity);
 
 }

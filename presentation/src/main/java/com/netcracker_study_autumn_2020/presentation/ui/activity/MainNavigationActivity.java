@@ -42,19 +42,19 @@ public class MainNavigationActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_navigation);
-
         initFragments();
-
         initBottomNavigation();
     }
 
     private void initFragments() {
         userProfileFragment = new UserProfileFragment();
         workspacesFragment = new WorkspacesFragment();
+
     }
 
     private void initBottomNavigation(){
         BottomNavigationView navigationView = findViewById(R.id.navigation_bar);
+        updateHostFragment(navigationView, R.id.navigation_profile);
 
         navigationView.setOnNavigationItemSelectedListener(item -> {
             updateHostFragment(navigationView, item.getItemId());

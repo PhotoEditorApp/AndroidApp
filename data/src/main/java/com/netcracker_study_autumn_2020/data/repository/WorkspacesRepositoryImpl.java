@@ -16,19 +16,19 @@ public class WorkspacesRepositoryImpl implements WorkspaceRepository {
 
     public static synchronized WorkspacesRepositoryImpl getInstance(
             WorkspaceEntityStoreFactory workspaceEntityStoreFactory,
-            WorkspaceEntityDtoMapper workspaceEntityDtoMapper ) {
-        if (INSTANCE == null){
+            WorkspaceEntityDtoMapper workspaceEntityDtoMapper) {
+        if (INSTANCE == null) {
             INSTANCE = new WorkspacesRepositoryImpl(workspaceEntityDtoMapper,
                     workspaceEntityStoreFactory);
         }
         return INSTANCE;
     }
 
-    WorkspaceEntityDtoMapper workspaceEntityDtoMapper;
-    WorkspaceEntityStoreFactory workspaceEntityStoreFactory;
+    private WorkspaceEntityDtoMapper workspaceEntityDtoMapper;
+    private WorkspaceEntityStoreFactory workspaceEntityStoreFactory;
 
     WorkspacesRepositoryImpl(WorkspaceEntityDtoMapper workspaceEntityDtoMapper,
-                             WorkspaceEntityStoreFactory workspaceEntityStoreFactory){
+                             WorkspaceEntityStoreFactory workspaceEntityStoreFactory) {
         this.workspaceEntityDtoMapper = workspaceEntityDtoMapper;
         this.workspaceEntityStoreFactory = workspaceEntityStoreFactory;
     }
@@ -63,16 +63,53 @@ public class WorkspacesRepositoryImpl implements WorkspaceRepository {
 
     @Override
     public void createWorkspace(WorkspaceDto workspace, WorkspaceCreateCallback callback) {
+        WorkspaceEntityStore workspaceEntityStore = workspaceEntityStoreFactory.create();
+        WorkspaceEntity workspaceEntity = workspaceEntityDtoMapper.map1(workspace);
 
+        workspaceEntityStore.createWorkspace(workspaceEntity, new WorkspaceEntityStore.WorkspaceCreateCallback() {
+            @Override
+            public void onWorkspaceCreated() {
+                callback.onWorkspaceCreated();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
     }
 
     @Override
     public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
+        WorkspaceEntityStore workspaceEntityStore = workspaceEntityStoreFactory.create();
+        workspaceEntityStore.deleteWorkspace(spaceId, new WorkspaceEntityStore.WorkspaceDeleteCallback() {
+            @Override
+            public void onWorkspaceDeleted() {
+                callback.onWorkspaceDeleted();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
 
     }
 
     @Override
     public void editWorkspace(WorkspaceDto workspace, WorkspaceEditCallback callback) {
+        WorkspaceEntityStore workspaceEntityStore = workspaceEntityStoreFactory.create();
+        WorkspaceEntity workspaceEntity = workspaceEntityDtoMapper.map1(workspace);
+        workspaceEntityStore.editWorkspace(workspaceEntity, new WorkspaceEntityStore.WorkspaceEditCallback() {
+            @Override
+            public void onWorkspaceEdited() {
+                callback.onWorkspaceEdited();
+            }
 
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
     }
 }

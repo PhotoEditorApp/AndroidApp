@@ -105,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/sign_in_password_repeat_hint" />
 
             <EditText
-                android:id="@+id/enter_username"
+                android:id="@+id/enter_workspace_description"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_field_height"
                 android:layout_marginStart="@dimen/indent_huge"
@@ -154,7 +154,7 @@
                 android:text="@string/password_field_hint"
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_username" />
+                app:layout_constraintTop_toBottomOf="@+id/enter_workspace_description" />
 
             <TextView
                 android:id="@+id/sign_in_password_repeat_hint"
@@ -191,7 +191,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_sign_in"
+                android:id="@+id/button_create_workspace"
                 style="@style/SignInOutButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                 android:text="@string/email_approval_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
+                app:layout_constraintTop_toBottomOf="@+id/button_create_workspace" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

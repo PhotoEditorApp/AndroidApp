@@ -11,7 +11,9 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.Edi
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.GetWorkspacesUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.WorkspaceModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
+import com.netcracker_study_autumn_2020.presentation.mvp.view.CreateWorkspaceView;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.WorkspacesView;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.CreateWorkspaceFragment;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class WorkspacesPresenter extends BasePresenter {
     private AuthManager authManager;
 
     private WorkspacesView workspacesView;
+    private CreateWorkspaceView createWorkspaceView;
 
     private List<WorkspaceModel> workspaceModels;
 
@@ -50,46 +53,26 @@ public class WorkspacesPresenter extends BasePresenter {
 
         Timestamp t = new Timestamp(System.currentTimeMillis());
 
-        workspaceModels.add(new WorkspaceModel(1,"Photos", "Cool photos",
-               t,t ));
-        workspaceModels.add(new WorkspaceModel(2,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(3,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(4,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(5,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(6,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(7,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(8,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(9,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(10,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(11,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(12,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(13,"Photos", "Cool photos",
-                t,t ));
-        workspaceModels.add(new WorkspaceModel(14,"Photos", "Cool photos",
-                t,t ));
+
     }
 
     public void setWorkspacesView(WorkspacesView workspacesView) {
         this.workspacesView = workspacesView;
     }
 
-    public void refreshData(){
-        getWorkspacesUseCase.execute(authManager.getCurrentUserId(), new GetWorkspacesUseCase.Callback() {
+    public void setCreationView(CreateWorkspaceFragment createWorkspaceFragment) {
+        this.createWorkspaceView = createWorkspaceFragment;
+    }
+
+    public void refreshData() {
+        //TODO test
+        //authManager.getCurrentUserId()
+        getWorkspacesUseCase.execute(1, new GetWorkspacesUseCase.Callback() {
             @Override
             public void onWorkspaceCreated(List<WorkspaceDto> workspaces) {
-                //List<WorkspaceModel> wModels = workspaceModelDtoMapper.map1(workspaces);
-                //workspaceModels.clear();
+                List<WorkspaceModel> wModels = workspaceModelDtoMapper.map1(workspaces);
+                workspaceModels.clear();
+                workspaceModels.addAll(wModels);
                 //workspaceModels = wModels;
                 Log.d(TAG, "onWorkspaceCreated: ");
 
@@ -112,6 +95,25 @@ public class WorkspacesPresenter extends BasePresenter {
         workspacesView.navigateToPhotosScreen(data);
     }
 
+    //Этот метод вызывается только в контексте CreateWorkspaceFragment
+    public void createWorkspace(WorkspaceModel data) {
+        WorkspaceDto workspaceDto = workspaceModelDtoMapper.map2(data);
+        createWorkspaceUseCase.execute(workspaceDto, new CreateWorkspaceUseCase.Callback() {
+            @Override
+            public void onWorkspaceCreated() {
+                ((CreateWorkspaceFragment) createWorkspaceView).showToastMessage(
+                        "Пространство успешно создано", true
+                );
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void deleteWorkspace(WorkspaceModel data) {
         deleteWorkspaceUseCase.execute(data.getId(), new DeleteWorkspaceUseCase.Callback() {
             @Override
@@ -129,4 +131,6 @@ public class WorkspacesPresenter extends BasePresenter {
     public int getCurrentUserId(){
         return authManager.getCurrentUserId();
     }
+
+
 }

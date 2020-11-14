@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_sign_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -64,7 +63,7 @@
 
 
             <EditText
-                android:id="@+id/enter_username"
+                android:id="@+id/enter_workspace_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/indent_huge"
@@ -128,14 +127,14 @@
                 android:text="Выберете цвет карточки:"
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="@+id/create_workspace_description_hint"
-                app:layout_constraintTop_toBottomOf="@+id/enter_username" />
+                app:layout_constraintTop_toBottomOf="@+id/enter_workspace_description" />
 
             <ImageView
                 android:id="@+id/create_workspace_color_marker"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:layout_constraintBottom_toBottomOf="@+id/create_workspace_description_hint2"
-                app:layout_constraintEnd_toEndOf="@+id/enter_username"
+                app:layout_constraintEnd_toEndOf="@+id/enter_workspace_description"
                 app:layout_constraintTop_toTopOf="@+id/create_workspace_description_hint2"
                 app:srcCompat="@color/colorPrimary" />
 
@@ -162,7 +161,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_sign_in"
+                android:id="@+id/button_create_workspace"
                 style="@style/SignInOutButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,7 +183,7 @@
                 android:text="Используя рабочие пространства, Вы сможете делится изображениями с другими пользователями и совместно работать над ними!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
+                app:layout_constraintTop_toBottomOf="@+id/button_create_workspace" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

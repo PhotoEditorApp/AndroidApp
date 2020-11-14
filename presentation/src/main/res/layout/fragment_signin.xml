@@ -121,7 +121,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_sign_in"
+                android:id="@+id/button_create_workspace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/indent_huge"
@@ -140,7 +140,7 @@
                 android:text="@string/register_user_suggestion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
+                app:layout_constraintTop_toBottomOf="@+id/button_create_workspace" />
 
             <TextView
                 android:id="@+id/to_register_user_link"

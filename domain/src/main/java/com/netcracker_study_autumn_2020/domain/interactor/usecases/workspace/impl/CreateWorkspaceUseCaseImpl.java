@@ -4,11 +4,8 @@ import com.netcracker_study_autumn_2020.domain.dto.WorkspaceDto;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.CreateWorkspaceUseCase;
-import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.GetWorkspacesUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.WorkspaceUseCase;
 import com.netcracker_study_autumn_2020.domain.repository.WorkspaceRepository;
-
-import java.util.List;
 
 public class CreateWorkspaceUseCaseImpl extends WorkspaceUseCase implements CreateWorkspaceUseCase {
     private CreateWorkspaceUseCase.Callback callback;

@@ -4,13 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
 import com.netcracker_study_autumn_2020.library.UserSessionValues;
 import com.netcracker_study_autumn_2020.library.UserSignUpCredentials;
-
-import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -69,6 +66,7 @@ public class RetrofitAuthManagerImpl implements AuthManager {
             @Override
             public void onResponse(@NonNull Call<UserSessionValues> call, @NonNull Response<UserSessionValues> response) {
                 if (response.body() != null) {
+                    Log.d("TEST", response.body().toString());
                     openSession(response.body().getToken(), response.body().getId());
                     signInCallback.onSignInFinished(response.code(), sessionToken);
                 } else {
