@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
 
@@ -30,9 +31,9 @@ public interface UserService {
     Call<UserEntity> getUserById(@Header("Authorization") String token,
                                  @Path("id") long userId);
 
-    @GET("")
+    @GET("/profile")
     Call<UserEntity> getUserByEmail(@Header("Authorization") String token,
-                                    String email);
+                                    @Query("email") String email);
 
     @GET("")
     Call<List<UserEntity>> getUsersByFullName(@Header("Authorization") String token,

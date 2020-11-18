@@ -18,6 +18,7 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
     TextView cardCreationTime;
     TextView cardModifiedTime;
     TextView cardNumber;
+    MaterialButton buttonShare;
     MaterialButton buttonOpen;
     MaterialButton buttonDelete;
 
@@ -30,6 +31,7 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
         cardDescription = view.findViewById(R.id.workspace_card_description);
         cardCreationTime = view.findViewById(R.id.workspace_card_creation_time);
         cardModifiedTime = view.findViewById(R.id.workspace_card_modified_time);
+        buttonShare = view.findViewById(R.id.button_share_workspace);
         buttonOpen = view.findViewById(R.id.button_open_workspace);
         buttonDelete = view.findViewById(R.id.button_delete_workspace);
     }
@@ -55,5 +57,9 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
 
     public MaterialButton getButtonOpen() {
         return buttonOpen;
+    }
+
+    public MaterialButton getButtonShare() {
+        return buttonShare;
     }
 }

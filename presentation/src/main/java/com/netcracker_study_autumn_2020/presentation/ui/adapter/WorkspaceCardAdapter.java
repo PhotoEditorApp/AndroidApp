@@ -24,12 +24,16 @@ public class WorkspaceCardAdapter extends StackAdapter<WorkspaceModel> {
         if (holder instanceof ColorItemViewHolder) {
             ColorItemViewHolder h = (ColorItemViewHolder) holder;
             h.onBind(data, position);
+
             h.getButtonOpen().setOnClickListener(l -> {
                 workspacesPresenter.navigateToPhotosScreen(data);
             });
             h.getButtonDelete().setOnClickListener(l -> {
                 workspacesPresenter.deleteWorkspace(data);
                 workspacesPresenter.refreshData();
+            });
+            h.getButtonShare().setOnClickListener(l -> {
+                workspacesPresenter.navigateToShareSpace(data.getId());
             });
         }
     }

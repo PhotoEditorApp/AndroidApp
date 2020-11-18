@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.FindAndShareFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserProfileFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.WorkspacesFragment;
@@ -25,6 +26,7 @@ public class MainNavigationActivity extends BaseActivity {
     private UserProfileFragment userProfileFragment;
     private WorkspacesFragment workspacesFragment;
     private ImagesFragment imagesFragment;
+    private FindAndShareFragment findAndShareFragment;
 
     //Позволяет передать пары ключ-значение другой Activity при старте
     public static Intent getCallingIntent(Context context, long userId) {
@@ -92,8 +94,7 @@ public class MainNavigationActivity extends BaseActivity {
     }
 
 
-
-    public void navigateToPhotoView(WorkspaceModel workspaceModel){
+    public void navigateToPhotoView(WorkspaceModel workspaceModel) {
         imagesFragment = new ImagesFragment(workspaceModel);
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -101,7 +102,18 @@ public class MainNavigationActivity extends BaseActivity {
                 .commit();
     }
 
+    public void navigateToFindAndShareFragment(long workspaceId) {
+        findAndShareFragment = new FindAndShareFragment(workspaceId);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.nav_host_fragment, findAndShareFragment)
+                .commit();
+    }
+
+
     public void navigateToCreateWorkspace(long userId) {
         navigator.navigateToCreateWorkspaceActivity(this, userId);
     }
+
+
 }

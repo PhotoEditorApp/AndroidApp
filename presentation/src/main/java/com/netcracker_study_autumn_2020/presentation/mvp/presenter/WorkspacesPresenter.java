@@ -89,6 +89,10 @@ public class WorkspacesPresenter extends BasePresenter {
         workspacesView.navigateToPhotosScreen(data);
     }
 
+    public void navigateToShareSpace(long currentWorkspaceId) {
+        workspacesView.navigateToShareWorkspaceScreen(currentWorkspaceId);
+    }
+
     //Этот метод вызывается только в контексте CreateWorkspaceFragment
     public void createWorkspace(WorkspaceModel data) {
         WorkspaceDto workspaceDto = workspaceModelDtoMapper.map2(data);

@@ -54,6 +54,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="@dimen/indent_medium"
                 android:paddingEnd="@dimen/indent_medium"
+                android:hint="Пароль..."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sign_in_password_hint" />
@@ -67,6 +68,7 @@
                 android:layout_marginEnd="@dimen/indent_huge"
                 android:background="@drawable/input_field_shape"
                 android:inputType="text"
+                android:visibility="gone"
                 android:paddingStart="@dimen/indent_medium"
                 android:paddingEnd="@dimen/indent_medium"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +87,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/indent_medium"
                 android:paddingEnd="@dimen/indent_medium"
+                android:hint="E-mail..."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sign_up_username_hint" />
@@ -95,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/indent_enormous"
                 android:textColor="@color/primaryMiddle"
-                android:text="@string/username"
+                android:text="@string/enter_your_email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

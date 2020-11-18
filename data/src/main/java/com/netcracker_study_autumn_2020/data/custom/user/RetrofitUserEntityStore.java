@@ -36,7 +36,7 @@ public class RetrofitUserEntityStore implements UserEntityStore {
             response = userService.getUserById(SessionManager.getSessionToken(),
                     userId).execute();
             if (response.body() == null) {
-                callback.onError(new EntityStoreException("USER_ENTITY_STORE editUserProfile: code - " +
+                callback.onError(new EntityStoreException("USER_ENTITY_STORE getUserProfile: code - " +
                         +response.code()));
             } else {
                 callback.onUserLoaded(response.body());
@@ -48,7 +48,21 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     }
 
     @Override
-    public void getUsersByEmail(String email, UserByEmailCallback callback) {
+    public void getUserByEmail(String email, UserByEmailCallback callback) {
+        Response<UserEntity> response;
+        try {
+            response = userService.getUserByEmail(SessionManager.getSessionToken(),
+                    email).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("USER_ENTITY_STORE getUserProfile: code - " +
+                        +response.code()));
+            } else {
+                callback.onUserLoaded(response.body());
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+        callback.onError(new EntityStoreException());
 
     }
 

@@ -19,14 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.MainNavigationActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.activity.CreateWorkspaceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.FindAndShareActivity"
+            android:screenOrientation="portrait" />
 
-        </activity>
-        <activity android:name=".ui.activity.CreateWorkspaceActivity"
-        android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

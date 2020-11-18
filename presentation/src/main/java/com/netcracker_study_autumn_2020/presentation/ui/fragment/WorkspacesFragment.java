@@ -115,14 +115,21 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
     @Override
     public void navigateToPhotosScreen(WorkspaceModel workspaceModel) {
-        ((MainNavigationActivity)getActivity()).navigateToPhotoView(workspaceModel);
+        ((MainNavigationActivity) getActivity()).navigateToPhotoView(workspaceModel);
     }
 
-    public void navigateToCreateWorkspace(){
+    @Override
+    public void navigateToShareWorkspaceScreen(long currentWorkspaceId) {
+        ((MainNavigationActivity) getActivity()).navigateToFindAndShareFragment(
+                currentWorkspaceId
+        );
+    }
+
+    public void navigateToCreateWorkspace() {
         ((MainNavigationActivity) getActivity()).navigateToCreateWorkspace(SessionManager.getCurrentUserId());
     }
 
-    private void updateWorkspaces(){
+    private void updateWorkspaces() {
         workspacesPresenter.refreshData();
     }
 

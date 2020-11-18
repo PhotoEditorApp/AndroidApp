@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="25">
+        android:layout_weight="40">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -17,30 +18,55 @@
 
             <TextView
                 android:id="@+id/find_and_share_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
                 android:textColor="@color/black"
-                android:text="Предоставить совместный доступ к рабочему
-                пространству"
+                android:text="Предоставить совместный доступ к рабочему пространству"
                 android:textStyle="bold"
-                android:textSize="@dimen/font_size_23"
+                android:textSize="23sp"
                 android:gravity="center" />
 
             <EditText
                 android:id="@+id/enter_search_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="140dp"
+                android:background="@drawable/input_field_shape"
+                android:inputType="text"
+                android:padding="8dp"
+                android:hint="Введите Email или ID"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/find_and_share_header" />
 
             <Spinner
                 android:id="@+id/spinner_search_criteria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/indent_enormous"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/indent_enormous"
+                app:layout_constraintEnd_toEndOf="@+id/enter_search_text"
+                app:layout_constraintStart_toStartOf="@+id/enter_search_text"
+                app:layout_constraintTop_toBottomOf="@+id/button_find_users"
+                tools:entries="@array/search_criteria" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_find_users"
+                style="@style/SignInOutButtonStyle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Найти"
                 app:layout_constraintBottom_toBottomOf="@+id/enter_search_text"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/enter_search_text"
                 app:layout_constraintTop_toTopOf="@+id/enter_search_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -51,7 +77,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="50">
+        android:layout_weight="40">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/find_and_share_found_users_list"
@@ -63,24 +89,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="25">
+        android:layout_weight="20">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <RadioGroup
+                android:id="@+id/group_check_access_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radio_viewer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="Только просмотр" />
+
+                <RadioButton
+                    android:id="@+id/radio_editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="Просмотр и изменение" />
+            </RadioGroup>
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_find_users"
+                android:id="@+id/button_add_space_access"
                 style="@style/SignInOutButtonStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:text="Найти"
+                android:text="Добавить"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/group_check_access_type" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

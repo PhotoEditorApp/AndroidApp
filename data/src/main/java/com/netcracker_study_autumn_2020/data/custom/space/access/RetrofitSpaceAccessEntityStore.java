@@ -1,8 +1,11 @@
 package com.netcracker_study_autumn_2020.data.custom.space.access;
 
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.data.custom.services.SpaceAccessService;
 import com.netcracker_study_autumn_2020.data.entity.SpaceAccessEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.io.IOException;
@@ -30,12 +33,19 @@ public class RetrofitSpaceAccessEntityStore implements SpaceAccessEntityStore {
     public void createSpaceAccess(SpaceAccessEntity spaceAccessEntity, SpaceAccessCreateCallback callback) {
         Response<ResponseBody> response;
         try {
-            response = spaceAccessService.createSpaceAccess(spaceAccessEntity).execute();
+            response = spaceAccessService.createSpaceAccess(SessionManager.getSessionToken(),
+                    spaceAccessEntity).execute();
             if (response.code() == 200) {
                 callback.onSpaceAccessCreated();
             } else {
-                callback.onError(new EntityStoreException("SpaceAccess creation failed. Code: " + response.code() +
-                        "\n Message: " + response.body().string()));
+                if (response.body() != null) {
+                    callback.onError(new EntityStoreException("SpaceAccess creation failed. Code: " + response.code() +
+                            "\n Message: " + response.body().string()));
+                } else {
+                    Log.d("CREATE_SA", spaceAccessEntity.getUserId() + " " + spaceAccessEntity.getSpaceId());
+                    callback.onError(new EntityStoreException("SpaceAccess creation failed. Code: " + response.code()));
+
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -20,4 +20,11 @@
     <string name="nav_user_profile">Профиль</string>
     <string name="nav_my_workspaces">Мои пространства</string>
     <string name="nav_settings">Настройки</string>
+
+
+    <string-array name="search_criteria">
+        <item>По ID</item>
+        <item>По E-mail</item>
+    </string-array>
 </resources>
+

@@ -30,7 +30,9 @@ public interface UserEntityStore {
     }
 
     void getUserById(long userId, UserByIdCallback callback);
-    void getUsersByEmail(String email, UserByEmailCallback callback);
+
+    void getUserByEmail(String email, UserByEmailCallback callback);
+
     void getUsersByFullName(String fullName, UsersByNameCallback callback);
     void createUserProfile(UserEntity userEntity, UserCreateCallback callback);
     void editUserProfile(UserEntity userEntity, UserEditCallback callback);

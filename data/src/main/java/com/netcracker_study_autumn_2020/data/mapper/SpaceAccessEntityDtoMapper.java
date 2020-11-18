@@ -8,11 +8,19 @@ public class SpaceAccessEntityDtoMapper extends BaseMapper<SpaceAccessEntity,
         SpaceAccessDto> {
     @Override
     public SpaceAccessEntity map1(SpaceAccessDto o2) {
-        return null;
+        SpaceAccessEntity spaceAccessEntity = new SpaceAccessEntity();
+        spaceAccessEntity.setSpaceId(o2.getSpaceId());
+        spaceAccessEntity.setType(o2.getType());
+        spaceAccessEntity.setUserId(o2.getUserId());
+        return spaceAccessEntity;
     }
 
     @Override
     public SpaceAccessDto map2(SpaceAccessEntity o1) {
-        return null;
+        SpaceAccessDto spaceAccessDto = new SpaceAccessDto();
+        spaceAccessDto.setSpaceId(o1.getSpaceId());
+        spaceAccessDto.setUserId(o1.getUserId());
+        spaceAccessDto.setType(o1.getType());
+        return spaceAccessDto;
     }
 }

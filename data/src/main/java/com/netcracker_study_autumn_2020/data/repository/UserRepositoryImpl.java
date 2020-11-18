@@ -58,7 +58,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void getUserByEmail(String email, UserByEmailCallback callback) {
+        UserEntityStore userEntityStore = userEntityStoreFactory.create();
 
+        userEntityStore.getUserByEmail(email, new UserEntityStore.UserByEmailCallback() {
+            @Override
+            public void onUserLoaded(UserEntity userEntity) {
+                UserDto userDto = userEntityDtoMapper.map2(userEntity);
+                callback.onUserLoaded(userDto);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
     }
 
     @Override

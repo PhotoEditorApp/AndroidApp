@@ -53,6 +53,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         recyclerView = root.findViewById(R.id.photo_preview_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
+        //Test
         List<ImageModel> testData = new ArrayList<>();
         testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
                 "Горы11"));
@@ -110,6 +111,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
         buttonPanel = root.findViewById(R.id.photo_preview_button_panel);
         ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
+        ImageButton addImage = root.findViewById(R.id.button_add_image);
+
         hidePanel.setOnClickListener(l -> {
             if (isPanelHide) {
                 buttonPanel.setVisibility(View.VISIBLE);
@@ -118,6 +121,10 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                 buttonPanel.setVisibility(View.GONE);
                 isPanelHide = true;
             }
+        });
+
+        addImage.setOnClickListener(l -> {
+            //TODO Переход к фрагменту с загрузкой изображения
         });
 
     }
