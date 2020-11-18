@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photo_preview_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="1dp"
+        android:clipToPadding="false"
+        android:paddingBottom="60dp" />
 
     <LinearLayout
         android:id="@+id/photo_preview_button_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:background="@drawable/logo_shape"
         android:orientation="vertical"
         android:padding="@dimen/indent_medium_plus"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/hide_panel"
-        app:layout_constraintEnd_toStartOf="@+id/hide_panel"
-        app:layout_constraintTop_toTopOf="@+id/hide_panel">
+        app:layout_constraintBottom_toTopOf="@+id/hide_panel"
+        app:layout_constraintEnd_toEndOf="@+id/hide_panel"
+        app:layout_constraintStart_toStartOf="@+id/hide_panel">
 
 
         <ImageButton
@@ -35,8 +39,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/white"
-            android:background="@drawable/ic_choose_sort" />
+            android:background="@drawable/ic_choose_sort"
+            android:backgroundTint="@color/white" />
 
         <ImageButton
             android:id="@+id/create_collage"
@@ -49,15 +53,25 @@
 
     </LinearLayout>
 
-    <ImageButton
+    <LinearLayout
         android:id="@+id/hide_panel"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/primaryDark"
-        android:background="@drawable/ic_image_preview_button_panel"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_hide_button_panel"
+        app:layout_constraintBottom_toBottomOf="@+id/photo_preview_list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/hide_panel_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/ic_image_preview_button_panel"
+
+            android:backgroundTint="@color/primaryDark" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

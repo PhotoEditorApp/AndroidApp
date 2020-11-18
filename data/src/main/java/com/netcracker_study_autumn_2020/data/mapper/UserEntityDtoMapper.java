@@ -23,9 +23,9 @@ public class UserEntityDtoMapper extends BaseMapper<UserEntity, UserDto> {
         UserDto userDto = new UserDto();
         userDto.setUser_id(o1.getUser_id());
         userDto.setEmail(o1.getEmail());
-        userDto.setFirstName(o1.getFirstName());
-        userDto.setLastName(o1.getLastName());
-        userDto.setFullName(o1.getFullName());
+        userDto.setFirstName(o1.getFirstName() == null ? "FirstName" : o1.getFirstName());
+        userDto.setLastName(o1.getLastName() == null ? "LastName" : o1.getLastName());
+        userDto.setFullName(o1.getFullName() == null ? "FullName" : o1.getFullName());
         userDto.setAcceptTermsOfService(o1.isAcceptTermsOfService());
         return userDto;
     }

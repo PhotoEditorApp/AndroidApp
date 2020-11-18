@@ -13,7 +13,7 @@ public class CreateWorkspaceActivity extends BaseActivity {
 
     private CreateWorkspaceFragment createWorkspaceFragment;
 
-    public static Intent getCallingIntent(Context context, int userId) {
+    public static Intent getCallingIntent(Context context, long userId) {
         Intent intent = new Intent(context, CreateWorkspaceActivity.class);
         intent.putExtra("CURRENT_USER_ID", userId);
         return intent;

@@ -5,9 +5,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
 import com.netcracker_study_autumn_2020.library.UserSessionValues;
-import com.netcracker_study_autumn_2020.library.UserSignUpCredentials;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -19,15 +19,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.netcracker_study_autumn_2020.library.network.NetworkUtils.API_ADDRESS;
 
-public class RetrofitAuthManagerImpl implements AuthManager {
-
-    //Понадобится позднее для формирования запросов о пространствах пользователя
-
-    //TODO удалить ненужные классы и реализации, которые появились
-    // после внедрения Retrofit
-    private static int userId;
-    private static String sessionToken = "";
-    private static boolean isSessionOpened = false;
+public class RetrofitAuthManagerImpl extends SessionManager implements AuthManager {
 
     private AuthService retrofitAuthService;
 
@@ -43,8 +35,7 @@ public class RetrofitAuthManagerImpl implements AuthManager {
 
     @Override
     public void registerUser(String email, String username, String password, RegisterUserCallback signUpCallback) {
-        Call<ResponseBody> result = retrofitAuthService.signUp(new UserSignUpCredentials
-                (email, username, password));
+        Call<ResponseBody> result = retrofitAuthService.signUp(email, password);
         result.enqueue(new Callback<ResponseBody>() {
 
             @Override
@@ -62,6 +53,7 @@ public class RetrofitAuthManagerImpl implements AuthManager {
     @Override
     public void signInWithEmailAndPassword(String login, String password, SignInWithEmailAndPasswordCallback signInCallback) {
         Call<UserSessionValues> result = retrofitAuthService.signIn(new UserCredentials(login, password));
+
         result.enqueue(new Callback<UserSessionValues>() {
             @Override
             public void onResponse(@NonNull Call<UserSessionValues> call, @NonNull Response<UserSessionValues> response) {
@@ -70,6 +62,7 @@ public class RetrofitAuthManagerImpl implements AuthManager {
                     openSession(response.body().getToken(), response.body().getId());
                     signInCallback.onSignInFinished(response.code(), sessionToken);
                 } else {
+                    Log.d("SIGNIN", "NULL_BODY");
                     signInCallback.onSignInFinished(response.code(), "");
                 }
             }
@@ -86,22 +79,22 @@ public class RetrofitAuthManagerImpl implements AuthManager {
 
     }
 
-    @Override
-    public String getSessionToken() {
-        return sessionToken;
-    }
+    //@Override
+    //public String getSessionToken() {
+    //return sessionToken;
+    //}
+
+    // @Override
+    //public int getCurrentUserId() {
+    //return userId;
+    //}
+
 
     @Override
-    public int getCurrentUserId() {
-        return userId;
-    }
-
-
-    @Override
-    public void openSession(@NonNull String sT, int uI) {
+    public void openSession(String sT, long uI) {
         if (!sT.isEmpty()) {
             sessionToken = sT;
-            userId = uI;
+            currentUserId = uI;
             isSessionOpened = true;
         } else {
             Log.w("Warning:", "Auth manager got empty token. " +
@@ -113,11 +106,6 @@ public class RetrofitAuthManagerImpl implements AuthManager {
     public void closeSession() {
         sessionToken = "";
         isSessionOpened = false;
-    }
-
-    @Override
-    public boolean isSessionOpened() {
-        return isSessionOpened;
     }
 
 }

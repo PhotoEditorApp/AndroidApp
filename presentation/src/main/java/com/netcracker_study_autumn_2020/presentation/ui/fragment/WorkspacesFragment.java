@@ -14,6 +14,7 @@ import com.loopeer.cardstack.CardStackView;
 import com.netcracker_study_autumn_2020.data.custom.workspace.WorkspaceEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
 import com.netcracker_study_autumn_2020.data.mapper.WorkspaceEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.WorkspacesRepositoryImpl;
@@ -118,7 +119,7 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
     }
 
     public void navigateToCreateWorkspace(){
-        ((MainNavigationActivity)getActivity()).navigateToCreateWorkspace(workspacesPresenter.getCurrentUserId());
+        ((MainNavigationActivity) getActivity()).navigateToCreateWorkspace(SessionManager.getCurrentUserId());
     }
 
     private void updateWorkspaces(){

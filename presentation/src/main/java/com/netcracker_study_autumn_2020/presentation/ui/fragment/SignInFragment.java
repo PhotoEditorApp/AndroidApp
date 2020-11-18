@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.data.manager.impl.RetrofitAuthManagerImpl;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -88,6 +89,6 @@ public class SignInFragment extends BaseFragment implements SignInView {
 
     @Override
     public void navigateToWorkspaces() {
-        ((StartActivity)getActivity()).navigateToWorkspaces(authPresenter.getUserId());
+        ((StartActivity) getActivity()).navigateToWorkspaces(SessionManager.getCurrentUserId());
     }
 }

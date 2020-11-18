@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.presentation.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,6 +19,7 @@ public class StartActivity extends BaseActivity {
     protected void initializeActivity(Bundle savedInstanceState) {
         initSupportedFragments();
         replaceFragment(R.id.ft_container, signInFragment);
+        Log.d("HERE", "initF");
     }
 
     private void initSupportedFragments() {
@@ -27,7 +29,9 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d("HERE", "initS0");
         super.onCreate(savedInstanceState);
+        Log.d("HERE", "initS1");
         setContentView(R.layout.activity_start);
 
     }
@@ -44,7 +48,7 @@ public class StartActivity extends BaseActivity {
 
     }
 
-    public void navigateToWorkspaces(int userId) {
+    public void navigateToWorkspaces(long userId) {
         navigator.navigateToMainNavigationActivity(this, userId);
     }
 }

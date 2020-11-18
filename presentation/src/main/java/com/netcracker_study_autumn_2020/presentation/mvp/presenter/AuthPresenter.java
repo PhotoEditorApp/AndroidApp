@@ -3,10 +3,10 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.SignInView;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.SignUpView;
-import com.netcracker_study_autumn_2020.presentation.ui.activity.StartActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.SignInFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.SignUpFragment;
 
@@ -17,8 +17,8 @@ public class AuthPresenter extends BasePresenter {
     private SignInView signInView;
     private SignUpView signUpView;
 
-    public int getUserId(){
-        return authManager.getCurrentUserId();
+    public long getUserId() {
+        return SessionManager.getCurrentUserId();
     }
 
     public void setSignInView(SignInView signInView) {
@@ -60,10 +60,10 @@ public class AuthPresenter extends BasePresenter {
                     Log.d("AUTH_PRESENTER_IN", sessionToken);
                     ((SignInFragment)signInView).showToastMessage(code +
                             sessionToken, false);
-                    if (authManager.isSessionOpened()){
+                    if (SessionManager.isSessionOpened()) {
                         signInView.navigateToWorkspaces();
-                    }else{
-                        ((SignInFragment)signInView).showToastMessage(
+                    } else {
+                        ((SignInFragment) signInView).showToastMessage(
                                 ((SignInFragment) signInView).getString(
                                         R.string.login_error), true);
                     }

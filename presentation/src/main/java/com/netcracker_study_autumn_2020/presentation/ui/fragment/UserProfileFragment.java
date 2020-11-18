@@ -1,9 +1,11 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -86,8 +88,39 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
         userLastName = root.findViewById(R.id.user_profile_last_name);
         userId = root.findViewById(R.id.user_profile_id);
 
+        AlertDialog alertDialog = initEditDialog();
         editProfile.setOnClickListener(l -> {
+            alertDialog.show();
         });
+    }
+
+    private AlertDialog initEditDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.dialog_edit_user_profile, null);
+        alertDialogBuilder.setView(dialogView);
+
+        final EditText dialogFirstName = dialogView.findViewById(R.id.dialog_enter_first_name);
+        dialogFirstName.setHint(userFirstName.getText());
+        final EditText dialogLastName = dialogView.findViewById(R.id.dialog_enter_last_name);
+        dialogLastName.setHint(userLastName.getText());
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Подтвердить",
+                        (dialog, which) -> {
+                            UserModel bufModel = userProfilePresenter.getUserModel();
+                            bufModel.setFirstName(dialogFirstName.getText().toString());
+                            bufModel.setLastName(dialogLastName.getText().toString());
+                            userProfilePresenter.editUserProfile(bufModel);
+                        })
+                .setNegativeButton("Отмена",
+                        (dialog, which) -> {
+                            dialog.cancel();
+                        });
+
+        return alertDialogBuilder.create();
     }
 
     @Override

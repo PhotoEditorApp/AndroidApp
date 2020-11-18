@@ -64,6 +64,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ShareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/specialAccentGreenDark</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="SignInOutButtonStyle2" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/primaryMiddle</item>
         <item name="backgroundTint">@color/white</item>

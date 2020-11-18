@@ -4,6 +4,7 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.manager.AuthManager;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.domain.dto.WorkspaceDto;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.CreateWorkspaceUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.DeleteWorkspaceUseCase;
@@ -15,7 +16,6 @@ import com.netcracker_study_autumn_2020.presentation.mvp.view.CreateWorkspaceVie
 import com.netcracker_study_autumn_2020.presentation.mvp.view.WorkspacesView;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.CreateWorkspaceFragment;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +50,6 @@ public class WorkspacesPresenter extends BasePresenter {
         workspaceModelDtoMapper = new WorkspaceModelDtoMapper();
 
         workspaceModels = new ArrayList<>();
-
-        Timestamp t = new Timestamp(System.currentTimeMillis());
-
-
     }
 
     public void setWorkspacesView(WorkspacesView workspacesView) {
@@ -65,9 +61,7 @@ public class WorkspacesPresenter extends BasePresenter {
     }
 
     public void refreshData() {
-        //TODO test
-        //authManager.getCurrentUserId()
-        getWorkspacesUseCase.execute(1, new GetWorkspacesUseCase.Callback() {
+        getWorkspacesUseCase.execute(SessionManager.getCurrentUserId(), new GetWorkspacesUseCase.Callback() {
             @Override
             public void onWorkspaceCreated(List<WorkspaceDto> workspaces) {
                 List<WorkspaceModel> wModels = workspaceModelDtoMapper.map1(workspaces);
@@ -128,8 +122,8 @@ public class WorkspacesPresenter extends BasePresenter {
         });
     }
 
-    public int getCurrentUserId(){
-        return authManager.getCurrentUserId();
+    public long getCurrentUserId() {
+        return SessionManager.getCurrentUserId();
     }
 
 

@@ -6,7 +6,7 @@ public abstract class NetworkUtils {
     public static final int CONNECTION_TIMEOUT = 5000;
     //Текущий адрес бэкенда
     //Не final для динамической отладки
-    public static String API_ADDRESS = "http://489dd8694342.ngrok.io";
+    public static String API_ADDRESS = "http://1f0bf2e03847.ngrok.io";
 
     //Строковый формат даты для парсинга
     public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'+00:00'";

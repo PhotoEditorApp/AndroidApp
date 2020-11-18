@@ -5,6 +5,7 @@ import android.util.Log;
 import com.netcracker_study_autumn_2020.data.custom.services.UserService;
 import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.io.IOException;
@@ -32,7 +33,8 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     public void getUserById(long userId, UserByIdCallback callback) {
         Response<UserEntity> response;
         try {
-            response = userService.getUserById(userId).execute();
+            response = userService.getUserById(SessionManager.getSessionToken(),
+                    userId).execute();
             if (response.body() == null) {
                 callback.onError(new EntityStoreException("USER_ENTITY_STORE editUserProfile: code - " +
                         +response.code()));
@@ -65,6 +67,7 @@ public class RetrofitUserEntityStore implements UserEntityStore {
         Response<ResponseBody> response;
         try {
             response = userService.editUser(userEntity.getUser_id(),
+                    SessionManager.getSessionToken(),
                     userEntity).execute();
             if (response.code() == 200) {
                 callback.onUserLoaded();

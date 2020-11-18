@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.presentation.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +15,12 @@ abstract class BaseActivity extends AppCompatActivity {
     protected Navigator navigator;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d("HERE", "initB0");
         super.onCreate(savedInstanceState);
+        Log.d("HERE", "initB1");
         initialize();
         initializeActivity(savedInstanceState);
+        Log.d("HERE", "initB2");
     }
 
     public void addFragment(int containerViewId, Fragment fragment){

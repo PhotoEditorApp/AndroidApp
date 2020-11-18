@@ -11,23 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.activity.StartActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity android:name=".ui.activity.MainNavigationActivity"
+        <activity
+            android:name=".ui.activity.StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.MainNavigationActivity"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity android:name=".ui.activity.CreateWorkspaceActivity"
         android:screenOrientation="portrait"/>
     </application>
-
-
-
 
 </manifest>

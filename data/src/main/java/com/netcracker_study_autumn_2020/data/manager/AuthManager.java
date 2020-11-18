@@ -3,6 +3,7 @@ package com.netcracker_study_autumn_2020.data.manager;
 
 public interface AuthManager {
 
+
     interface SignInWithEmailAndPasswordCallback{
         void onSignInFinished(int code, String sessionToken);
         void onError(Exception e);
@@ -24,11 +25,5 @@ public interface AuthManager {
                                     SignInWithEmailAndPasswordCallback signIn);
     void signOut(SignOutCallback signOut);
 
-    String getSessionToken();
 
-    int getCurrentUserId();
-
-    void openSession(String sessionToken, int userId);
-    void closeSession();
-    boolean isSessionOpened();
 }

@@ -109,7 +109,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private void initInteractions(View root) {
 
         buttonPanel = root.findViewById(R.id.photo_preview_button_panel);
-        ImageButton hidePanel = root.findViewById(R.id.hide_panel);
+        ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
         hidePanel.setOnClickListener(l -> {
             if (isPanelHide) {
                 buttonPanel.setVisibility(View.VISIBLE);

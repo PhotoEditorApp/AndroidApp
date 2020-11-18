@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <color name="colorPrimary">#0439D9</color>
-        <color name="colorPrimaryDark">#010940</color>
-        <color name="colorAccent">#F25B7E</color>
-        <color name="colorOverlay">#78474747</color>
-        <color name="extraInfoText">#232323</color>
+    <color name="colorPrimary">#0439D9</color>
+    <color name="colorPrimaryDark">#010940</color>
+    <color name="colorAccent">#F25B7E</color>
+    <color name="colorOverlay">#78474747</color>
+    <color name="extraInfoText">#232323</color>
 
-        <color name="primaryLight">#0439D9</color>
-        <color name="primaryMiddle">#0427A6</color>
-        <color name="primaryDark">#010940</color>
+    <color name="primaryLight">#0439D9</color>
+    <color name="primaryMiddle">#0427A6</color>
+    <color name="primaryDark">#010940</color>
 
-        <color name="warmLight">#F25B7E</color>
-        <color name="warmDark">#BB0312</color>
+    <color name="warmLight">#F25B7E</color>
+    <color name="warmDark">#BB0312</color>
 
-
-        <color name="fiveGray">#4F4F4F</color>
-        <color name="fourGray">#828282</color>
-        <color name="threeGray">#BDBDBD</color>
-
-        <color name="white">#FFFFFF</color>
-        <color name="black">#202020</color>
-
-        <!--<color name="currentUserMessageBackground">#BDC6F2</color>-->
-        <!--<color name="otherUserMessageBackground">#E0E0E0</color>-->
-
-        <color name="blurTransparent">#A64F4F4F</color>
-        <color name="whiteTransparent">#D8FFFFFF</color>
-
-        <color name="colorPrimaryИдгу">#001F8D</color>
+    <color name="specialAccentGreenLight">#21DF25</color>
+    <color name="specialAccentGreenDark">#16A619</color>
 
 
+    <color name="fiveGray">#4F4F4F</color>
+    <color name="fourGray">#828282</color>
+    <color name="threeGray">#BDBDBD</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#202020</color>
+
+    <!--<color name="currentUserMessageBackground">#BDC6F2</color>-->
+    <!--<color name="otherUserMessageBackground">#E0E0E0</color>-->
+
+    <color name="blurTransparent">#A64F4F4F</color>
+    <color name="whiteTransparent">#D8FFFFFF</color>
+
+    <color name="colorPrimaryИдгу">#001F8D</color>
 
 
 </resources>

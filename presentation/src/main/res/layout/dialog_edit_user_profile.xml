@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/indent_medium">
+
+    <TextView
+        android:id="@+id/dialog_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Редактировать профиль:"
+        android:textSize="@dimen/font_size_16"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingBottom="@dimen/indent_medium" />
+
+    <TextView
+        android:id="@+id/dialog_enter_first_name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Имя:"
+        android:textColor="@color/black"
+        android:paddingBottom="@dimen/indent_medium" />
+
+    <EditText
+        android:id="@+id/dialog_enter_first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/indent_medium" />
+
+    <TextView
+        android:id="@+id/dialog_enter_last_name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Фамилия:"
+        android:textColor="@color/black"
+        android:paddingBottom="@dimen/indent_medium" />
+
+    <EditText
+        android:id="@+id/dialog_enter_last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/indent_medium" />
+
+</LinearLayout>

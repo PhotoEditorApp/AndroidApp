@@ -27,12 +27,13 @@ public class MainNavigationActivity extends BaseActivity {
     private ImagesFragment imagesFragment;
 
     //Позволяет передать пары ключ-значение другой Activity при старте
-    public static Intent getCallingIntent(Context context, String userId){
+    public static Intent getCallingIntent(Context context, long userId) {
         Intent callingIntent = new Intent(context, MainNavigationActivity.class);
         callingIntent.putExtra(CURRENT_USER_ID_EXTRA_NAME, userId);
 
         return callingIntent;
     }
+
     @Override
     protected void initializeActivity(Bundle savedInstanceState) {
 
@@ -100,7 +101,7 @@ public class MainNavigationActivity extends BaseActivity {
                 .commit();
     }
 
-    public void navigateToCreateWorkspace(int userId){
+    public void navigateToCreateWorkspace(long userId) {
         navigator.navigateToCreateWorkspaceActivity(this, userId);
     }
 }

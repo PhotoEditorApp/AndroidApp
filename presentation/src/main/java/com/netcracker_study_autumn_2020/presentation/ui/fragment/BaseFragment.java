@@ -18,7 +18,7 @@ public abstract class BaseFragment extends Fragment {
     abstract void initializePresenter();
 
     public void showToastMessage(String message, boolean isLengthLong){
-        Toast.makeText(getActivity(), message,
+        Toast.makeText(getContext(), message,
                 isLengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)
                 .show();
     }

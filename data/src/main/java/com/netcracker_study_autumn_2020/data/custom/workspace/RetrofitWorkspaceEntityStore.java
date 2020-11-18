@@ -5,6 +5,8 @@ import android.util.Log;
 import com.netcracker_study_autumn_2020.data.custom.services.WorkspaceService;
 import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.io.IOException;
@@ -40,12 +42,15 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     public void allWorkspaces(long userId, WorkspaceListCallback callback) {
         Response<List<WorkspaceEntity>> response;
         try {
-            response = workspaceService.getUserWorkspaces(userId).execute();
+            //TODO get access type properly!
+            response = workspaceService.getUserWorkspaces(SessionManager.getSessionToken(),
+                    userId, SpaceAccessType.CREATOR.toString()).execute();
+            Log.d("TOKEN", SessionManager.getSessionToken());
             if (response.body() != null) {
                 Log.d("WorkspaceEntityStore", response.body().toString());
-                WorkspaceEntity ww = response.body().get(0);
-                Log.d("WORKSPACE_ENTITY", ww.getName() + ww.getDescription()
-                        + ww.getCreatedTime());
+                //WorkspaceEntity ww = response.body().get(0);
+                //Log.d("WORKSPACE_ENTITY", ww.getName() + ww.getDescription()
+                //+ ww.getCreatedTime());
                 callback.onWorkspaceListLoaded(response.body());
             } else {
                 callback.onWorkspaceListLoaded(new ArrayList<>());
@@ -63,13 +68,14 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
         Response<ResponseBody> response;
         try {
             response = workspaceService.createWorkspace(workspace.getOwnerId(),
+                    SessionManager.getSessionToken(),
                     workspace).execute();
             assert response.body() != null;
             if (response.code() == 200) {
                 callback.onWorkspaceCreated();
                 Log.d("WorkspaceEntityStore", response.body().toString());
             } else {
-                callback.onError(new EntityStoreException("Create workspace failed. Code:" +
+                callback.onError(new EntityStoreException("Workspace creation failed. Code:" +
                         " " + response.code() +
                         "\n Message: " + response.body().string()));
             }
@@ -82,7 +88,8 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
         Response<ResponseBody> response;
         try {
-            response = workspaceService.deleteWorkspace(spaceId).execute();
+            response = workspaceService.deleteWorkspace(spaceId,
+                    SessionManager.getSessionToken()).execute();
             assert response.body() != null;
             if (response.code() == 200) {
                 callback.onWorkspaceDeleted();
@@ -102,6 +109,7 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
         Response<ResponseBody> response;
         try {
             response = workspaceService.editWorkspace(workspace.getOwnerId(),
+                    SessionManager.getSessionToken(),
                     workspace).execute();
             assert response.body() != null;
             if (response.code() == 200) {
