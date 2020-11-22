@@ -11,16 +11,16 @@ import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 
 public class ColorItemViewHolder extends CardStackView.ViewHolder {
-    View mLayout;
-    View mContainerContent;
-    TextView cardTitle;
-    TextView cardDescription;
-    TextView cardCreationTime;
-    TextView cardModifiedTime;
-    TextView cardNumber;
-    MaterialButton buttonShare;
-    MaterialButton buttonOpen;
-    MaterialButton buttonDelete;
+    private View mLayout;
+    private View mContainerContent;
+    private TextView cardTitle;
+    private TextView cardDescription;
+    private TextView cardCreationTime;
+    private TextView cardModifiedTime;
+    private TextView cardNumber;
+    private MaterialButton buttonShare;
+    private MaterialButton buttonOpen;
+    private MaterialButton buttonDelete;
 
     public ColorItemViewHolder(View view) {
         super(view);
@@ -45,7 +45,20 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
         Log.d("COLORITEM", position + data.getName());
         mLayout.getBackground().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_IN);
         cardNumber.setText(String.valueOf(position + 1));
-        cardTitle.setText(data.getName());
+        String title = data.getName();
+        //if (title.length() > LEN_TO_MAKE_FONT_SMALLER_1) {
+        //if (title.length() > LEN_TO_MAKE_FONT_SMALLER_2) {
+        // if(title.length() > LEN_TO_MAKE_FONT_SMALLER_3) {
+        //cardTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        //} else {
+        // cardTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        //}
+        // }else {
+        //cardTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        //}
+        //}
+        cardTitle.setText(title);
+
         cardDescription.setText(data.getDescription());
         cardModifiedTime.setText(data.getModificationTime().toString());
         cardCreationTime.setText(data.getCreationTime().toString());

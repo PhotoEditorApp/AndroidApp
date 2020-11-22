@@ -12,7 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
+import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
+import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
+import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
+import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
+import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.presentation.R;
+import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.ImagesPresenter;
@@ -37,7 +47,20 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     @Override
     void initializePresenter() {
-        presenter = new ImagesPresenter();
+
+        ImageEntityDtoMapper imageEntityDtoMapper = new ImageEntityDtoMapper();
+        ImageEntityStoreFactory imageEntityStoreFactory = new ImageEntityStoreFactory();
+
+        ImageRepository imageRepository = ImageRepositoryImpl.getInstance(imageEntityStoreFactory,
+                imageEntityDtoMapper);
+        PostExecutionThread postExecutionThread = UIThread.getInstance();
+        ThreadExecutor threadExecutor = JobExecutor.getInstance();
+
+        GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase = new GetWorkspaceImagesInfoUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
+
+        //TODO get spaceId properly
+        presenter = new ImagesPresenter(1, getWorkspaceImagesInfoUseCase);
     }
 
     @Nullable
@@ -133,6 +156,14 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.setView(this);
+        presenter.updateImageList();
 
+    }
+
+    @Override
+    public void renderImages() {
+        imagesGridRecyclerAdapter.setImageList(
+                presenter.getImageModels()
+        );
     }
 }

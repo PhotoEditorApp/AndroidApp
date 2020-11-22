@@ -10,11 +10,16 @@ import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.ui.viewholder.ImageItemViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImagesGridRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ImageModel> imageList;
+
+    public ImagesGridRecyclerAdapter() {
+        imageList = new ArrayList<>();
+    }
 
     @NonNull
     @Override
@@ -35,6 +40,8 @@ public class ImagesGridRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void setImageList(List<ImageModel> imageList) {
-        this.imageList = imageList;
+        this.imageList.clear();
+        this.imageList.addAll(imageList);
+        notifyDataSetChanged();
     }
 }
