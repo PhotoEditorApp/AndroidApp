@@ -28,7 +28,7 @@ public class GetWorkspaceImagesInfoUseCaseImpl extends ImageUseCase
     @Override
     public void execute(long spaceId, GetWorkspaceImagesInfoUseCase.Callback callback) {
         if (callback == null) {
-            throw new IllegalArgumentException("GetWorkspacesUseCase: Invalid callback!");
+            throw new IllegalArgumentException("GetWorkspaceImagesInfoUseCase: Invalid callback!");
         }
         super.execute();
         this.spaceId = spaceId;

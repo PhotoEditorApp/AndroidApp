@@ -5,14 +5,12 @@ import java.util.Date;
 public class ImageModel {
 
     private long id;
-    private long userId;
-    private long spaceId;
-    private String path;
-    private String previewPath;
     private String name;
-    private String description;
-    private int size;
-    private Date createdTime;
+    private long userId;
+    private String path;
+    private Date createTime;
+    private long averageColor;
+    private long size;
     private Date modifiedTime;
 
     //private List<ImageTagModel> tags;
@@ -22,8 +20,7 @@ public class ImageModel {
     public ImageModel() {
     }
 
-    public ImageModel(String previewPath, String name) {
-        this.previewPath = previewPath;
+    public ImageModel(String name) {
         this.name = name;
     }
 
@@ -43,13 +40,6 @@ public class ImageModel {
         this.userId = userId;
     }
 
-    public long getSpaceId() {
-        return spaceId;
-    }
-
-    public void setSpaceId(long spaceId) {
-        this.spaceId = spaceId;
-    }
 
     public String getPath() {
         return path;
@@ -59,13 +49,6 @@ public class ImageModel {
         this.path = path;
     }
 
-    public String getPreviewPath() {
-        return previewPath;
-    }
-
-    public void setPreviewPath(String previewPath) {
-        this.previewPath = previewPath;
-    }
 
     public String getName() {
         return name;
@@ -75,28 +58,12 @@ public class ImageModel {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(long size) {
         this.size = size;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
     }
 
     public Date getModifiedTime() {
@@ -108,4 +75,19 @@ public class ImageModel {
     }
 
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getAverageColor() {
+        return averageColor;
+    }
+
+    public void setAverageColor(long averageColor) {
+        this.averageColor = averageColor;
+    }
 }

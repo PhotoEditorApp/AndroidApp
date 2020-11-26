@@ -13,5 +13,17 @@ public interface ImageEntityStore {
         void onImagesLoaded(List<ImageEntity> imageEntityList);
     }
 
+    interface ImageEditCallback extends ImageEntityStore.Error {
+        void onImageEdited();
+    }
+
+    interface ImageDeleteCallback extends ImageEntityStore.Error {
+        void onImageDeleted();
+    }
+
     void getImagesBySpaceId(long spaceId, ImagesBySpaceIdCallback callback);
+
+    void editImageInfo(ImageEntity imageEntity, ImageEditCallback callback);
+
+    void deleteImage(long imageId, ImageDeleteCallback callback);
 }

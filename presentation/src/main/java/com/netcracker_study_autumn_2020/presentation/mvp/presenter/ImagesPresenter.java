@@ -3,11 +3,14 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.ImageModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -16,6 +19,8 @@ public class ImagesPresenter extends BasePresenter {
     private ImagesView imagesView;
 
     private GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase;
+    private EditImageInfoUseCase editImageInfoUseCase;
+    private DeleteImageUseCase deleteImageUseCase;
 
     private List<ImageModel> imageModels;
     private long spaceId;
@@ -23,10 +28,15 @@ public class ImagesPresenter extends BasePresenter {
     private ImageModelDtoMapper imageModelDtoMapper;
 
     public ImagesPresenter(long spaceId,
-                           GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase) {
+                           GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase,
+                           EditImageInfoUseCase editImageInfoUseCase,
+                           DeleteImageUseCase deleteImageUseCase) {
         this.getWorkspaceImagesInfoUseCase = getWorkspaceImagesInfoUseCase;
+        this.editImageInfoUseCase = editImageInfoUseCase;
+        this.deleteImageUseCase = deleteImageUseCase;
         this.spaceId = spaceId;
 
+        imageModels = new ArrayList<>();
         imageModelDtoMapper = new ImageModelDtoMapper();
     }
 
@@ -50,6 +60,37 @@ public class ImagesPresenter extends BasePresenter {
             @Override
             public void onError(Exception e) {
                 e.printStackTrace();
+            }
+        });
+    }
+
+
+    public void editImageInfo(ImageModel imageModel) {
+        ImageDto imageDto = imageModelDtoMapper.map2(imageModel);
+        editImageInfoUseCase.execute(imageDto, new EditImageInfoUseCase.Callback() {
+            @Override
+            public void onImageInfoEdited() {
+                getWorkspaceImagesInfo(spaceId);
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+
+    public void deleteImage(long imageId) {
+        deleteImageUseCase.execute(imageId, new DeleteImageUseCase.Callback() {
+            @Override
+            public void onImageDeleted() {
+                getWorkspaceImagesInfo(spaceId);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
             }
         });
     }

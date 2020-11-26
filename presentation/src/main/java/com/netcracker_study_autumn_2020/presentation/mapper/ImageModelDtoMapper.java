@@ -7,11 +7,31 @@ import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 public class ImageModelDtoMapper extends BaseMapper<ImageModel, ImageDto> {
     @Override
     public ImageModel map1(ImageDto o2) {
-        return null;
+        ImageModel imageModel = new ImageModel();
+        imageModel.setId(o2.getId());
+        imageModel.setName(o2.getName());
+        imageModel.setSize(o2.getSize());
+        imageModel.setCreateTime(o2.getCreateTime());
+        imageModel.setModifiedTime(o2.getModifiedTime());
+        imageModel.setUserId(o2.getUserId());
+        imageModel.setAverageColor(o2.getAverageColor());
+        imageModel.setPath(o2.getPath());
+
+        return imageModel;
     }
 
     @Override
     public ImageDto map2(ImageModel o1) {
-        return null;
+        ImageDto imageDto = new ImageDto();
+        imageDto.setId(o1.getId());
+        imageDto.setName(o1.getName());
+        imageDto.setSize(o1.getSize());
+        imageDto.setCreateTime(o1.getCreateTime());
+        imageDto.setModifiedTime(o1.getModifiedTime());
+        imageDto.setUserId(o1.getUserId());
+        imageDto.setAverageColor(o1.getAverageColor());
+        imageDto.setPath(o1.getPath());
+
+        return imageDto;
     }
 }

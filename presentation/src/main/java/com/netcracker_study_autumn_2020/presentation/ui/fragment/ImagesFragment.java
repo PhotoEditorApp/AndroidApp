@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,11 @@ import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.DeleteImageUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.EditImageInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -29,9 +34,6 @@ import com.netcracker_study_autumn_2020.presentation.mvp.presenter.ImagesPresent
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ImagesFragment extends BaseFragment implements ImagesView {
 
     private ImagesPresenter presenter;
@@ -40,9 +42,10 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private LinearLayout buttonPanel;
 
     private boolean isPanelHide = true;
+    private WorkspaceModel workspaceModel;
 
     public ImagesFragment(WorkspaceModel workspaceModel) {
-
+        this.workspaceModel = workspaceModel;
     }
 
     @Override
@@ -58,9 +61,15 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
         GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase = new GetWorkspaceImagesInfoUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
+        EditImageInfoUseCase editImageInfoUseCase = new EditImageInfoUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
+        DeleteImageUseCase deleteImageUseCase = new DeleteImageUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
 
         //TODO get spaceId properly
-        presenter = new ImagesPresenter(1, getWorkspaceImagesInfoUseCase);
+        presenter = new ImagesPresenter(workspaceModel.getId()
+                , getWorkspaceImagesInfoUseCase, editImageInfoUseCase,
+                deleteImageUseCase);
     }
 
     @Nullable
@@ -76,58 +85,9 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         recyclerView = root.findViewById(R.id.photo_preview_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        //Test
-        List<ImageModel> testData = new ArrayList<>();
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-        testData.add(new ImageModel("https://eskipaper.com/images250_/cool-scenic-wallpaper-1.jpg",
-                "Горы11"));
-
-        imagesGridRecyclerAdapter = new ImagesGridRecyclerAdapter();
+        imagesGridRecyclerAdapter = new ImagesGridRecyclerAdapter(this);
         recyclerView.setAdapter(imagesGridRecyclerAdapter);
-        imagesGridRecyclerAdapter.setImageList(testData);
+        imagesGridRecyclerAdapter.setImageList(presenter.getImageModels());
     }
 
     private void initInteractions(View root) {
@@ -165,5 +125,25 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         imagesGridRecyclerAdapter.setImageList(
                 presenter.getImageModels()
         );
+    }
+
+    @Override
+    public void showImageMenu(ImageModel imageModel, View targetView) {
+        PopupMenu imageMenu = new PopupMenu(targetView.getContext(), targetView);
+        imageMenu.inflate(R.menu.image_preview_menu);
+
+        imageMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_item_image_preview_edit:
+                    presenter.editImageInfo(imageModel);
+                    return true;
+                case R.id.menu_item_image_preview_delete:
+                    presenter.deleteImage(imageModel.getId());
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        imageMenu.show();
     }
 }

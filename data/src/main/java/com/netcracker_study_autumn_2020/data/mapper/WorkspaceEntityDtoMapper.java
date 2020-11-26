@@ -1,6 +1,5 @@
 package com.netcracker_study_autumn_2020.data.mapper;
 
-import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
@@ -10,6 +9,7 @@ import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, WorkspaceDto> {
     @Override
@@ -26,7 +26,6 @@ public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, Worksp
         return workspaceEntity;
     }
 
-    @SuppressLint("SimpleDateFormat")
     @Override
     public WorkspaceDto map2(WorkspaceEntity o1) {
         WorkspaceDto workspaceDto = new WorkspaceDto();
@@ -36,9 +35,9 @@ public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, Worksp
         workspaceDto.setDescription(o1.getDescription());
         try {
             Log.d("MAPPER", "map2: " + o1.getCreatedTime());
-            workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN)
+            workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB, Locale.ENGLISH)
                     .parse(o1.getCreatedTime()));
-            workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN)
+            workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB, Locale.ENGLISH)
                     .parse(o1.getModifiedTime()));
         } catch (ParseException e) {
             e.printStackTrace();

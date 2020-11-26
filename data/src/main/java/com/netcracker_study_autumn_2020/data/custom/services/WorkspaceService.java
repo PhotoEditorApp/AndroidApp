@@ -16,9 +16,9 @@ import retrofit2.http.Query;
 
 public interface WorkspaceService {
 
-    @GET("/space/my_spaces")
+    @GET("/user/{user_id}/space")
     Call<List<WorkspaceEntity>> getUserWorkspaces(@Header("Authorization") String token,
-                                                  @Query("user_id") long userId,
+                                                  @Path("user_id") long userId,
                                                   @Query("type") String accessType);
 
     //@GET("")

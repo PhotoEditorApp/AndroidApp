@@ -14,6 +14,20 @@ public interface ImageRepository {
         void onImagesLoaded(List<ImageDto> imageDtos);
     }
 
+    interface ImageInfoEditCallback extends ImageRepository.Error {
+        void onImageInfoEdited();
+    }
+
+    interface ImageDeleteCallback extends ImageRepository.Error {
+        void onImageDeleted();
+    }
+
     void getImageBySpaceId(long spaceId,
                            ImageRepository.ImageBySpaceIdCallback callback);
+
+    void editImageInfo(ImageDto imageDto,
+                       ImageRepository.ImageInfoEditCallback callback);
+
+    void deleteImage(long imageId,
+                     ImageRepository.ImageDeleteCallback callback);
 }

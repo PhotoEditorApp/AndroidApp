@@ -9,6 +9,7 @@ import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 import java.io.IOException;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,6 +39,43 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                         +response.code()));
             } else {
                 callback.onImagesLoaded(response.body());
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+        callback.onError(new EntityStoreException());
+    }
+
+    @Override
+    public void editImageInfo(ImageEntity imageEntity, ImageEditCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.editImageInfo(SessionManager.getSessionToken(),
+                    imageEntity).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE editImageInfo(): code - " +
+                        +response.code()));
+            } else {
+                callback.onImageEdited();
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+        callback.onError(new EntityStoreException());
+    }
+
+
+    @Override
+    public void deleteImage(long imageId, ImageDeleteCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.deleteImage(SessionManager.getSessionToken(),
+                    imageId).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE deleteImage(): code - " +
+                        +response.code()));
+            } else {
+                callback.onImageDeleted();
             }
         } catch (IOException e) {
             callback.onError(e);

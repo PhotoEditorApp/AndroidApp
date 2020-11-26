@@ -51,4 +51,41 @@ public class ImageRepositoryImpl implements ImageRepository {
             }
         });
     }
+
+    @Override
+    public void editImageInfo(ImageDto imageDto, ImageInfoEditCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+        ImageEntity imageEntity = imageEntityDtoMapper.map1(imageDto);
+
+        imageEntityStore.editImageInfo(imageEntity, new ImageEntityStore.ImageEditCallback() {
+            @Override
+            public void onImageEdited() {
+                callback.onImageInfoEdited();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void deleteImage(long imageId, ImageDeleteCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.deleteImage(imageId, new ImageEntityStore.ImageDeleteCallback() {
+            @Override
+            public void onImageDeleted() {
+                callback.onImageDeleted();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+
 }
