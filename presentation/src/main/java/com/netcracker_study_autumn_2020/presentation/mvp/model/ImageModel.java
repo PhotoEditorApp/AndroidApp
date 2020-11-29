@@ -8,9 +8,11 @@ public class ImageModel {
     private String name;
     private long userId;
     private String path;
+    private String previewPath;
     private Date createTime;
     private long averageColor;
     private long size;
+
     private Date modifiedTime;
 
     //private List<ImageTagModel> tags;
@@ -89,5 +91,13 @@ public class ImageModel {
 
     public void setAverageColor(long averageColor) {
         this.averageColor = averageColor;
+    }
+
+    public String getPreviewPath() {
+        return previewPath;
+    }
+
+    public void setPreviewPath(String previewPath) {
+        this.previewPath = previewPath;
     }
 }

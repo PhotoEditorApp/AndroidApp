@@ -16,6 +16,7 @@ public class ImageModelDtoMapper extends BaseMapper<ImageModel, ImageDto> {
         imageModel.setUserId(o2.getUserId());
         imageModel.setAverageColor(o2.getAverageColor());
         imageModel.setPath(o2.getPath());
+        imageModel.setPreviewPath(o2.getPreviewPath());
 
         return imageModel;
     }
@@ -31,6 +32,7 @@ public class ImageModelDtoMapper extends BaseMapper<ImageModel, ImageDto> {
         imageDto.setUserId(o1.getUserId());
         imageDto.setAverageColor(o1.getAverageColor());
         imageDto.setPath(o1.getPath());
+        imageDto.setPreviewPath(o1.getPreviewPath());
 
         return imageDto;
     }

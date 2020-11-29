@@ -1,8 +1,12 @@
 package com.netcracker_study_autumn_2020.presentation.ui.viewholder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +30,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     //View, which represents a fragment
     private ImagesView imagesView;
 
+    private Button averageColorIndicator;
     private ConstraintLayout previewContainer;
     private ImageView imageView;
     private TextView imageName;
@@ -33,6 +38,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     public ImageItemViewHolder(@NonNull View itemView,
                                ImagesView imagesView) {
         super(itemView);
+        averageColorIndicator = itemView.findViewById(R.id.average_color_indicator);
         imageName = itemView.findViewById(R.id.item_image_name);
         imageView = itemView.findViewById(R.id.item_image);
         previewContainer = itemView.findViewById(R.id.image_preview_container);
@@ -40,6 +46,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         this.imagesView = imagesView;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void onBind(ImageModel imageModel, Context context) {
         //We'll show popup menu on a long click at ViewHolder
         // with image preview
@@ -47,9 +54,17 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
             imagesView.showImageMenu(imageModel, itemView);
             return false;
         });
+        previewContainer.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                v.setBackgroundColor(Color.rgb(255, 255, 255));
+            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.setBackgroundColor(Color.rgb(177, 247, 246));
+            }
+            return true;
+        });
 
 
-        final long imageId = imageModel.getId();
+        final String previewPath = imageModel.getPreviewPath();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request customImageRequest = chain.request().newBuilder()
@@ -62,14 +77,12 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .build();
-        String url = NetworkUtils.API_ADDRESS + NetworkUtils.GET_IMAGE_BY_ID_ADDRESS +
-                "?id=" + imageId;
+        String url = NetworkUtils.API_ADDRESS + NetworkUtils.GET_IMAGE_BY_PATH +
+                "?id=" + previewPath;
         Log.d("ONBIND", url);
         picasso.load(url)
                 .error(R.drawable.loading_error)
                 .placeholder(R.drawable.loading_animation)
-                .resize(200, 200)
-                .centerCrop()
                 .into(imageView);
         imageName.setText(imageModel.getName());
     }

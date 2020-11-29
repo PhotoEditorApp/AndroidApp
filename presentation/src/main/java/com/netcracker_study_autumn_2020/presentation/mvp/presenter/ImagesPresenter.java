@@ -3,6 +3,7 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
@@ -10,6 +11,7 @@ import com.netcracker_study_autumn_2020.presentation.mapper.ImageModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import static android.content.ContentValues.TAG;
 public class ImagesPresenter extends BasePresenter {
     private ImagesView imagesView;
 
+    private AddImageUseCase addImageUseCase;
     private GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase;
     private EditImageInfoUseCase editImageInfoUseCase;
     private DeleteImageUseCase deleteImageUseCase;
@@ -28,9 +31,11 @@ public class ImagesPresenter extends BasePresenter {
     private ImageModelDtoMapper imageModelDtoMapper;
 
     public ImagesPresenter(long spaceId,
+                           AddImageUseCase addImageUseCase,
                            GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase,
                            EditImageInfoUseCase editImageInfoUseCase,
                            DeleteImageUseCase deleteImageUseCase) {
+        this.addImageUseCase = addImageUseCase;
         this.getWorkspaceImagesInfoUseCase = getWorkspaceImagesInfoUseCase;
         this.editImageInfoUseCase = editImageInfoUseCase;
         this.deleteImageUseCase = deleteImageUseCase;
@@ -65,6 +70,22 @@ public class ImagesPresenter extends BasePresenter {
     }
 
 
+    public void addImage(long userId, long spaceId, File bufferFile) {
+        addImageUseCase.execute(spaceId, userId, bufferFile, new AddImageUseCase.Callback() {
+            @Override
+            public void onImageAdded() {
+                imagesView.renderImages();
+                imagesView.hideLoading();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                imagesView.hideLoading();
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void editImageInfo(ImageModel imageModel) {
         ImageDto imageDto = imageModelDtoMapper.map2(imageModel);
         editImageInfoUseCase.execute(imageDto, new EditImageInfoUseCase.Callback() {
@@ -76,7 +97,7 @@ public class ImagesPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
-
+                e.printStackTrace();
             }
         });
     }
@@ -90,7 +111,7 @@ public class ImagesPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
-
+                e.printStackTrace();
             }
         });
     }

@@ -7,6 +7,7 @@ public class ImageDto {
     private String name;
     private long userId;
     private String path;
+    private String previewPath;
     private Date createTime;
     private long averageColor;
     private long size;
@@ -74,5 +75,13 @@ public class ImageDto {
 
     public void setModifiedTime(Date modifiedTime) {
         this.modifiedTime = modifiedTime;
+    }
+
+    public String getPreviewPath() {
+        return previewPath;
+    }
+
+    public void setPreviewPath(String previewPath) {
+        this.previewPath = previewPath;
     }
 }

@@ -9,4 +9,8 @@ public interface ImagesView {
 
     void showImageMenu(ImageModel imageModel,
                        View targetView);
+
+    void showLoading();
+
+    void hideLoading();
 }

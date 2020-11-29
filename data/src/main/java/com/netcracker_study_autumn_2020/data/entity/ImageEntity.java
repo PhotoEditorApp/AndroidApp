@@ -8,6 +8,8 @@ public class ImageEntity {
     @SerializedName("user_id")
     private long userId;
     private String path;
+    @SerializedName("preview_path")
+    private String previewPath;
     private String createTime;
     @SerializedName("average_color")
     private long averageColor;
@@ -79,5 +81,13 @@ public class ImageEntity {
 
     public void setModifiedTime(String modifiedTime) {
         this.modifiedTime = modifiedTime;
+    }
+
+    public String getPreviewPath() {
+        return previewPath;
+    }
+
+    public void setPreviewPath(String previewPath) {
+        this.previewPath = previewPath;
     }
 }

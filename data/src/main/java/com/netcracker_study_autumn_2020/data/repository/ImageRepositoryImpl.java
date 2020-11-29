@@ -7,6 +7,7 @@ import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 
+import java.io.File;
 import java.util.List;
 
 public class ImageRepositoryImpl implements ImageRepository {
@@ -33,6 +34,23 @@ public class ImageRepositoryImpl implements ImageRepository {
         this.imageEntityStoreFactory = imageEntityStoreFactory;
     }
 
+
+    @Override
+    public void addImage(long userId, long spaceId, File sourceImage, ImageUploadCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.uploadImage(userId, spaceId, sourceImage, new ImageEntityStore.ImageUploadCallback() {
+            @Override
+            public void onImagesUploaded() {
+                callback.onImagesUploaded();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
 
     @Override
     public void getImageBySpaceId(long spaceId, ImageBySpaceIdCallback callback) {

@@ -1,5 +1,6 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,9 +21,11 @@ import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.AddImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.DeleteImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.EditImageInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
@@ -35,6 +39,8 @@ import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
 
 public class ImagesFragment extends BaseFragment implements ImagesView {
+
+    private ConstraintLayout loadingUI;
 
     private ImagesPresenter presenter;
     private RecyclerView recyclerView;
@@ -59,6 +65,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         PostExecutionThread postExecutionThread = UIThread.getInstance();
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
 
+        AddImageUseCase addImageUseCase = new AddImageUseCaseImpl(imageRepository, postExecutionThread,
+                threadExecutor);
         GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase = new GetWorkspaceImagesInfoUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
         EditImageInfoUseCase editImageInfoUseCase = new EditImageInfoUseCaseImpl(imageRepository,
@@ -67,8 +75,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                 postExecutionThread, threadExecutor);
 
         //TODO get spaceId properly
-        presenter = new ImagesPresenter(workspaceModel.getId()
-                , getWorkspaceImagesInfoUseCase, editImageInfoUseCase,
+        presenter = new ImagesPresenter(workspaceModel.getId(),
+                addImageUseCase, getWorkspaceImagesInfoUseCase, editImageInfoUseCase,
                 deleteImageUseCase);
     }
 
@@ -82,6 +90,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     }
 
     private void initRecyclerView(View root) {
+        loadingUI = root.findViewById(R.id.loading_ui);
         recyclerView = root.findViewById(R.id.photo_preview_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -107,8 +116,21 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         });
 
         addImage.setOnClickListener(l -> {
-            //TODO Переход к фрагменту с загрузкой изображения
+            getImageFromDevice();
         });
+
+    }
+
+    private void getImageFromDevice() {
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        showLoading();
+        //show loading
 
     }
 
@@ -145,5 +167,15 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
             }
         });
         imageMenu.show();
+    }
+
+    @Override
+    public void showLoading() {
+        loadingUI.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingUI.setVisibility(View.GONE);
     }
 }

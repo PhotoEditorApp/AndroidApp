@@ -6,9 +6,13 @@ import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -26,6 +30,27 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         imageService = retrofit.create(ImageService.class);
+    }
+
+    @Override
+    public void uploadImage(long userId, long spaceId, File sourceImage, ImageUploadCallback callback) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), sourceImage);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", sourceImage.getName(),
+                requestFile);
+        Response<ResponseBody> response;
+
+        try {
+            response = imageService.uploadImage(SessionManager.getSessionToken(), userId, spaceId,
+                    filePart).execute();
+            if (response.code() == 200) {
+                callback.onImagesUploaded();
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE uploadImage: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
     }
 
     @Override

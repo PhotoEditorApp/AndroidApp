@@ -21,6 +21,7 @@ public class ImageEntityDtoMapper extends BaseMapper<ImageEntity, ImageDto> {
         imageEntity.setUserId(o2.getUserId());
         imageEntity.setAverageColor(o2.getAverageColor());
         imageEntity.setPath(o2.getPath());
+        imageEntity.setPreviewPath(o2.getPreviewPath());
 
         return imageEntity;
     }
@@ -42,6 +43,7 @@ public class ImageEntityDtoMapper extends BaseMapper<ImageEntity, ImageDto> {
         imageDto.setUserId(o1.getUserId());
         imageDto.setAverageColor(o1.getAverageColor());
         imageDto.setPath(o1.getPath());
+        imageDto.setPreviewPath(o1.getPreviewPath());
 
         return imageDto;
     }
