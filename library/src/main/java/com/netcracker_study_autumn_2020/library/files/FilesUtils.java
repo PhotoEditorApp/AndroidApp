@@ -17,6 +17,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+/**
+ * Code from
+ * https://stackoverflow.com/questions/13209494/how-to-get-the-full-file-path-from-uri
+ */
+
 public class FilesUtils {
     private static Uri contentUri = null;
 
