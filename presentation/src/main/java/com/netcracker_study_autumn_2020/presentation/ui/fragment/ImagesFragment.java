@@ -1,13 +1,17 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,8 +19,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.imagepicker.FilePickUtils;
+import com.imagepicker.LifeCycleCallBackManager;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
@@ -30,6 +37,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.De
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.EditImageInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
+import com.netcracker_study_autumn_2020.library.files.FilesUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
@@ -37,6 +45,12 @@ import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.ImagesPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
+
+import java.io.File;
+
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ImagesFragment extends BaseFragment implements ImagesView {
 
@@ -46,6 +60,12 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private RecyclerView recyclerView;
     private ImagesGridRecyclerAdapter imagesGridRecyclerAdapter;
     private LinearLayout buttonPanel;
+
+    private FilePickUtils filePickUtils;
+    private LifeCycleCallBackManager lifeCycleCallBackManager;
+    private String[] galleryPermissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    static final int GALLERY_REQUEST = 1;
 
     private boolean isPanelHide = true;
     private WorkspaceModel workspaceModel;
@@ -89,6 +109,14 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.setView(this);
+        presenter.updateImageList();
+
+    }
+
     private void initRecyclerView(View root) {
         loadingUI = root.findViewById(R.id.loading_ui);
         recyclerView = root.findViewById(R.id.photo_preview_list);
@@ -104,6 +132,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         buttonPanel = root.findViewById(R.id.photo_preview_button_panel);
         ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
         ImageButton addImage = root.findViewById(R.id.button_add_image);
+        ImageButton sortImages = root.findViewById(R.id.button_choose_sort);
+
 
         hidePanel.setOnClickListener(l -> {
             if (isPanelHide) {
@@ -116,31 +146,102 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         });
 
         addImage.setOnClickListener(l -> {
-            getImageFromDevice();
+            Log.d("ARE_PERMISSIONS_GRANTED", String.valueOf(
+                    EasyPermissions.hasPermissions(getContext(), galleryPermissions)));
+            if (EasyPermissions.hasPermissions(getContext(), galleryPermissions)) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            } else {
+                EasyPermissions.requestPermissions(this, "Access for storage",
+                        101, galleryPermissions);
+            }
         });
 
+        sortImages.setOnClickListener(l -> {
+            PopupMenu sortMenu = new PopupMenu(getContext(), sortImages);
+            sortMenu.inflate(R.menu.image_sort_menu);
+
+            sortMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_image_sort_by_average_color:
+                        presenter.sortByAverageColor();
+                        return true;
+                    case R.id.menu_image_sort_by_create_date:
+                        presenter.sortByCreateDate();
+                        return true;
+                    case R.id.menu_image_sort_by_modified_date:
+                        presenter.sortByModifiedDate();
+                        return true;
+                    case R.id.menu_image_sort_by_name:
+                        presenter.sortByName();
+                        return true;
+                    case R.id.menu_image_sort_by_rating:
+                        presenter.sortByRating();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            sortMenu.show();
+
+        });
+
+        //initImagePickUtils();
     }
 
     private void getImageFromDevice() {
+        Log.d("GETTING_IMAGE", "1");
+        filePickUtils.requestImageGallery(FilePickUtils.STORAGE_PERMISSION_IMAGE, false,
+                false);
+        Log.d("GETTING_IMAGE", "2");
+    }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d("GETTING_IMAGE", "100");
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (lifeCycleCallBackManager != null) {
+                    lifeCycleCallBackManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            } else {
+                Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         showLoading();
+
+        switch (requestCode) {
+            case GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    String absolutePath = FilesUtils.getPath(getContext(), selectedImage);
+                    File sourceImage = null;
+                    if (absolutePath != null) {
+                        sourceImage = new File(absolutePath);
+                        presenter.addImage(SessionManager.getCurrentUserId(),
+                                workspaceModel.getId(), sourceImage);
+                    } else {
+                        Log.d("ABSOLUTE_PATH", "is null");
+                    }
+                }
+        }
+        Log.d("GETTING_IMAGE", "3");
+        //if (lifeCycleCallBackManager != null) {
+        Log.d("GETTING_IMAGE", "4");
+        //lifeCycleCallBackManager.onActivityResult(requestCode, resultCode, data);
+        //}
+        Log.d("GETTING_IMAGE", "5");
         //show loading
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.setView(this);
-        presenter.updateImageList();
-
-    }
 
     @Override
     public void renderImages() {

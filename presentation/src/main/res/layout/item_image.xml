@@ -6,14 +6,25 @@
     android:padding="@dimen/indent_medium_plus"
     android:id="@+id/image_preview_container">
 
-    <Button
-        android:id="@+id/average_color_indicator"
+    <LinearLayout
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@drawable/average_color_shape"
-        android:drawableTop="@color/colorPrimary"
+        android:layout_marginEnd="8dp"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/item_image"
-        app:layout_constraintEnd_toEndOf="@+id/item_image" />
+        app:layout_constraintEnd_toEndOf="@+id/item_image">
+
+        <LinearLayout
+            android:id="@+id/average_color_indicator"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@color/specialAccentGreenDark"
+            android:elevation="15dp"
+
+            android:orientation="horizontal" />
+    </LinearLayout>
 
 
     <ImageView

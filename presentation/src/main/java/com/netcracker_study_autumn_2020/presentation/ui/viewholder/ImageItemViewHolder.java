@@ -3,11 +3,13 @@ package com.netcracker_study_autumn_2020.presentation.ui.viewholder;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +32,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     //View, which represents a fragment
     private ImagesView imagesView;
 
-    private Button averageColorIndicator;
+    private LinearLayout averageColorIndicator;
     private ConstraintLayout previewContainer;
     private ImageView imageView;
     private TextView imageName;
@@ -52,19 +54,26 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         // with image preview
         previewContainer.setOnLongClickListener(v -> {
             imagesView.showImageMenu(imageModel, itemView);
-            return false;
-        });
-        previewContainer.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                v.setBackgroundColor(Color.rgb(255, 255, 255));
-            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.setBackgroundColor(Color.rgb(177, 247, 246));
-            }
+            v.setOnTouchListener((view, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    view.setBackgroundColor(Color.rgb(255, 255, 255));
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.setBackgroundColor(Color.rgb(177, 247, 246));
+                    return false;
+                }
+                return false;
+            });
             return true;
         });
+        ColorDrawable colorDrawable = new ColorDrawable(imageModel.getAverageColor());
+        //averageColorIndicator.setCompoundDrawables(null,colorDrawable,null,null);
+        Log.d("IMAGE_COLOR", String.valueOf(imageModel.getAverageColor()));
+        averageColorIndicator.getBackground().setColorFilter(imageModel.getAverageColor(),
+                PorterDuff.Mode.SRC_IN);
 
-
-        final String previewPath = imageModel.getPreviewPath();
+        //TODO do something with that!
+        final String previewPath = imageModel.getPreviewPath().replace("\\", "%2F");
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request customImageRequest = chain.request().newBuilder()
@@ -77,8 +86,9 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .build();
+
         String url = NetworkUtils.API_ADDRESS + NetworkUtils.GET_IMAGE_BY_PATH +
-                "?id=" + previewPath;
+                "?path=" + previewPath;
         Log.d("ONBIND", url);
         picasso.load(url)
                 .error(R.drawable.loading_error)

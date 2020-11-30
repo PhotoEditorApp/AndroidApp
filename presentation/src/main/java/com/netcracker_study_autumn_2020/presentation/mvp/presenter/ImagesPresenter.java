@@ -71,10 +71,11 @@ public class ImagesPresenter extends BasePresenter {
 
 
     public void addImage(long userId, long spaceId, File bufferFile) {
+        Log.d("GETTING_IMAGE", "8");
         addImageUseCase.execute(spaceId, userId, bufferFile, new AddImageUseCase.Callback() {
             @Override
             public void onImageAdded() {
-                imagesView.renderImages();
+                getWorkspaceImagesInfo(spaceId);
                 imagesView.hideLoading();
             }
 
@@ -122,5 +123,40 @@ public class ImagesPresenter extends BasePresenter {
 
     public List<ImageModel> getImageModels() {
         return imageModels;
+    }
+
+    public void sortByAverageColor() {
+        imagesView.renderImages();
+    }
+
+    public void sortByCreateDate() {
+        imagesView.renderImages();
+    }
+
+    public void sortByModifiedDate() {
+        imagesView.renderImages();
+    }
+
+    public void sortByName() {
+        imageModels.sort((o1, o2) -> {
+            String name1 = o1.getName().toLowerCase();
+            String name2 = o2.getName().toLowerCase();
+            for (int i = 0;
+                 i < (Math.min(name1.length(), name2.length())); i++) {
+                if (name1.charAt(i) != name2.charAt(i)) {
+                    if (name1.charAt(i) > name2.charAt(i)) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+            return 0;
+        });
+        imagesView.renderImages();
+    }
+
+    public void sortByRating() {
+        imagesView.renderImages();
     }
 }

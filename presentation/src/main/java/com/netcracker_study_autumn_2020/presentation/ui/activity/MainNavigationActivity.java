@@ -67,7 +67,7 @@ public class MainNavigationActivity extends BaseActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_profile,
                 R.id.navigation_workspaces,
-                R.id.navigation_settings)
+                R.id.navigation_tags)
                 .build();
 
     }
@@ -88,7 +88,7 @@ public class MainNavigationActivity extends BaseActivity {
                         .replace(R.id.nav_host_fragment, workspacesFragment)
                         .commit();
                 break;
-            case R.id.navigation_settings:
+            case R.id.navigation_tags:
                 break;
         }
     }

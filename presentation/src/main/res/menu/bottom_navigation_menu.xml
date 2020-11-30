@@ -7,7 +7,7 @@
         android:id="@+id/navigation_workspaces"
         android:title="@string/nav_my_workspaces"/>
     <item
-        android:id="@+id/navigation_settings"
-        android:title="@string/nav_settings"/>
+        android:id="@+id/navigation_tags"
+        android:title="Мои теги" />
 
 </menu>

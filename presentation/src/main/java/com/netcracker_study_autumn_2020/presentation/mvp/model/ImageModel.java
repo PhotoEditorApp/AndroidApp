@@ -10,7 +10,7 @@ public class ImageModel {
     private String path;
     private String previewPath;
     private Date createTime;
-    private long averageColor;
+    private int averageColor;
     private long size;
 
     private Date modifiedTime;
@@ -85,11 +85,11 @@ public class ImageModel {
         this.createTime = createTime;
     }
 
-    public long getAverageColor() {
+    public int getAverageColor() {
         return averageColor;
     }
 
-    public void setAverageColor(long averageColor) {
+    public void setAverageColor(int averageColor) {
         this.averageColor = averageColor;
     }
 

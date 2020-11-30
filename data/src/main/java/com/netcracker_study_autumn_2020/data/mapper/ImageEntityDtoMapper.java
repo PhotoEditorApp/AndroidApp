@@ -41,7 +41,7 @@ public class ImageEntityDtoMapper extends BaseMapper<ImageEntity, ImageDto> {
             e.printStackTrace();
         }
         imageDto.setUserId(o1.getUserId());
-        imageDto.setAverageColor(o1.getAverageColor());
+        imageDto.setAverageColor((int) (o1.getAverageColor()));
         imageDto.setPath(o1.getPath());
         imageDto.setPreviewPath(o1.getPreviewPath());
 

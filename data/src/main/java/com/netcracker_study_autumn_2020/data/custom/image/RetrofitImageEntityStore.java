@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.custom.image;
 
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.data.custom.services.ImageService;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
@@ -38,6 +40,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", sourceImage.getName(),
                 requestFile);
         Response<ResponseBody> response;
+        Log.d("GETTING_IMAGE", "9");
 
         try {
             response = imageService.uploadImage(SessionManager.getSessionToken(), userId, spaceId,
@@ -68,7 +71,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
         } catch (IOException e) {
             callback.onError(e);
         }
-        callback.onError(new EntityStoreException());
+        //callback.onError(new EntityStoreException());
     }
 
     @Override
