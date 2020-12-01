@@ -39,12 +39,13 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     }
 
     @Override
-    public void allWorkspaces(long userId, WorkspaceListCallback callback) {
+    public void allWorkspaces(long userId, SpaceAccessType accessType,
+                              WorkspaceListCallback callback) {
         Response<List<WorkspaceEntity>> response;
         try {
             //TODO get access type properly!
             response = workspaceService.getUserWorkspaces(SessionManager.getSessionToken(),
-                    userId, SpaceAccessType.CREATOR.toString()).execute();
+                    userId, accessType.toString()).execute();
             Log.d("TOKEN", SessionManager.getSessionToken());
             if (response.body() != null) {
                 Log.d("WorkspaceEntityStore", response.body().toString());

@@ -6,6 +6,7 @@
     <color name="colorOverlay">#78474747</color>
     <color name="extraInfoText">#232323</color>
 
+    <color name="primaryUltraLight">#C5D0F1</color>
     <color name="primaryLight">#0439D9</color>
     <color name="primaryMiddle">#0427A6</color>
     <color name="primaryDark">#010940</color>

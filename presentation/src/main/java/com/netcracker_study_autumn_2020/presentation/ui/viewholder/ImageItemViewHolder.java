@@ -52,18 +52,24 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     public void onBind(ImageModel imageModel, Context context) {
         //We'll show popup menu on a long click at ViewHolder
         // with image preview
-        previewContainer.setOnLongClickListener(v -> {
-            imagesView.showImageMenu(imageModel, itemView);
-            v.setOnTouchListener((view, event) -> {
+        previewContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    view.setBackgroundColor(Color.rgb(255, 255, 255));
+                    v.setBackgroundColor(Color.rgb(255, 255, 255));
                     return false;
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.setBackgroundColor(Color.rgb(177, 247, 246));
+                    v.setBackgroundColor(Color.rgb(177, 247, 246));
                     return false;
                 }
                 return false;
-            });
+            }
+        });
+        previewContainer.setOnClickListener(l -> {
+
+        });
+        previewContainer.setOnLongClickListener(v -> {
+            imagesView.showImageMenu(imageModel, itemView);
             return true;
         });
         ColorDrawable colorDrawable = new ColorDrawable(imageModel.getAverageColor());

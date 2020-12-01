@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.data.custom.workspace;
 
 import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 
 import java.util.List;
 
@@ -31,7 +32,9 @@ public interface WorkspaceEntityStore {
     }
 
     void getWorkspace(long spaceId, WorkspaceByIdCallback callback);
-    void allWorkspaces(long userId, WorkspaceListCallback callback);
+
+    void allWorkspaces(long userId, SpaceAccessType accessType, WorkspaceListCallback callback);
+
     void createWorkspace(WorkspaceEntity workspace, WorkspaceCreateCallback callback);
     void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
     void editWorkspace(WorkspaceEntity workspace, WorkspaceEditCallback callback);

@@ -27,6 +27,10 @@ public interface ImageService {
                                    @Query("space_id") long spaceId,
                                    @Part MultipartBody.Part filePart);
 
+    @GET("/image/get_image_id")
+    Call<ResponseBody> getImageById(@Header("Authorization") String token,
+                                    @Query("id") long imageId);
+
     @GET("/space/{space_id}/image")
     Call<List<ImageEntity>> getImagesBySpaceId(@Header("Authorization") String token,
                                                @Path("space_id") long spaceId);

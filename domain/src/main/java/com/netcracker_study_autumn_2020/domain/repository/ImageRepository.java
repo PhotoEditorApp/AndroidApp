@@ -1,5 +1,6 @@
 package com.netcracker_study_autumn_2020.domain.repository;
 
+
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 
 import java.io.File;
@@ -9,6 +10,10 @@ public interface ImageRepository {
 
     interface Error {
         void onError(Exception e);
+    }
+
+    interface ImageDownloadById extends ImageRepository.Error {
+        void onImageDownloaded(Object bitmap);
     }
 
     interface ImageUploadCallback extends ImageRepository.Error {
@@ -26,6 +31,8 @@ public interface ImageRepository {
     interface ImageDeleteCallback extends ImageRepository.Error {
         void onImageDeleted();
     }
+
+    void downloadImage(long imageId, ImageRepository.ImageDownloadById callback);
 
     void addImage(long userId, long spaceId, File sourceImage,
                   ImageRepository.ImageUploadCallback callback);

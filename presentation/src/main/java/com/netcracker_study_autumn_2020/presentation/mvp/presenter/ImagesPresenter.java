@@ -13,6 +13,7 @@ import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -126,14 +127,42 @@ public class ImagesPresenter extends BasePresenter {
     }
 
     public void sortByAverageColor() {
+        imageModels.sort((o1, o2) -> {
+            if (o1.getAverageColor() > o2.getAverageColor()) {
+                return 1;
+            } else if (o1.getAverageColor() < o2.getAverageColor()) {
+                return -1;
+            }
+            return 0;
+        });
         imagesView.renderImages();
     }
 
     public void sortByCreateDate() {
+        imageModels.sort((o1, o2) -> {
+            Date d1 = o1.getCreateTime();
+            Date d2 = o2.getCreateTime();
+            if (d1.after(d2)) {
+                return 1;
+            } else if (d1.before(d2)) {
+                return -1;
+            }
+            return 0;
+        });
         imagesView.renderImages();
     }
 
     public void sortByModifiedDate() {
+        imageModels.sort((o1, o2) -> {
+            Date d1 = o1.getModifiedTime();
+            Date d2 = o2.getModifiedTime();
+            if (d1.after(d2)) {
+                return 1;
+            } else if (d1.before(d2)) {
+                return -1;
+            }
+            return 0;
+        });
         imagesView.renderImages();
     }
 

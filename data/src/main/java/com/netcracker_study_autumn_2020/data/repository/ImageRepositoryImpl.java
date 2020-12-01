@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.repository;
 
+import android.graphics.Bitmap;
+
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStore;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
@@ -34,6 +36,23 @@ public class ImageRepositoryImpl implements ImageRepository {
         this.imageEntityStoreFactory = imageEntityStoreFactory;
     }
 
+
+    @Override
+    public void downloadImage(long imageId, ImageDownloadById callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.getImageById(imageId, new ImageEntityStore.ImageDownloadByIdCallback() {
+            @Override
+            public void onImagesDownloaded(Bitmap image) {
+                callback.onImageDownloaded(image);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
 
     @Override
     public void addImage(long userId, long spaceId, File sourceImage, ImageUploadCallback callback) {
@@ -104,6 +123,4 @@ public class ImageRepositoryImpl implements ImageRepository {
             }
         });
     }
-
-
 }

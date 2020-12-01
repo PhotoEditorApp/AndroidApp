@@ -31,7 +31,9 @@ public interface WorkspaceRepository {
     }
 
     void getWorkspace(long spaceId, WorkspaceByIdCallback callback);
-    void allWorkspaces(long userId, WorkspaceListCallback callback);
+
+    void allWorkspaces(long userId, String accessType, WorkspaceListCallback callback);
+
     void createWorkspace(WorkspaceDto workspace, WorkspaceCreateCallback callback);
     void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
     void editWorkspace(WorkspaceDto workspace, WorkspaceEditCallback callback);

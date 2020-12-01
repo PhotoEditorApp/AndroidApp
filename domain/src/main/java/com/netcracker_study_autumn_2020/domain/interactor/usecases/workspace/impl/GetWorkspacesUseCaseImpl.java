@@ -3,7 +3,6 @@ package com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.im
 import com.netcracker_study_autumn_2020.domain.dto.WorkspaceDto;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
-import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.CreateWorkspaceUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.GetWorkspacesUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.WorkspaceUseCase;
 import com.netcracker_study_autumn_2020.domain.repository.WorkspaceRepository;
@@ -14,6 +13,7 @@ public class GetWorkspacesUseCaseImpl extends WorkspaceUseCase implements GetWor
 
     private GetWorkspacesUseCase.Callback callback;
     private long userId;
+    private String accessType;
 
     public GetWorkspacesUseCaseImpl(WorkspaceRepository workspaceRepository,
                                     PostExecutionThread postExecutionThread,
@@ -23,16 +23,17 @@ public class GetWorkspacesUseCaseImpl extends WorkspaceUseCase implements GetWor
 
     @Override
     public void run() {
-        this.workspaceRepository.allWorkspaces(userId, repositoryCallback);
+        this.workspaceRepository.allWorkspaces(userId, accessType, repositoryCallback);
     }
 
     @Override
-    public void execute(long userId, GetWorkspacesUseCase.Callback callback) {
-        if(callback == null){
+    public void execute(long userId, String accessType, GetWorkspacesUseCase.Callback callback) {
+        if (callback == null) {
             throw new IllegalArgumentException("GetWorkspacesUseCase: Invalid callback!");
         }
         super.execute();
         this.userId = userId;
+        this.accessType = accessType;
         this.callback = callback;
 
     }

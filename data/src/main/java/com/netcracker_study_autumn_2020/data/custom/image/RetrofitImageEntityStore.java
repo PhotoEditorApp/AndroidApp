@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.custom.image;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.custom.services.ImageService;
@@ -10,6 +12,7 @@ import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -32,6 +35,29 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         imageService = retrofit.create(ImageService.class);
+    }
+
+    @Override
+    public void getImageById(long imageId, ImageDownloadByIdCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.getImageById(SessionManager.getSessionToken(), imageId)
+                    .execute();
+
+            if (response.code() == 200) {
+                if (response.body() != null) {
+                    InputStream imageStream = response.body().byteStream();
+                    Bitmap image = BitmapFactory.decodeStream(imageStream);
+                    callback.onImagesDownloaded(image);
+                }
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE downloadImage: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+
     }
 
     @Override
@@ -89,7 +115,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
         } catch (IOException e) {
             callback.onError(e);
         }
-        callback.onError(new EntityStoreException());
+        //callback.onError(new EntityStoreException());
     }
 
 

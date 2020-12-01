@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.imp
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.impl.EditWorkspaceUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.workspace.impl.GetWorkspacesUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.WorkspaceRepository;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
@@ -87,6 +89,57 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
         MaterialButton createWorkspace = root.findViewById(R.id.button_add_workspace);
         createWorkspace.setOnClickListener(l -> {
             navigateToCreateWorkspace();
+        });
+
+        MaterialButton chooseTab = root.findViewById(R.id.button_choose_tab);
+        MaterialButton chooseSort = root.findViewById(R.id.button_show_sorts);
+
+        chooseSort.setOnClickListener(l -> {
+            PopupMenu sortMenu = new PopupMenu(getContext(), chooseSort);
+            sortMenu.inflate(R.menu.space_access_menu);
+
+            sortMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_space_access_my_spaces:
+                        workspacesPresenter.setCurrentTab(SpaceAccessType.CREATOR);
+                        return true;
+                    case R.id.menu_space_access_editor:
+                        workspacesPresenter.setCurrentTab(SpaceAccessType.EDITOR);
+                        return true;
+                    case R.id.menu_space_access_viewer:
+                        workspacesPresenter.setCurrentTab(SpaceAccessType.VIEWER);
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            sortMenu.show();
+
+        });
+
+        chooseTab.setOnClickListener(l -> {
+            PopupMenu sortMenu = new PopupMenu(getContext(), chooseTab);
+            sortMenu.inflate(R.menu.space_sort_menu);
+
+            sortMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_space_sort_by_name:
+                        workspacesPresenter.sortByName();
+                        return true;
+                    case R.id.menu_space_sort_by_create_date:
+                        workspacesPresenter.sortByCreateDate();
+                        return true;
+                    case R.id.menu_space_sort_by_modified_date:
+                        workspacesPresenter.sortByModifiedDate();
+                        return true;
+                    case R.id.menu_space_sort_by_color:
+                        workspacesPresenter.sortByColor();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            sortMenu.show();
         });
     }
 

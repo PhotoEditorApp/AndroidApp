@@ -1,17 +1,17 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +19,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.imagepicker.FilePickUtils;
-import com.imagepicker.LifeCycleCallBackManager;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
@@ -55,14 +53,14 @@ import static android.app.Activity.RESULT_OK;
 public class ImagesFragment extends BaseFragment implements ImagesView {
 
     private ConstraintLayout loadingUI;
+    private ConstraintLayout mainContainer;
 
     private ImagesPresenter presenter;
     private RecyclerView recyclerView;
     private ImagesGridRecyclerAdapter imagesGridRecyclerAdapter;
     private LinearLayout buttonPanel;
+    private AlertDialog editImageInfoDialog;
 
-    private FilePickUtils filePickUtils;
-    private LifeCycleCallBackManager lifeCycleCallBackManager;
     private String[] galleryPermissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
     static final int GALLERY_REQUEST = 1;
@@ -118,6 +116,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     }
 
     private void initRecyclerView(View root) {
+        mainContainer = root.findViewById(R.id.main_container);
         loadingUI = root.findViewById(R.id.loading_ui);
         recyclerView = root.findViewById(R.id.photo_preview_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -133,6 +132,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
         ImageButton addImage = root.findViewById(R.id.button_add_image);
         ImageButton sortImages = root.findViewById(R.id.button_choose_sort);
+
 
 
         hidePanel.setOnClickListener(l -> {
@@ -190,26 +190,35 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         //initImagePickUtils();
     }
 
-    private void getImageFromDevice() {
-        Log.d("GETTING_IMAGE", "1");
-        filePickUtils.requestImageGallery(FilePickUtils.STORAGE_PERMISSION_IMAGE, false,
-                false);
-        Log.d("GETTING_IMAGE", "2");
+    private AlertDialog initEditImageInfoDialog(ImageModel imageModel) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.dialog_edit_image_info, null);
+        alertDialogBuilder.setView(dialogView);
+
+        final EditText dialogNewImageName = dialogView.findViewById(R.id.dialog_enter_new_image_name);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Подтвердить",
+                        (dialog, which) -> {
+                            imageModel.setName(
+                                    dialogNewImageName.getText().toString());
+                            presenter.editImageInfo(imageModel);
+                        })
+                .setNegativeButton("Отмена",
+                        (dialog, which) -> {
+                            dialog.cancel();
+                        });
+
+        return alertDialogBuilder.create();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d("GETTING_IMAGE", "100");
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (lifeCycleCallBackManager != null) {
-                    lifeCycleCallBackManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                }
-            } else {
-                Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_LONG).show();
-            }
-        }
+        Log.d("GETTING_IMAGE", "Rare situation with permissions!");
     }
 
     @Override
@@ -258,7 +267,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         imageMenu.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.menu_item_image_preview_edit:
-                    presenter.editImageInfo(imageModel);
+                    editImageInfoDialog = initEditImageInfoDialog(imageModel);
+                    editImageInfoDialog.show();
                     return true;
                 case R.id.menu_item_image_preview_delete:
                     presenter.deleteImage(imageModel.getId());
@@ -272,11 +282,13 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     @Override
     public void showLoading() {
+        mainContainer.setVisibility(View.INVISIBLE);
         loadingUI.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
+        mainContainer.setVisibility(View.VISIBLE);
         loadingUI.setVisibility(View.GONE);
     }
 }

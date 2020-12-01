@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_space_access_my_spaces"
+        android:title="Мои пространства" />
+    <item
+        android:id="@+id/menu_space_access_viewer"
+        android:title="Просмотр" />
+    <item
+        android:id="@+id/menu_space_access_editor"
+        android:title="Промотр и изменение" />
+
+</menu>
