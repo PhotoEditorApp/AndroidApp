@@ -59,9 +59,11 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
         //}
         cardTitle.setText(title);
         cardDescription.setText(data.getDescription());
+
         cardModifiedTime.setText(data.getModificationTime().toString());
         cardCreationTime.setText(data.getCreationTime().toString());
     }
+
 
     public MaterialButton getButtonDelete() {
         return buttonDelete;

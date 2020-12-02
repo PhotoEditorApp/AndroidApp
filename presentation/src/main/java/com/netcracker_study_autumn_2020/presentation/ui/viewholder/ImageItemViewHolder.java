@@ -1,7 +1,6 @@
 package com.netcracker_study_autumn_2020.presentation.ui.viewholder;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
@@ -21,6 +21,7 @@ import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -49,23 +50,21 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void onBind(ImageModel imageModel, Context context) {
+    public void onBind(ImageModel imageModel, Fragment fragment) {
         //We'll show popup menu on a long click at ViewHolder
         // with image preview
-        previewContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.setBackgroundColor(Color.rgb(255, 255, 255));
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.setBackgroundColor(Color.rgb(177, 247, 246));
-                    return false;
-                }
+        previewContainer.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                v.setBackgroundColor(Color.rgb(255, 255, 255));
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.setBackgroundColor(Color.rgb(177, 247, 246));
                 return false;
             }
+            return false;
         });
         previewContainer.setOnClickListener(l -> {
+            ((ImagesFragment) fragment).navigateToPhotoView(imageModel.getId());
 
         });
         previewContainer.setOnLongClickListener(v -> {
@@ -89,7 +88,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
                     return chain.proceed(customImageRequest);
                 })
                 .build();
-        Picasso picasso = new Picasso.Builder(context)
+        Picasso picasso = new Picasso.Builder(fragment.requireContext())
                 .downloader(new OkHttp3Downloader(client))
                 .build();
 

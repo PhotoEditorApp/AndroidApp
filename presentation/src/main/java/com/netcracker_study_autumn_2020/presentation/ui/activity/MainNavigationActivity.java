@@ -17,11 +17,7 @@ import com.netcracker_study_autumn_2020.presentation.ui.fragment.WorkspacesFragm
 
 public class MainNavigationActivity extends BaseActivity {
 
-    private String userId;
-
-    private int DEFAULT_CHECKED_ITEM = R.id.navigation_workspaces;
-
-    private static String CURRENT_USER_ID_EXTRA_NAME= "CURRENT_USER_ID";
+    private static final String CURRENT_USER_ID_EXTRA_NAME = "CURRENT_USER_ID";
 
     private UserProfileFragment userProfileFragment;
     private WorkspacesFragment workspacesFragment;
@@ -94,7 +90,7 @@ public class MainNavigationActivity extends BaseActivity {
     }
 
 
-    public void navigateToPhotoView(WorkspaceModel workspaceModel) {
+    public void navigateToImagesView(WorkspaceModel workspaceModel) {
         imagesFragment = new ImagesFragment(workspaceModel);
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -113,6 +109,10 @@ public class MainNavigationActivity extends BaseActivity {
 
     public void navigateToCreateWorkspace(long userId) {
         navigator.navigateToCreateWorkspaceActivity(this, userId);
+    }
+
+    public void navigateToFullSizePhotoView(long imageId, long workspaceId) {
+        navigator.navigateToPhotoView(this, imageId, workspaceId);
     }
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -38,7 +39,7 @@ public class ImagesGridRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ImageItemViewHolder) holder).onBind(imageList.get(position), context);
+        ((ImageItemViewHolder) holder).onBind(imageList.get(position), (Fragment) imagesView);
     }
 
     @Override

@@ -42,6 +42,7 @@ import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.ImagesPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
 
 import java.io.File;
@@ -290,5 +291,10 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     public void hideLoading() {
         mainContainer.setVisibility(View.VISIBLE);
         loadingUI.setVisibility(View.GONE);
+    }
+
+    public void navigateToPhotoView(long imageId) {
+        ((MainNavigationActivity) requireActivity()).navigateToFullSizePhotoView(imageId,
+                workspaceModel.getId());
     }
 }

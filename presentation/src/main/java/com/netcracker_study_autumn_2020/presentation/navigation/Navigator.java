@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.netcracker_study_autumn_2020.presentation.ui.activity.CreateWorkspaceActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.PhotoViewActivity;
 
 public class Navigator {
     public void navigateToMainNavigationActivity(Context context, long userId) {
@@ -16,5 +17,10 @@ public class Navigator {
 
     public void navigateToCreateWorkspaceActivity(Context context, long userId) {
         context.startActivity(CreateWorkspaceActivity.getCallingIntent(context, userId));
+    }
+
+    public void navigateToPhotoView(Context context, long imageId, long workspaceId) {
+        context.startActivity(PhotoViewActivity.getCallingIntent(context,
+                imageId, workspaceId));
     }
 }
