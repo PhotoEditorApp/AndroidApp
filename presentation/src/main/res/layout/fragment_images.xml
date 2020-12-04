@@ -14,7 +14,6 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -70,7 +69,6 @@
                 android:backgroundTint="@color/white" />
 
             <ImageButton
-                android:id="@+id/create_collage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="8dp"
@@ -81,7 +79,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/hide_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_hide_button_panel"

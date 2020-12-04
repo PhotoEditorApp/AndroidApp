@@ -100,4 +100,5 @@ public class ImageModel {
     public void setPreviewPath(String previewPath) {
         this.previewPath = previewPath;
     }
+
 }

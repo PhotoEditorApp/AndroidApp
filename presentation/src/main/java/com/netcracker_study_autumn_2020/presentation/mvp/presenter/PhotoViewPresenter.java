@@ -3,6 +3,7 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.graphics.Bitmap;
 
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DownloadImageByIdUseCase;
+import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PreviewImageView;
 
 public class PhotoViewPresenter extends BasePresenter {
@@ -12,8 +13,11 @@ public class PhotoViewPresenter extends BasePresenter {
     private DownloadImageByIdUseCase downloadImageByIdUseCase;
 
     private Bitmap downloadedImage;
-    private long imageId;
+    private ImageModel imageModel;
 
+    public ImageModel getImageModel() {
+        return imageModel;
+    }
 
     public Bitmap getDownloadedImage() {
         return downloadedImage;
@@ -23,15 +27,15 @@ public class PhotoViewPresenter extends BasePresenter {
         this.downloadedImage = downloadedImage;
     }
 
-    public PhotoViewPresenter(long imageId,
+    public PhotoViewPresenter(ImageModel imageModel,
                               DownloadImageByIdUseCase downloadImageByIdUseCase) {
         this.downloadImageByIdUseCase = downloadImageByIdUseCase;
-        this.imageId = imageId;
+        this.imageModel = imageModel;
     }
 
     public void downloadImage() {
         previewImageView.showLoading();
-        downloadImageByIdUseCase.execute(imageId, new DownloadImageByIdUseCase.Callback() {
+        downloadImageByIdUseCase.execute(imageModel.getId(), new DownloadImageByIdUseCase.Callback() {
             @Override
             public void onImageDownloaded(Object image) {
                 downloadedImage = (Bitmap) image;

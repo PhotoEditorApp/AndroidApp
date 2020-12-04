@@ -64,7 +64,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
             return false;
         });
         previewContainer.setOnClickListener(l -> {
-            ((ImagesFragment) fragment).navigateToPhotoView(imageModel.getId());
+            ((ImagesFragment) fragment).navigateToPhotoView(imageModel);
 
         });
         previewContainer.setOnLongClickListener(v -> {

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Nostalgia</string>
-    <string name="login_field_hint">Логин/E-mail</string>
     <string name="password_field_hint">Пароль</string>
     <string name="action_sign_in">Войти</string>
     <string name="register_user_suggestion">Еще нет аккаунта?</string>
@@ -19,7 +18,6 @@
     <string name="bad_email_warning">Введите корректный e-mail</string>
     <string name="nav_user_profile">Профиль</string>
     <string name="nav_my_workspaces">Мои пространства</string>
-    <string name="nav_settings">Настройки</string>
 
 
     <string-array name="search_criteria">

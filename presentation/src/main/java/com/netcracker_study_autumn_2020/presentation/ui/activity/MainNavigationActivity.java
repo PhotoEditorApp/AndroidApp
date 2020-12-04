@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.netcracker_study_autumn_2020.presentation.R;
+import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.FindAndShareFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
@@ -111,8 +112,8 @@ public class MainNavigationActivity extends BaseActivity {
         navigator.navigateToCreateWorkspaceActivity(this, userId);
     }
 
-    public void navigateToFullSizePhotoView(long imageId, long workspaceId) {
-        navigator.navigateToPhotoView(this, imageId, workspaceId);
+    public void navigateToFullSizePhotoView(ImageModel imageModel, long workspaceId) {
+        navigator.navigateToPhotoView(this, imageModel, workspaceId);
     }
 
 

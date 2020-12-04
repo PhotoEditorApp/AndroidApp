@@ -6,7 +6,7 @@ public abstract class NetworkUtils {
     public static final int CONNECTION_TIMEOUT = 5000;
     //Текущий адрес бэкенда
     //Не final для динамической отладки
-    public static String API_ADDRESS = "http://7d2bd076bac7.ngrok.io";
+    public static String API_ADDRESS = "http://210875272091.ngrok.io";
     public static final String GET_IMAGE_BY_ID_ADDRESS = "/image/get_image_id";
     public static final String GET_IMAGE_BY_PATH = "/image/get_image_path";
 

@@ -2,6 +2,7 @@ package com.netcracker_study_autumn_2020.presentation.navigation;
 
 import android.content.Context;
 
+import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.CreateWorkspaceActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.activity.PhotoViewActivity;
@@ -19,8 +20,8 @@ public class Navigator {
         context.startActivity(CreateWorkspaceActivity.getCallingIntent(context, userId));
     }
 
-    public void navigateToPhotoView(Context context, long imageId, long workspaceId) {
+    public void navigateToPhotoView(Context context, ImageModel imageModel, long workspaceId) {
         context.startActivity(PhotoViewActivity.getCallingIntent(context,
-                imageId, workspaceId));
+                imageModel, workspaceId));
     }
 }

@@ -105,7 +105,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
         Response<ResponseBody> response;
         try {
             response = imageService.editImageInfo(SessionManager.getSessionToken(),
-                    imageEntity).execute();
+                    imageEntity.getId(), imageEntity.getName()).execute();
             if (response.body() == null) {
                 callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE editImageInfo(): code - " +
                         +response.code()));

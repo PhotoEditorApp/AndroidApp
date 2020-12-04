@@ -293,8 +293,8 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         loadingUI.setVisibility(View.GONE);
     }
 
-    public void navigateToPhotoView(long imageId) {
-        ((MainNavigationActivity) requireActivity()).navigateToFullSizePhotoView(imageId,
+    public void navigateToPhotoView(ImageModel imageModel) {
+        ((MainNavigationActivity) requireActivity()).navigateToFullSizePhotoView(imageModel,
                 workspaceModel.getId());
     }
 }

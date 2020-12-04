@@ -6,7 +6,6 @@
     android:padding="@dimen/indent_medium">
 
     <TextView
-        android:id="@+id/dialog_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Переименовать изображение"
@@ -16,7 +15,6 @@
         android:paddingBottom="@dimen/indent_medium" />
 
     <TextView
-        android:id="@+id/dialog_enter_new_image_name_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Новое название:"

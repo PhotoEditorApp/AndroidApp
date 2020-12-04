@@ -6,20 +6,20 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.netcracker_study_autumn_2020.presentation.R;
+import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.PhotoViewFragment;
 
 public class PhotoViewActivity extends BaseActivity {
 
-    private long imageId;
-    private long workspaceId;
-
-    private static final String CHOSEN_IMAGE_ID = "CHOSEN_IMAGE_ID";
+    private static final String CHOSEN_IMAGE_MODEL_JSON = "CHOSEN_IMAGE_MODEL_JSON";
     private static final String CURRENT_WORKSPACE_ID = "CURRENT_WORKSPACE_ID";
 
-    public static Intent getCallingIntent(Context context, long imageId, long workspaceId) {
+    public static Intent getCallingIntent(Context context, ImageModel imageModel, long workspaceId) {
         Intent photoViewIntent = new Intent(context, PhotoViewActivity.class);
-        photoViewIntent.putExtra(CHOSEN_IMAGE_ID, imageId);
+        String jsonRepresentation = (new Gson()).toJson(imageModel);
+        photoViewIntent.putExtra(CHOSEN_IMAGE_MODEL_JSON, jsonRepresentation);
         photoViewIntent.putExtra(CURRENT_WORKSPACE_ID, workspaceId);
 
         return photoViewIntent;
@@ -36,9 +36,11 @@ public class PhotoViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_view);
         Intent intent = getIntent();
-        long imageId = intent.getLongExtra(CHOSEN_IMAGE_ID, 0);
+        ImageModel imageModel =
+                (new Gson()).fromJson(intent.getStringExtra(CHOSEN_IMAGE_MODEL_JSON),
+                        ImageModel.class);
         long workspaceId = intent.getLongExtra(CURRENT_WORKSPACE_ID, 0);
 
-        replaceFragment(R.id.ft_container, new PhotoViewFragment(imageId, workspaceId));
+        replaceFragment(R.id.ft_container, new PhotoViewFragment(imageModel, workspaceId));
     }
 }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="navigation_bar_height">50dp</dimen>
-    <dimen name="basic_text_button_height">40dp</dimen>
-    <dimen name="recycler_view_item_width">150dp</dimen>
 
     <!-- Sign in screen start -->
     <!-- Sign in screen end -->
@@ -12,19 +10,11 @@
     <!-- Sign up screen end -->
 
     <!-- User avatar -->
-    <dimen name="user_avatar_height">40dp</dimen>
-    <dimen name="user_avatar_width">40dp</dimen>
 
     <!-- Elevation -->
-    <dimen name="elevation_1">5dp</dimen>
-    <dimen name="elevation_2">10dp</dimen>
-    <dimen name="elevation_3">15dp</dimen>
 
 
     <!-- Fonts sizes -->
-    <dimen name="font_size_11">11sp</dimen>
-    <dimen name="font_size_13">13sp</dimen>
-    <dimen name="font_size_14">14sp</dimen>
     <dimen name="font_size_16">16sp</dimen>
     <dimen name="font_size_23">23sp</dimen>
     <dimen name="font_size_28">28sp</dimen>
@@ -32,15 +22,10 @@
 
     <!-- Base indents -->
     <dimen name="indent_small">2dp</dimen>
-    <dimen name="indent_small_plus">4dp</dimen>
     <dimen name="indent_medium">8dp</dimen>
     <dimen name="indent_medium_plus">10dp</dimen>
     <dimen name="indent_large">16dp</dimen>
-    <dimen name="indent_large_plus">18dp</dimen>
-    <dimen name="indent_large_plus_plus">20dp</dimen>
     <dimen name="indent_huge">24dp</dimen>
-    <dimen name="indent_huge_plus">26dp</dimen>
     <dimen name="indent_enormous">32dp</dimen>
-    <dimen name="edit_message_field_stroke_width">5dp</dimen>
 
 </resources>
