@@ -23,6 +23,7 @@ public class DeleteUserTagUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("DeleteUserTagUseCase: Invalid callback!");
         }
+        super.execute();
         this.userId = userId;
         this.tagName = tagName;
         this.callback = callback;

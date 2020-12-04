@@ -24,6 +24,7 @@ public class DeleteImageTagUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("DeleteImageTagUseCase: Invalid callback!");
         }
+        super.execute();
         this.userId = userId;
         this.imageId = imageId;
         this.tagName = tagName;

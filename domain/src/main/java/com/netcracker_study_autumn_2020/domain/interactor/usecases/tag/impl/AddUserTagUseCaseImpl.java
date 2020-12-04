@@ -23,6 +23,7 @@ public class AddUserTagUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("AddUserTagUseCase: Invalid callback!");
         }
+        super.execute();
         this.userId = userId;
         this.tagName = tagName;
         this.callback = callback;

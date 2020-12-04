@@ -39,18 +39,30 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="200dp"
+                android:id="@+id/image_tags_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/button_back_from_photo_view"
+                android:paddingEnd="50dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/button_back_from_photo_view" />
+                app:layout_constraintTop_toBottomOf="@+id/button_back_from_photo_view" />
+
+            <ImageButton
+                android:id="@+id/button_add_image_tag"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/ic_add"
+                android:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/image_tags_list"
+                app:layout_constraintTop_toBottomOf="@+id/button_back_from_photo_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_back_from_photo_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Назад"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -63,27 +75,43 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/photo_view_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:background="@color/darkGrayTransparentBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.button.MaterialButton
+            <ImageButton
                 android:id="@+id/button_save_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:text="Сохранить"
+                android:background="@drawable/ic_download_image"
+                android:backgroundTint="@color/white"
+                android:layout_margin="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageButton
+                android:id="@+id/button_show_image_info"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_image_info"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
                 android:id="@+id/button_edit_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
                 android:text="Редактировать"
+                android:background="@drawable/ic_edit"
+                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

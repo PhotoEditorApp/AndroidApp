@@ -1,5 +1,6 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,34 +11,49 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
+import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
+import com.netcracker_study_autumn_2020.data.repository.TagRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DownloadImageByIdUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.DownloadImageByIdUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.AddImageTagUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.DeleteImageTagUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetImageTagsUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.AddImageTagUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.DeleteImageTagUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.GetImageTagsUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
+import com.netcracker_study_autumn_2020.domain.repository.TagRepository;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.PhotoViewPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PreviewImageView;
+import com.netcracker_study_autumn_2020.presentation.ui.adapter.TagsAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoViewFragment extends BaseFragment
         implements PreviewImageView {
@@ -50,6 +66,7 @@ public class PhotoViewFragment extends BaseFragment
     private ConstraintLayout bottomBar;
 
     private RecyclerView photoTagsList;
+    private TagsAdapter tagsAdapter;
     private SubsamplingScaleImageView subsamplingScaleImageView;
 
 
@@ -75,11 +92,23 @@ public class PhotoViewFragment extends BaseFragment
         ImageEntityDtoMapper imageEntityDtoMapper = new ImageEntityDtoMapper();
         ImageEntityStoreFactory imageEntityStoreFactory = new ImageEntityStoreFactory();
 
+        TagEntityStoreFactory tagEntityStoreFactory = new TagEntityStoreFactory();
+
+        TagRepository tagRepository = new TagRepositoryImpl(tagEntityStoreFactory);
         ImageRepository imageRepository = ImageRepositoryImpl.getInstance(imageEntityStoreFactory,
                 imageEntityDtoMapper);
+
+        GetImageTagsUseCase getImageTagsUseCase = new GetImageTagsUseCaseImpl(tagRepository,
+                postExecutionThread, threadExecutor);
+        AddImageTagUseCase addImageTagUseCase = new AddImageTagUseCaseImpl(tagRepository,
+                postExecutionThread, threadExecutor);
+        DeleteImageTagUseCase deleteImageTagUseCase = new DeleteImageTagUseCaseImpl(tagRepository,
+                postExecutionThread, threadExecutor);
+
         DownloadImageByIdUseCase downloadImageByIdUseCase = new DownloadImageByIdUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
-        photoViewPresenter = new PhotoViewPresenter(imageModel, downloadImageByIdUseCase);
+        photoViewPresenter = new PhotoViewPresenter(imageModel, downloadImageByIdUseCase,
+                getImageTagsUseCase, addImageTagUseCase, deleteImageTagUseCase);
     }
 
 
@@ -95,11 +124,20 @@ public class PhotoViewFragment extends BaseFragment
         topBar = root.findViewById(R.id.photo_view_top_bar);
         bottomBar = root.findViewById(R.id.photo_view_bottom_bar);
 
-        MaterialButton buttonSave = root.findViewById(R.id.button_save_photo);
+        ImageButton buttonSave = root.findViewById(R.id.button_save_photo);
         MaterialButton buttonBack = root.findViewById(R.id.button_back_from_photo_view);
-        MaterialButton buttonEditPhoto = root.findViewById(R.id.button_edit_photo);
+        ImageButton buttonEditPhoto = root.findViewById(R.id.button_edit_photo);
 
+        ImageButton addImageTag = root.findViewById(R.id.button_add_image_tag);
+        ImageButton showImageInfo = root.findViewById(R.id.button_show_image_info);
+
+        initRecyclerView(root);
         subsamplingScaleImageView = root.findViewById(R.id.subsampling_scale_image_view);
+
+        addImageTag.setOnClickListener(l -> {
+            AlertDialog addImageTagDialog = initAddImageTagDialog();
+            addImageTagDialog.show();
+        });
 
         subsamplingScaleImageView.setOnClickListener(l -> {
             if (areBarsVisible) {
@@ -128,6 +166,39 @@ public class PhotoViewFragment extends BaseFragment
         buttonBack.setOnClickListener(l -> {
 
         });
+    }
+
+    private AlertDialog initAddImageTagDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.dialog_add_user_tag, null);
+        alertDialogBuilder.setView(dialogView);
+
+        final EditText dialogNewUserTagName = dialogView.findViewById(R.id.dialog_enter_new_tag_name);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Добавить",
+                        (dialog, which) -> {
+                            String tagName = dialogNewUserTagName.getText().toString();
+                            photoViewPresenter.addImageTag(tagName);
+                        })
+                .setNegativeButton("Отмена",
+                        (dialog, which) -> {
+                            dialog.cancel();
+                        });
+
+        return alertDialogBuilder.create();
+    }
+
+    private void initRecyclerView(View root) {
+        photoTagsList = root.findViewById(R.id.image_tags_list);
+        photoTagsList.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
+
+        tagsAdapter = new TagsAdapter(photoViewPresenter, true);
+        photoTagsList.setAdapter(tagsAdapter);
+        tagsAdapter.setTagsList(new ArrayList<>());
+
     }
 
     private void saveImage(Bitmap bitmap) {
@@ -197,6 +268,7 @@ public class PhotoViewFragment extends BaseFragment
         loadingUi = view.findViewById(R.id.loading_ui);
         photoViewPresenter.setPreviewImageView(this);
         photoViewPresenter.downloadImage();
+        photoViewPresenter.refreshData();
     }
 
     @Override
@@ -215,5 +287,12 @@ public class PhotoViewFragment extends BaseFragment
     public void renderImage() {
         Bitmap buf = photoViewPresenter.getDownloadedImage();
         subsamplingScaleImageView.setImage(ImageSource.bitmap(buf));
+    }
+
+    @Override
+    public void renderTags() {
+        List<String> buf = photoViewPresenter.getImageTagsList();
+        tagsAdapter.setTagsList(buf);
+
     }
 }

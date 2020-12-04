@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="100">
 
@@ -9,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15"
-        android:gravity="center">
+        android:gravity="center"
+        android:elevation="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,13 +27,49 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="70"
-        android:paddingStart="@dimen/indent_enormous"
-        android:paddingEnd="@dimen/indent_enormous">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/user_tags_list"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/empty_ui"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/empty_ui"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/ic_empty_box"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/empty_ui" />
+
+                <TextView
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Здесь пока ничего нет, но Вы можете добавить тег!"
+                    android:textColor="@color/primaryDark"
+                    android:textSize="@dimen/font_size_16"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/user_tags_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 
@@ -39,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15"
-        android:gravity="center">
+        android:gravity="center"
+        android:elevation="5dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_add_user_tag"

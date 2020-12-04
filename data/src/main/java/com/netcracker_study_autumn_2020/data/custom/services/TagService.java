@@ -19,8 +19,8 @@ public interface TagService {
                                       @Path("user_id") long userId);
 
     @GET("image/{image_id}/tag")
-    Call<List<TagEntity>> getImageTags(@Header("Authorization") String token,
-                                       @Path("image_id") long imageId);
+    Call<List<String>> getImageTags(@Header("Authorization") String token,
+                                    @Path("image_id") long imageId);
 
     @PUT("/user/{user_id}/tag/{tag_name}")
     Call<ResponseBody> addUserTag(@Header("Authorization") String token,

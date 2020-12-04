@@ -41,6 +41,6 @@ public class PhotoViewActivity extends BaseActivity {
                         ImageModel.class);
         long workspaceId = intent.getLongExtra(CURRENT_WORKSPACE_ID, 0);
 
-        replaceFragment(R.id.ft_container, new PhotoViewFragment(imageModel, workspaceId));
+        addFragment(R.id.ft_container, new PhotoViewFragment(imageModel, workspaceId));
     }
 }

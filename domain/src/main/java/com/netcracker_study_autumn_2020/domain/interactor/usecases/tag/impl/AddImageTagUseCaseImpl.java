@@ -24,6 +24,7 @@ public class AddImageTagUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("AddImageTagUseCase: Invalid callback!");
         }
+        super.execute();
         this.userId = userId;
         this.imageId = imageId;
         this.tagName = tagName;

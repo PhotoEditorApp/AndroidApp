@@ -14,7 +14,7 @@ public interface TagEntityStore {
     }
 
     interface ImageTagByIdCallback extends TagEntityStore.Error {
-        void onImageTagLoaded(List<TagEntity> imageTags);
+        void onImageTagLoaded(List<String> imageTags);
     }
 
     interface ImageTagCreateCallback extends TagEntityStore.Error {

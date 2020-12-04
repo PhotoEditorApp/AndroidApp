@@ -1,15 +1,20 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.repository.TagRepositoryImpl;
@@ -28,13 +33,15 @@ import com.netcracker_study_autumn_2020.presentation.mvp.presenter.UserTagsPrese
 import com.netcracker_study_autumn_2020.presentation.mvp.view.UserTagsView;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.TagsAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserTagsFragment extends BaseFragment
         implements UserTagsView {
 
+    private ConstraintLayout emptyUI;
+
     private RecyclerView tagsList;
+    private TagsAdapter tagsAdapter;
     private UserTagsPresenter userTagsPresenter;
 
     @Override
@@ -43,7 +50,7 @@ public class UserTagsFragment extends BaseFragment
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
 
         TagEntityStoreFactory tagEntityStoreFactory = new TagEntityStoreFactory();
-        TagRepository tagRepository = TagRepositoryImpl.getInstance(tagEntityStoreFactory);
+        TagRepository tagRepository = new TagRepositoryImpl(tagEntityStoreFactory);
 
         GetUserTagsUseCase getUserTagsUseCase = new GetUserTagsUseCaseImpl(tagRepository,
                 postExecutionThread, threadExecutor);
@@ -65,43 +72,63 @@ public class UserTagsFragment extends BaseFragment
     }
 
     private void initInteractions(View root) {
+        emptyUI = root.findViewById(R.id.empty_ui);
         tagsList = root.findViewById(R.id.user_tags_list);
         tagsList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        List<String> testData = new ArrayList<>();
-        testData.add("Лето");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
-        testData.add("Зима");
+        MaterialButton addUserTag = root.findViewById(R.id.button_add_user_tag);
+
+        addUserTag.setOnClickListener(l -> {
+            AlertDialog alertDialog = initAddUserTagDialog();
+            alertDialog.show();
+        });
 
 
-        TagsAdapter tagsAdapter = new TagsAdapter();
+        tagsAdapter = new TagsAdapter(userTagsPresenter, false);
         tagsList.setAdapter(tagsAdapter);
-        tagsAdapter.setTagsList(testData);
+
+    }
+
+    private AlertDialog initAddUserTagDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.dialog_add_user_tag, null);
+        alertDialogBuilder.setView(dialogView);
+
+        final EditText dialogNewUserTagName = dialogView.findViewById(R.id.dialog_enter_new_tag_name);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Добавить",
+                        (dialog, which) -> {
+                            String tagName = dialogNewUserTagName.getText().toString();
+                            userTagsPresenter.addTag(tagName);
+                        })
+                .setNegativeButton("Отмена",
+                        (dialog, which) -> {
+                            dialog.cancel();
+                        });
+
+        return alertDialogBuilder.create();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("ADD_USER_TAG", "from entity store1");
         userTagsPresenter.setUserTagsView(this);
         userTagsPresenter.refreshData();
     }
 
     @Override
     public void renderTags() {
+        List<String> buf = userTagsPresenter.getUserTagsList();
+        if (buf.isEmpty()) {
+            emptyUI.setVisibility(View.VISIBLE);
+        } else {
+            emptyUI.setVisibility(View.GONE);
+        }
+        tagsAdapter.setTagsList(userTagsPresenter.getUserTagsList());
 
     }
 }

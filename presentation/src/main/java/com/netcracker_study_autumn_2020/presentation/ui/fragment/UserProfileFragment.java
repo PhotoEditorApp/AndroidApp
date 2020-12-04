@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ import com.netcracker_study_autumn_2020.presentation.mapper.UserModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.UserModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.UserProfilePresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.UserProfileView;
+import com.squareup.picasso.Picasso;
 
 public class UserProfileFragment extends BaseFragment implements UserProfileView {
 
@@ -87,6 +89,12 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
         userFirstName = root.findViewById(R.id.user_profile_first_name);
         userLastName = root.findViewById(R.id.user_profile_last_name);
         userId = root.findViewById(R.id.user_profile_id);
+        ImageView userAvatar = root.findViewById(R.id.user_profile_avatar);
+
+        Picasso.get()
+                .load("https://cdn.onlinewebfonts.com/svg/img_458488.png")
+                .into(userAvatar);
+
 
         AlertDialog alertDialog = initEditDialog();
         editProfile.setOnClickListener(l -> {

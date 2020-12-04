@@ -6,4 +6,6 @@ public interface PreviewImageView {
     void hideLoading();
 
     void renderImage();
+
+    void renderTags();
 }

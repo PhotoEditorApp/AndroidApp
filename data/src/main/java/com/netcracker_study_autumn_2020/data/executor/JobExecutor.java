@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.executor;
 
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 
 import java.util.concurrent.BlockingQueue;
@@ -42,6 +44,7 @@ public class JobExecutor implements ThreadExecutor {
      */
     @Override
     public void execute(Runnable runnable) {
+        Log.d("JOB_EXECUTOR", "execute: ");
         if (runnable == null) {
             throw new IllegalArgumentException("Runnable to execute cannot be null");
         }

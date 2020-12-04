@@ -1,5 +1,6 @@
 package com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl;
 
+
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetUserTagsUseCase;
@@ -24,6 +25,7 @@ public class GetUserTagsUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("GetUserTagsUseCase: Invalid callback!");
         }
+        super.execute();
         this.userId = userId;
         this.callback = callback;
     }

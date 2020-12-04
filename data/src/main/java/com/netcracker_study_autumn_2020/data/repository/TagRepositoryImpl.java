@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.repository;
 
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStore;
 import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.entity.TagEntity;
@@ -30,7 +32,7 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public void getUserTags(long userId, UserTagsGetCallback callback) {
         TagEntityStore tagEntityStore = tagEntityStoreFactory.create();
-
+        Log.d("TAG_REPO", "DEBUG");
         tagEntityStore.getUserTags(userId, new TagEntityStore.UserTagByIdCallback() {
             @Override
             public void onUserTagLoaded(List<TagEntity> userTags) {
@@ -55,12 +57,12 @@ public class TagRepositoryImpl implements TagRepository {
 
         tagEntityStore.getImageTags(imageId, new TagEntityStore.ImageTagByIdCallback() {
             @Override
-            public void onImageTagLoaded(List<TagEntity> imageTags) {
-                List<String> nameBuffer = new ArrayList<>();
-                for (TagEntity t : imageTags) {
-                    nameBuffer.add(t.getName());
-                }
-                callback.onImageTagsLoaded(nameBuffer);
+            public void onImageTagLoaded(List<String> imageTags) {
+                //List<String> nameBuffer = new ArrayList<>();
+                //for (TagEntity t : imageTags) {
+                //nameBuffer.add(t.getName());
+                //}
+                callback.onImageTagsLoaded(imageTags);
             }
 
             @Override

@@ -24,6 +24,7 @@ public class GetImageTagsUseCaseImpl extends TagUseCase
         if (callback == null) {
             throw new IllegalArgumentException("GetImageTagsUseCase: Invalid callback!");
         }
+        super.execute();
         this.imageId = imageId;
         this.callback = callback;
     }

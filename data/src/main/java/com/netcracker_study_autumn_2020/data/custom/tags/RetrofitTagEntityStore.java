@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.data.custom.tags;
 
+import android.util.Log;
+
 import com.netcracker_study_autumn_2020.data.custom.services.TagService;
 import com.netcracker_study_autumn_2020.data.entity.TagEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
@@ -48,7 +50,7 @@ public class RetrofitTagEntityStore implements TagEntityStore {
 
     @Override
     public void getImageTags(long imageId, ImageTagByIdCallback callback) {
-        Response<List<TagEntity>> response;
+        Response<List<String>> response;
         try {
             response = tagService.getImageTags(SessionManager.getSessionToken(),
                     imageId).execute();
@@ -66,6 +68,7 @@ public class RetrofitTagEntityStore implements TagEntityStore {
 
     @Override
     public void addUserTag(long userId, String tagName, TagEntityStore.UserTagCreateCallback callback) {
+        Log.d("ADD_USER_TAG", "from entity store123");
         Response<ResponseBody> response;
         try {
             response = tagService.addUserTag(SessionManager.getSessionToken(),

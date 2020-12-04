@@ -46,6 +46,7 @@ import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationA
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
 
 import java.io.File;
+import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -53,6 +54,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ImagesFragment extends BaseFragment implements ImagesView {
 
+    private ConstraintLayout emptyUI;
     private ConstraintLayout loadingUI;
     private ConstraintLayout mainContainer;
 
@@ -117,8 +119,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     }
 
     private void initRecyclerView(View root) {
-        mainContainer = root.findViewById(R.id.main_container);
-        loadingUI = root.findViewById(R.id.loading_ui);
+
         recyclerView = root.findViewById(R.id.photo_preview_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -128,12 +129,14 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     }
 
     private void initInteractions(View root) {
+        mainContainer = root.findViewById(R.id.main_container);
+        loadingUI = root.findViewById(R.id.loading_ui);
+        emptyUI = root.findViewById(R.id.empty_ui);
 
         buttonPanel = root.findViewById(R.id.photo_preview_button_panel);
         ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
         ImageButton addImage = root.findViewById(R.id.button_add_image);
         ImageButton sortImages = root.findViewById(R.id.button_choose_sort);
-
 
 
         hidePanel.setOnClickListener(l -> {
@@ -255,9 +258,14 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     @Override
     public void renderImages() {
-        imagesGridRecyclerAdapter.setImageList(
-                presenter.getImageModels()
-        );
+        List<ImageModel> buf = presenter.getImageModels();
+        if (buf.isEmpty()) {
+            emptyUI.setVisibility(View.VISIBLE);
+        } else {
+            emptyUI.setVisibility(View.GONE);
+        }
+        imagesGridRecyclerAdapter.setImageList(buf);
+
     }
 
     @Override

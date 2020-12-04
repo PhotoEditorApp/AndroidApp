@@ -9,6 +9,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.loopeer.cardstack.CardStackView;
@@ -43,6 +44,8 @@ import java.util.List;
 
 public class WorkspacesFragment extends BaseFragment implements CardStackView.ItemExpendListener,
         WorkspacesView {
+
+    private ConstraintLayout emptyUI;
 
     private WorkspacesPresenter workspacesPresenter;
     private CardStackView cardStackView;
@@ -86,6 +89,8 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
     }
 
     private void initInteractions(View root) {
+        emptyUI = root.findViewById(R.id.empty_ui);
+
         MaterialButton createWorkspace = root.findViewById(R.id.button_add_workspace);
         createWorkspace.setOnClickListener(l -> {
             navigateToCreateWorkspace();
@@ -161,6 +166,12 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
      @Override
      public void renderWorkspaces() {
          List<WorkspaceModel> workspaceModels = workspacesPresenter.getWorkspaceModels();
+
+         if (workspaceModels.isEmpty()) {
+             emptyUI.setVisibility(View.VISIBLE);
+         } else {
+             emptyUI.setVisibility(View.INVISIBLE);
+         }
          workspaceCardAdapter.updateData(workspaceModels);
          //cardStackView.setAdapter(workspaceCardAdapter);
          //cardStackView.invalidate();
