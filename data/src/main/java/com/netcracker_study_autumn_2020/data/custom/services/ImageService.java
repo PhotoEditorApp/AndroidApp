@@ -39,6 +39,12 @@ public interface ImageService {
                                      @Query("imageId") long imageId,
                                      @Query("newName") String newName);
 
+    @PUT("/user/{user_id}/image/{image_id}/rating")
+    Call<ResponseBody> rateImage(@Header("Authorization") String token,
+                                 @Path("user_id") long userId,
+                                 @Path("image_id") long imageId,
+                                 @Query("rating_number") int rating);
+
     @DELETE("/image/delete_image")
     Call<ResponseBody> deleteImage(@Header("Authorization") String token,
                                    @Query("id") long imageId);

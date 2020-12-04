@@ -14,14 +14,19 @@ import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.FindAndShareFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserProfileFragment;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserTagsFragment;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.WorkspacesFragment;
 
 public class MainNavigationActivity extends BaseActivity {
 
     private static final String CURRENT_USER_ID_EXTRA_NAME = "CURRENT_USER_ID";
 
+    //Main fragments
     private UserProfileFragment userProfileFragment;
     private WorkspacesFragment workspacesFragment;
+    private UserTagsFragment userTagsFragment;
+
+    //Side fragments (can be reached from main fragments)
     private ImagesFragment imagesFragment;
     private FindAndShareFragment findAndShareFragment;
 
@@ -49,6 +54,7 @@ public class MainNavigationActivity extends BaseActivity {
     private void initFragments() {
         userProfileFragment = new UserProfileFragment();
         workspacesFragment = new WorkspacesFragment();
+        userTagsFragment = new UserTagsFragment();
 
     }
 
@@ -86,6 +92,11 @@ public class MainNavigationActivity extends BaseActivity {
                         .commit();
                 break;
             case R.id.navigation_tags:
+                navigationView.getMenu().findItem(navigationId).setChecked(true);
+                getSupportFragmentManager().beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.nav_host_fragment, userTagsFragment)
+                        .commit();
                 break;
         }
     }

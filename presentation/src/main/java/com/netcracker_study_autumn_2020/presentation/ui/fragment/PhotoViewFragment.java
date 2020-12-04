@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -48,6 +49,7 @@ public class PhotoViewFragment extends BaseFragment
     private ConstraintLayout topBar;
     private ConstraintLayout bottomBar;
 
+    private RecyclerView photoTagsList;
     private SubsamplingScaleImageView subsamplingScaleImageView;
 
 
@@ -90,6 +92,9 @@ public class PhotoViewFragment extends BaseFragment
     }
 
     private void initInteractions(View root) {
+        topBar = root.findViewById(R.id.photo_view_top_bar);
+        bottomBar = root.findViewById(R.id.photo_view_bottom_bar);
+
         MaterialButton buttonSave = root.findViewById(R.id.button_save_photo);
         MaterialButton buttonBack = root.findViewById(R.id.button_back_from_photo_view);
         MaterialButton buttonEditPhoto = root.findViewById(R.id.button_edit_photo);
