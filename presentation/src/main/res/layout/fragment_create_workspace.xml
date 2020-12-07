@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/indent_enormous"
-                android:text="Введите имя нового проятранства:"
+                android:text="Введите имя:"
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="Введите описание нового пространства:"
+                android:text="Введите описание:"
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enter_workspace_name" />
@@ -178,7 +178,7 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/indent_enormous"
                 android:paddingRight="@dimen/indent_enormous"
-                android:text="Используя рабочие пространства, Вы сможете делится изображениями с другими пользователями и совместно работать над ними!"
+                android:text="Используя рабочие пространства, Вы сможете делиться изображениями с другими пользователями и совместно работать над ними!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_create_workspace" />
