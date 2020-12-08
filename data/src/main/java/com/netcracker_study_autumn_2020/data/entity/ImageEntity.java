@@ -13,6 +13,7 @@ public class ImageEntity {
     private String createTime;
     @SerializedName("average_color")
     private long averageColor;
+    private float rating;
     private long size;
     private String modifiedTime;
 
@@ -85,6 +86,14 @@ public class ImageEntity {
 
     public String getPreviewPath() {
         return previewPath;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public void setPreviewPath(String previewPath) {

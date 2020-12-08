@@ -38,7 +38,7 @@ public class ImageRepositoryImpl implements ImageRepository {
 
 
     @Override
-    public void downloadImage(long imageId, ImageDownloadById callback) {
+    public void downloadImage(long imageId, ImageDownloadByIdCallback callback) {
         ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
 
         imageEntityStore.getImageById(imageId, new ImageEntityStore.ImageDownloadByIdCallback() {
@@ -62,6 +62,23 @@ public class ImageRepositoryImpl implements ImageRepository {
             @Override
             public void onImagesUploaded() {
                 callback.onImagesUploaded();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void createCollage(long[] imageIds, CollageGetCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.getCollage(imageIds, new ImageEntityStore.CollageCreateCallback() {
+            @Override
+            public void onCollageCreated() {
+                callback.onCollageCreated();
             }
 
             @Override
@@ -115,6 +132,23 @@ public class ImageRepositoryImpl implements ImageRepository {
             @Override
             public void onImageDeleted() {
                 callback.onImageDeleted();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void rateImage(long userId, long imageId, int rating, ImageRateCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.rateImage(userId, imageId, rating, new ImageEntityStore.ImageRateCallback() {
+            @Override
+            public void onImageRated() {
+                callback.onImageRated();
             }
 
             @Override

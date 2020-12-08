@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,13 +28,17 @@ import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.CreateCollageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.RateImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.AddImageUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.CreateCollageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.DeleteImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.EditImageInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.RateImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.library.files.FilesUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -94,11 +99,15 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                 postExecutionThread, threadExecutor);
         DeleteImageUseCase deleteImageUseCase = new DeleteImageUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
+        RateImageUseCase rateImageUseCase = new RateImageUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
+        CreateCollageUseCase createCollageUseCase = new CreateCollageUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
 
         //TODO get spaceId properly
         presenter = new ImagesPresenter(workspaceModel.getId(),
                 addImageUseCase, getWorkspaceImagesInfoUseCase, editImageInfoUseCase,
-                deleteImageUseCase);
+                deleteImageUseCase, rateImageUseCase, createCollageUseCase);
     }
 
     @Nullable
@@ -218,6 +227,29 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         return alertDialogBuilder.create();
     }
 
+    private AlertDialog initRateImageDialog(ImageModel imageModel) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.dialog_rate_image, null);
+        alertDialogBuilder.setView(dialogView);
+
+        final RatingBar ratingBar = dialogView.findViewById(R.id.rate_image_bar);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Оценить",
+                        (dialog, which) -> {
+                            presenter.rateImage(imageModel.getId(),
+                                    (int) ratingBar.getRating());
+
+                        })
+                .setNegativeButton("Отмена",
+                        (dialog, which) -> {
+                            dialog.cancel();
+                        });
+
+        return alertDialogBuilder.create();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -236,14 +268,19 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                     Uri selectedImage = data.getData();
                     String absolutePath = FilesUtils.getPath(getContext(), selectedImage);
                     File sourceImage = null;
-                    if (absolutePath != null) {
+                    if (absolutePath != null && !absolutePath.isEmpty()) {
                         sourceImage = new File(absolutePath);
                         presenter.addImage(SessionManager.getCurrentUserId(),
                                 workspaceModel.getId(), sourceImage);
                     } else {
                         Log.d("ABSOLUTE_PATH", "is null");
                     }
+                } else {
+                    hideLoading();
                 }
+                break;
+            default:
+                hideLoading();
         }
         Log.d("GETTING_IMAGE", "3");
         //if (lifeCycleCallBackManager != null) {
@@ -282,6 +319,9 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                 case R.id.menu_item_image_preview_delete:
                     presenter.deleteImage(imageModel.getId());
                     return true;
+                case R.id.menu_item_image_preview_rate:
+                    AlertDialog rateDialog = initRateImageDialog(imageModel);
+                    rateDialog.show();
                 default:
                     return false;
             }

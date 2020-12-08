@@ -30,6 +30,10 @@ public interface ImageService {
     Call<ResponseBody> getImageById(@Header("Authorization") String token,
                                     @Query("id") long imageId);
 
+    @GET("/image/get_collage")
+    Call<ResponseBody> createCollage(@Header("Authorization") String token,
+                                     @Query("ids") long[] imageIds);
+
     @GET("/space/{space_id}/image")
     Call<List<ImageEntity>> getImagesBySpaceId(@Header("Authorization") String token,
                                                @Path("space_id") long spaceId);

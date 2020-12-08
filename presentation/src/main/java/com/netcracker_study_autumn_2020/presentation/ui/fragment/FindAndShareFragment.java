@@ -102,7 +102,7 @@ public class FindAndShareFragment extends BaseFragment implements FindAndShareVi
         String[] values = {"По ID", "По E-mail"};
 
         Spinner searchCriteria = root.findViewById(R.id.spinner_search_criteria);
-        ArrayAdapter<String> criteriaAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> criteriaAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, values);
         criteriaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchCriteria.setAdapter(criteriaAdapter);
@@ -114,7 +114,8 @@ public class FindAndShareFragment extends BaseFragment implements FindAndShareVi
                 findAndSharePresenter.findUserById(
                         Long.parseLong(searchRequest.getText().toString()));
             } else {
-                findAndSharePresenter.findUserByEmail(searchRequest.getText().toString());
+                findAndSharePresenter.findUserByEmail(searchRequest.getText()
+                        .toString());
             }
 
         });

@@ -2,14 +2,18 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 
 import android.util.Log;
 
+import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.CreateCollageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.EditImageInfoUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetWorkspaceImagesInfoUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.RateImageUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.ImageModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.ImagesView;
+import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ public class ImagesPresenter extends BasePresenter {
     private GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase;
     private EditImageInfoUseCase editImageInfoUseCase;
     private DeleteImageUseCase deleteImageUseCase;
+    private RateImageUseCase rateImageUseCase;
+    private CreateCollageUseCase createCollageUseCase;
 
     private List<ImageModel> imageModels;
     private long spaceId;
@@ -35,11 +41,15 @@ public class ImagesPresenter extends BasePresenter {
                            AddImageUseCase addImageUseCase,
                            GetWorkspaceImagesInfoUseCase getWorkspaceImagesInfoUseCase,
                            EditImageInfoUseCase editImageInfoUseCase,
-                           DeleteImageUseCase deleteImageUseCase) {
+                           DeleteImageUseCase deleteImageUseCase,
+                           RateImageUseCase rateImageUseCase,
+                           CreateCollageUseCase createCollageUseCase) {
         this.addImageUseCase = addImageUseCase;
         this.getWorkspaceImagesInfoUseCase = getWorkspaceImagesInfoUseCase;
         this.editImageInfoUseCase = editImageInfoUseCase;
         this.deleteImageUseCase = deleteImageUseCase;
+        this.rateImageUseCase = rateImageUseCase;
+        this.createCollageUseCase = createCollageUseCase;
         this.spaceId = spaceId;
 
         imageModels = new ArrayList<>();
@@ -70,6 +80,20 @@ public class ImagesPresenter extends BasePresenter {
         });
     }
 
+    public void createCollage(long[] imageIds) {
+        createCollageUseCase.execute(imageIds, new CreateCollageUseCase.Callback() {
+            @Override
+            public void onCollageCreated() {
+                updateImageList();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
 
     public void addImage(long userId, long spaceId, File bufferFile) {
         Log.d("GETTING_IMAGE", "8");
@@ -116,6 +140,23 @@ public class ImagesPresenter extends BasePresenter {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void rateImage(long imageId, int rating) {
+        rateImageUseCase.execute(SessionManager.getCurrentUserId(),
+                imageId, rating, new RateImageUseCase.Callback() {
+                    @Override
+                    public void onImageRated() {
+                        ((ImagesFragment) imagesView)
+                                .showToastMessage("Вы оценили изображение", false);
+                        updateImageList();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void updateImageList() {
@@ -186,6 +227,16 @@ public class ImagesPresenter extends BasePresenter {
     }
 
     public void sortByRating() {
+        imageModels.sort((o1, o2) -> {
+            float rating1 = o1.getRating();
+            float rating2 = o2.getRating();
+            if (rating1 > rating2) {
+                return -1;
+            } else if (rating1 < rating2) {
+                return 1;
+            }
+            return 0;
+        });
         imagesView.renderImages();
     }
 }

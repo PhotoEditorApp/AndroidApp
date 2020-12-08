@@ -2,6 +2,7 @@ package com.netcracker_study_autumn_2020.presentation.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,23 +16,42 @@ import java.util.List;
 
 public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private boolean isImageTag;
+    public enum TagsAdapterType {
+        IMAGE_TAGS,
+        USER_TAGS,
+        USER_TAGS_DIALOG
+    }
+
+    private TagsAdapterType tagsAdapterType;
+    private EditText outerTagField;
+
     private List<String> tagsList;
 
     private BasePresenter currentPresenter;
 
     public TagsAdapter(BasePresenter currentPresenter,
-                       boolean isImageTag) {
+                       TagsAdapterType tagsAdapterType) {
         this.tagsList = new ArrayList<>();
-        this.isImageTag = isImageTag;
+        this.tagsAdapterType = tagsAdapterType;
         this.currentPresenter = currentPresenter;
+    }
+
+    //Require tagsAdapterType = USER_TAGS_DIALOG
+    public TagsAdapter(BasePresenter currentPresenter,
+                       TagsAdapterType tagsAdapterType,
+                       EditText outerTagField) {
+        this.tagsList = new ArrayList<>();
+        this.tagsAdapterType = tagsAdapterType;
+        this.currentPresenter = currentPresenter;
+        this.outerTagField = outerTagField;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new TagItemViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_tag, parent, false), isImageTag);
+                .inflate(R.layout.item_tag, parent, false), tagsAdapterType,
+                outerTagField);
     }
 
     @Override

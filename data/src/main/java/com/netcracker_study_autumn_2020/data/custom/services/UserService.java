@@ -31,7 +31,7 @@ public interface UserService {
     Call<UserEntity> getUserById(@Header("Authorization") String token,
                                  @Path("id") long userId);
 
-    @GET("/profile")
+    @GET("/profile/email")
     Call<UserEntity> getUserByEmail(@Header("Authorization") String token,
                                     @Query("email") String email);
 

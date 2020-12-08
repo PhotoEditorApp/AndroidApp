@@ -10,6 +10,7 @@ public class ImageDto {
     private String previewPath;
     private Date createTime;
     private int averageColor;
+    private float rating;
     private long size;
     private Date modifiedTime;
 
@@ -83,5 +84,13 @@ public class ImageDto {
 
     public void setPreviewPath(String previewPath) {
         this.previewPath = previewPath;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }

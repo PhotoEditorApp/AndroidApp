@@ -61,6 +61,24 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
     }
 
     @Override
+    public void getCollage(long[] imageIds, CollageCreateCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.createCollage(SessionManager.getSessionToken(),
+                    imageIds).execute();
+            if (response.code() == 200) {
+                callback.onCollageCreated();
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE getCollage: code - " +
+                        +response.code()));
+            }
+
+        } catch (IOException e) {
+
+        }
+    }
+
+    @Override
     public void uploadImage(long userId, long spaceId, File sourceImage, ImageUploadCallback callback) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), sourceImage);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", sourceImage.getName(),
@@ -116,6 +134,23 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
             callback.onError(e);
         }
         //callback.onError(new EntityStoreException());
+    }
+
+    @Override
+    public void rateImage(long userId, long imageId, int ratingNumber, ImageRateCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.rateImage(SessionManager.getSessionToken(),
+                    userId, imageId, ratingNumber).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE rateImage(): code - " +
+                        +response.code()));
+            } else {
+                callback.onImageRated();
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
     }
 
 

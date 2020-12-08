@@ -16,6 +16,7 @@ public class ImageEntityDtoMapper extends BaseMapper<ImageEntity, ImageDto> {
         imageEntity.setId(o2.getId());
         imageEntity.setName(o2.getName());
         imageEntity.setSize(o2.getSize());
+        imageEntity.setRating(o2.getRating());
         try {
             Date createDate = new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
                     .parse(o2.getCreateTime().toString());
@@ -40,6 +41,7 @@ public class ImageEntityDtoMapper extends BaseMapper<ImageEntity, ImageDto> {
         imageDto.setId(o1.getId());
         imageDto.setName(o1.getName());
         imageDto.setSize(o1.getSize());
+        imageDto.setRating(o1.getRating());
         try {
             imageDto.setCreateTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
                     .parse(o1.getCreateTime()));

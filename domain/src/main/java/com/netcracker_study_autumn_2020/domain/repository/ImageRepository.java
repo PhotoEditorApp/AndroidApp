@@ -12,7 +12,11 @@ public interface ImageRepository {
         void onError(Exception e);
     }
 
-    interface ImageDownloadById extends ImageRepository.Error {
+    interface CollageGetCallback extends ImageRepository.Error {
+        void onCollageCreated();
+    }
+
+    interface ImageDownloadByIdCallback extends ImageRepository.Error {
         void onImageDownloaded(Object bitmap);
     }
 
@@ -32,10 +36,17 @@ public interface ImageRepository {
         void onImageDeleted();
     }
 
-    void downloadImage(long imageId, ImageRepository.ImageDownloadById callback);
+    interface ImageRateCallback extends ImageRepository.Error {
+        void onImageRated();
+    }
+
+    void downloadImage(long imageId, ImageDownloadByIdCallback callback);
 
     void addImage(long userId, long spaceId, File sourceImage,
                   ImageRepository.ImageUploadCallback callback);
+
+    void createCollage(long[] imageIds,
+                       ImageRepository.CollageGetCallback callback);
 
     void getImageBySpaceId(long spaceId,
                            ImageRepository.ImageBySpaceIdCallback callback);
@@ -45,4 +56,7 @@ public interface ImageRepository {
 
     void deleteImage(long imageId,
                      ImageRepository.ImageDeleteCallback callback);
+
+    void rateImage(long userId, long imageId, int rating,
+                   ImageRepository.ImageRateCallback callback);
 }

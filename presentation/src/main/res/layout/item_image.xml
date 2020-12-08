@@ -26,6 +26,21 @@
             android:orientation="horizontal" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/item_image_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textSize="18dp"
+        android:elevation="10dp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/primaryDark"
+        android:padding="2dp"
+        android:layout_marginLeft="@dimen/indent_small"
+        android:background="@drawable/shape_item_tag"
+        app:layout_constraintBottom_toBottomOf="@+id/item_image"
+        app:layout_constraintStart_toStartOf="@+id/item_image" />
+
 
     <ImageView
         android:id="@+id/item_image"

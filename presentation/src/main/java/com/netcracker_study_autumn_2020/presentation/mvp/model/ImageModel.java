@@ -10,6 +10,7 @@ public class ImageModel {
     private String path;
     private String previewPath;
     private Date createTime;
+    private float rating;
     private int averageColor;
     private long size;
 
@@ -101,4 +102,11 @@ public class ImageModel {
         this.previewPath = previewPath;
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 }

@@ -12,6 +12,10 @@ public interface ImageEntityStore {
         void onError(Exception e);
     }
 
+    interface CollageCreateCallback extends ImageEntityStore.Error {
+        void onCollageCreated();
+    }
+
     interface ImageDownloadByIdCallback extends ImageEntityStore.Error {
         void onImagesDownloaded(Bitmap image);
     }
@@ -32,7 +36,13 @@ public interface ImageEntityStore {
         void onImageDeleted();
     }
 
+    interface ImageRateCallback extends ImageEntityStore.Error {
+        void onImageRated();
+    }
+
     void getImageById(long imageId, ImageDownloadByIdCallback callback);
+
+    void getCollage(long[] imageIds, CollageCreateCallback callback);
 
     void uploadImage(long userId, long spaceId, File sourceImage,
                      ImageUploadCallback callback);
@@ -40,6 +50,8 @@ public interface ImageEntityStore {
     void getImagesBySpaceId(long spaceId, ImagesBySpaceIdCallback callback);
 
     void editImageInfo(ImageEntity imageEntity, ImageEditCallback callback);
+
+    void rateImage(long userId, long imageId, int ratingNumber, ImageRateCallback callback);
 
     void deleteImage(long imageId, ImageDeleteCallback callback);
 }

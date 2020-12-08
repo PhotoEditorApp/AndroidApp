@@ -38,31 +38,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/image_tags_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingEnd="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_back_from_photo_view" />
 
             <ImageButton
-                android:id="@+id/button_add_image_tag"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/ic_add"
-                android:backgroundTint="@color/white"
-                app:layout_constraintEnd_toEndOf="@+id/image_tags_list"
-                app:layout_constraintTop_toBottomOf="@+id/button_back_from_photo_view" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_back_from_photo_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Назад"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/button_show_image_info"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/ic_image_info"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,11 +71,33 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/photo_view_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="100dp"
             android:background="@color/darkGrayTransparentBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/image_tags_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/button_save_photo" />
+
+            <ImageButton
+                android:id="@+id/button_add_image_tag"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/ic_add"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/image_tags_list"
+                app:layout_constraintEnd_toEndOf="@+id/image_tags_list"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <ImageButton
                 android:id="@+id/button_save_photo"
@@ -93,16 +111,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageButton
-                android:id="@+id/button_show_image_info"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_image_info"
-                android:backgroundTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/button_edit_photo"

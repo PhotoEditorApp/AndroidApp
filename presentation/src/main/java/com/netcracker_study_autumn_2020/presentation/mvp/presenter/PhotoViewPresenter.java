@@ -7,6 +7,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.Downloa
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.AddImageTagUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.DeleteImageTagUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetImageTagsUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetUserTagsUseCase;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PreviewImageView;
 
@@ -20,12 +21,14 @@ public class PhotoViewPresenter extends BasePresenter {
     private DownloadImageByIdUseCase downloadImageByIdUseCase;
 
     private GetImageTagsUseCase getImageTagsUseCase;
+    private GetUserTagsUseCase getUserTagsUseCase;
     private AddImageTagUseCase addImageTagUseCase;
     private DeleteImageTagUseCase deleteImageTagUseCase;
 
     private Bitmap downloadedImage;
     private ImageModel imageModel;
     private List<String> imageTagsList;
+    private List<String> userTagsList;
 
     public ImageModel getImageModel() {
         return imageModel;
@@ -42,10 +45,12 @@ public class PhotoViewPresenter extends BasePresenter {
     public PhotoViewPresenter(ImageModel imageModel,
                               DownloadImageByIdUseCase downloadImageByIdUseCase,
                               GetImageTagsUseCase getImageTagsUseCase,
+                              GetUserTagsUseCase getUserTagsUseCase,
                               AddImageTagUseCase addImageTagUseCase,
                               DeleteImageTagUseCase deleteImageTagUseCase) {
         this.downloadImageByIdUseCase = downloadImageByIdUseCase;
         this.getImageTagsUseCase = getImageTagsUseCase;
+        this.getUserTagsUseCase = getUserTagsUseCase;
         this.addImageTagUseCase = addImageTagUseCase;
         this.deleteImageTagUseCase = deleteImageTagUseCase;
         this.imageModel = imageModel;
@@ -82,6 +87,7 @@ public class PhotoViewPresenter extends BasePresenter {
                 });
     }
 
+
     public void addImageTag(String tagName) {
         addImageTagUseCase.execute(SessionManager.getCurrentUserId(), imageModel.getId(),
                 tagName, new AddImageTagUseCase.Callback() {
@@ -99,6 +105,22 @@ public class PhotoViewPresenter extends BasePresenter {
 
     public void refreshData() {
         getImageTags();
+        getUserTags();
+    }
+
+    private void getUserTags() {
+        getUserTagsUseCase.execute(SessionManager.getCurrentUserId(),
+                new GetUserTagsUseCase.Callback() {
+                    @Override
+                    public void onUserTagsLoaded(List<String> tags) {
+                        userTagsList = tags;
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
     }
 
     public void downloadImage() {
@@ -124,5 +146,9 @@ public class PhotoViewPresenter extends BasePresenter {
 
     public List<String> getImageTagsList() {
         return imageTagsList;
+    }
+
+    public List<String> getUserTagsList() {
+        return userTagsList;
     }
 }

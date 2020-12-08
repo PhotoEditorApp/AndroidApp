@@ -37,6 +37,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     private ConstraintLayout previewContainer;
     private ImageView imageView;
     private TextView imageName;
+    private TextView rating;
 
     public ImageItemViewHolder(@NonNull View itemView,
                                ImagesView imagesView) {
@@ -45,6 +46,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         imageName = itemView.findViewById(R.id.item_image_name);
         imageView = itemView.findViewById(R.id.item_image);
         previewContainer = itemView.findViewById(R.id.image_preview_container);
+        rating = itemView.findViewById(R.id.item_image_rating);
 
         this.imagesView = imagesView;
     }
@@ -100,5 +102,6 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.loading_animation)
                 .into(imageView);
         imageName.setText(imageModel.getName());
+        rating.setText(String.valueOf(imageModel.getRating()));
     }
 }

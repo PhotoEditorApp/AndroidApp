@@ -84,7 +84,8 @@ public class UserTagsFragment extends BaseFragment
         });
 
 
-        tagsAdapter = new TagsAdapter(userTagsPresenter, false);
+        tagsAdapter = new TagsAdapter(userTagsPresenter,
+                TagsAdapter.TagsAdapterType.USER_TAGS);
         tagsList.setAdapter(tagsAdapter);
 
     }

@@ -33,7 +33,7 @@ public class DownloadImageByIdUseCaseImpl extends ImageUseCase
         this.callback = callback;
     }
 
-    private final ImageRepository.ImageDownloadById repositoryCallback = new ImageRepository.ImageDownloadById() {
+    private final ImageRepository.ImageDownloadByIdCallback repositoryCallback = new ImageRepository.ImageDownloadByIdCallback() {
         @Override
         public void onImageDownloaded(Object bitmap) {
             notifyDownloadImageSuccess(bitmap);

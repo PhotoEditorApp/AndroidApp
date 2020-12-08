@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/primaryDark"
-            android:textSize="@dimen/font_size_23"
+            android:textSize="14dp"
             android:layout_marginLeft="@dimen/indent_medium"
             android:layout_marginRight="@dimen/indent_small"
             android:text="Какой-то тег"
@@ -26,8 +26,8 @@
 
         <ImageButton
             android:id="@+id/button_item_tag_delete"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="@dimen/indent_medium"
             android:backgroundTint="@color/primaryDark"
             android:background="@drawable/ic_delete" />

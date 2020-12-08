@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,9 +37,11 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.Do
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.AddImageTagUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.DeleteImageTagUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetImageTagsUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.GetUserTagsUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.AddImageTagUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.DeleteImageTagUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.GetImageTagsUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.GetUserTagsUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.domain.repository.TagRepository;
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -47,6 +50,7 @@ import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.PhotoViewPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PreviewImageView;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.TagsAdapter;
+import com.netcracker_study_autumn_2020.presentation.ui.viewmodel.PhotoViewModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,6 +76,8 @@ public class PhotoViewFragment extends BaseFragment
 
     private ImageModel imageModel;
     private long workspaceId;
+
+    private PhotoViewModel stateSaver;
 
     private PhotoViewPresenter photoViewPresenter;
 
@@ -100,6 +106,8 @@ public class PhotoViewFragment extends BaseFragment
 
         GetImageTagsUseCase getImageTagsUseCase = new GetImageTagsUseCaseImpl(tagRepository,
                 postExecutionThread, threadExecutor);
+        GetUserTagsUseCase getUserTagsUseCase = new GetUserTagsUseCaseImpl(tagRepository,
+                postExecutionThread, threadExecutor);
         AddImageTagUseCase addImageTagUseCase = new AddImageTagUseCaseImpl(tagRepository,
                 postExecutionThread, threadExecutor);
         DeleteImageTagUseCase deleteImageTagUseCase = new DeleteImageTagUseCaseImpl(tagRepository,
@@ -108,16 +116,26 @@ public class PhotoViewFragment extends BaseFragment
         DownloadImageByIdUseCase downloadImageByIdUseCase = new DownloadImageByIdUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
         photoViewPresenter = new PhotoViewPresenter(imageModel, downloadImageByIdUseCase,
-                getImageTagsUseCase, addImageTagUseCase, deleteImageTagUseCase);
+                getImageTagsUseCase, getUserTagsUseCase, addImageTagUseCase, deleteImageTagUseCase);
     }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (container != null) {
+            container.removeAllViews();
+        }
         View root = inflater.inflate(R.layout.fragment_photo_view, container, false);
+        stateSaver = new ViewModelProvider(this.requireActivity()).get(PhotoViewModel.class);
         initInteractions(root);
         return root;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stateSaver.setImageToSave(photoViewPresenter.getDownloadedImage());
     }
 
     private void initInteractions(View root) {
@@ -172,15 +190,21 @@ public class PhotoViewFragment extends BaseFragment
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
         LayoutInflater layoutInflater = getLayoutInflater();
-        View dialogView = layoutInflater.inflate(R.layout.dialog_add_user_tag, null);
+        View dialogView = layoutInflater.inflate(R.layout.dialog_add_image_tag, null);
         alertDialogBuilder.setView(dialogView);
 
-        final EditText dialogNewUserTagName = dialogView.findViewById(R.id.dialog_enter_new_tag_name);
+        final EditText dialogNewImageTagName = dialogView.findViewById(R.id.dialog_enter_new_tag_name);
+        RecyclerView userTagsList = dialogView.findViewById(R.id.dialog_add_image_tag_user_tags_list);
+        userTagsList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        TagsAdapter tagsAdapter = new TagsAdapter(photoViewPresenter,
+                TagsAdapter.TagsAdapterType.USER_TAGS_DIALOG, dialogNewImageTagName);
+        userTagsList.setAdapter(tagsAdapter);
+        tagsAdapter.setTagsList(photoViewPresenter.getUserTagsList());
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Добавить",
                         (dialog, which) -> {
-                            String tagName = dialogNewUserTagName.getText().toString();
+                            String tagName = dialogNewImageTagName.getText().toString();
                             photoViewPresenter.addImageTag(tagName);
                         })
                 .setNegativeButton("Отмена",
@@ -195,7 +219,8 @@ public class PhotoViewFragment extends BaseFragment
         photoTagsList = root.findViewById(R.id.image_tags_list);
         photoTagsList.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
 
-        tagsAdapter = new TagsAdapter(photoViewPresenter, true);
+        tagsAdapter = new TagsAdapter(photoViewPresenter,
+                TagsAdapter.TagsAdapterType.IMAGE_TAGS);
         photoTagsList.setAdapter(tagsAdapter);
         tagsAdapter.setTagsList(new ArrayList<>());
 
@@ -267,7 +292,13 @@ public class PhotoViewFragment extends BaseFragment
         mainContainer = view.findViewById(R.id.main_container);
         loadingUi = view.findViewById(R.id.loading_ui);
         photoViewPresenter.setPreviewImageView(this);
-        photoViewPresenter.downloadImage();
+        Bitmap savedImage = stateSaver.getImageToSave();
+        if (savedImage == null) {
+            photoViewPresenter.downloadImage();
+        } else {
+            subsamplingScaleImageView.setImage(ImageSource.bitmap(savedImage));
+            photoViewPresenter.setDownloadedImage(savedImage);
+        }
         photoViewPresenter.refreshData();
     }
 
