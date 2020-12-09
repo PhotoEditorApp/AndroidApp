@@ -26,6 +26,77 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/create_collage_ui"
+        android:visibility="invisible"
+        android:elevation="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_hide_button_panel"
+            android:elevation="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_cancel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_delete"
+                android:backgroundTint="@color/white"
+                android:focusable="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="@drawable/shape_collage_hint"
+            android:elevation="5dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Выберете до 4 изображений"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_hide_button_reverse"
+            android:elevation="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_create_collage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_image_preview_button_panel"
+                android:focusable="false"
+                android:backgroundTint="@color/white" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/main_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,6 +178,7 @@
                 android:backgroundTint="@color/white" />
 
             <ImageButton
+                android:id="@+id/button_choose_images_for_collage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="8dp"

@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.presentation.mvp.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class ImageModel {
 
@@ -13,6 +14,7 @@ public class ImageModel {
     private float rating;
     private int averageColor;
     private long size;
+    private List<String> tags;
 
     private Date modifiedTime;
 
@@ -108,5 +110,13 @@ public class ImageModel {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

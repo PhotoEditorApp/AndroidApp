@@ -13,4 +13,10 @@ public interface ImagesView {
     void showLoading();
 
     void hideLoading();
+
+    void chooseImage(long imageId);
+
+    void removeChosenImage(long imageId);
+
+    boolean isChoosingImagesForCollage();
 }

@@ -6,9 +6,11 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.CreateC
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ImageUseCase;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 
+import java.util.List;
+
 public class CreateCollageUseCaseImpl extends ImageUseCase implements CreateCollageUseCase {
     private CreateCollageUseCase.Callback callback;
-    private long[] imageIds;
+    private List<Long> imageIds;
 
     public CreateCollageUseCaseImpl(ImageRepository imageRepository,
                                     PostExecutionThread postExecutionThread,
@@ -22,7 +24,7 @@ public class CreateCollageUseCaseImpl extends ImageUseCase implements CreateColl
     }
 
     @Override
-    public void execute(long[] imageIds, CreateCollageUseCase.Callback callback) {
+    public void execute(List<Long> imageIds, CreateCollageUseCase.Callback callback) {
         if (callback == null) {
             throw new IllegalArgumentException("CreateCollageUseCase: Invalid callback!");
         }

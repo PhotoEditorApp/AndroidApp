@@ -18,6 +18,8 @@ import java.util.List;
 
 public class ImagesGridRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private boolean isChoosingImageForCollage = false;
+
     private List<ImageModel> imageList;
     private Context context;
 
@@ -27,6 +29,7 @@ public class ImagesGridRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         imageList = new ArrayList<>();
         this.imagesView = imagesView;
     }
+
 
     @NonNull
     @Override

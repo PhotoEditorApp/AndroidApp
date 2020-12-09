@@ -72,7 +72,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     }
 
     @Override
-    public void createCollage(long[] imageIds, CollageGetCallback callback) {
+    public void createCollage(List<Long> imageIds, CollageGetCallback callback) {
         ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
 
         imageEntityStore.getCollage(imageIds, new ImageEntityStore.CollageCreateCallback() {

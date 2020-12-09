@@ -45,7 +45,7 @@ public interface ImageRepository {
     void addImage(long userId, long spaceId, File sourceImage,
                   ImageRepository.ImageUploadCallback callback);
 
-    void createCollage(long[] imageIds,
+    void createCollage(List<Long> imageIds,
                        ImageRepository.CollageGetCallback callback);
 
     void getImageBySpaceId(long spaceId,

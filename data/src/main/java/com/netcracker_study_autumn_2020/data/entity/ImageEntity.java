@@ -2,6 +2,8 @@ package com.netcracker_study_autumn_2020.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ImageEntity {
     private long id;
     private String name;
@@ -16,6 +18,7 @@ public class ImageEntity {
     private float rating;
     private long size;
     private String modifiedTime;
+    private List<String> tags;
 
     public ImageEntity() {
     }
@@ -98,5 +101,13 @@ public class ImageEntity {
 
     public void setPreviewPath(String previewPath) {
         this.previewPath = previewPath;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

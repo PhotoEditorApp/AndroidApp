@@ -3,7 +3,6 @@ package com.netcracker_study_autumn_2020.presentation.ui.viewholder;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +38,8 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     private TextView imageName;
     private TextView rating;
 
+    private boolean isChosen = false;
+
     public ImageItemViewHolder(@NonNull View itemView,
                                ImagesView imagesView) {
         super(itemView);
@@ -47,6 +48,7 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.item_image);
         previewContainer = itemView.findViewById(R.id.image_preview_container);
         rating = itemView.findViewById(R.id.item_image_rating);
+
 
         this.imagesView = imagesView;
     }
@@ -57,24 +59,40 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         // with image preview
         previewContainer.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                v.setBackgroundColor(Color.rgb(255, 255, 255));
+                if (!imagesView.isChoosingImagesForCollage()) {
+                    v.setBackgroundColor(Color.rgb(255, 255, 255));
+                }
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.setBackgroundColor(Color.rgb(177, 247, 246));
+                if (!imagesView.isChoosingImagesForCollage()) {
+                    v.setBackgroundColor(Color.rgb(177, 247, 246));
+                }
                 return false;
             }
             return false;
         });
         previewContainer.setOnClickListener(l -> {
-            ((ImagesFragment) fragment).navigateToPhotoView(imageModel);
-
+            if (!imagesView.isChoosingImagesForCollage()) {
+                ((ImagesFragment) fragment).navigateToPhotoView(imageModel);
+            } else {
+                if (isChosen) {
+                    previewContainer
+                            .setBackgroundColor(Color.rgb(255, 255, 255));
+                    imagesView.removeChosenImage(imageModel.getId());
+                    isChosen = false;
+                } else {
+                    previewContainer
+                            .setBackgroundColor(Color.rgb(177, 247, 246));
+                    imagesView.chooseImage(imageModel.getId());
+                    isChosen = true;
+                }
+            }
         });
         previewContainer.setOnLongClickListener(v -> {
             imagesView.showImageMenu(imageModel, itemView);
             return true;
         });
-        ColorDrawable colorDrawable = new ColorDrawable(imageModel.getAverageColor());
-        //averageColorIndicator.setCompoundDrawables(null,colorDrawable,null,null);
+
         Log.d("IMAGE_COLOR", String.valueOf(imageModel.getAverageColor()));
         averageColorIndicator.getBackground().setColorFilter(imageModel.getAverageColor(),
                 PorterDuff.Mode.SRC_IN);

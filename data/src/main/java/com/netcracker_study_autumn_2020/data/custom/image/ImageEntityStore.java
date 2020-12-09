@@ -42,7 +42,7 @@ public interface ImageEntityStore {
 
     void getImageById(long imageId, ImageDownloadByIdCallback callback);
 
-    void getCollage(long[] imageIds, CollageCreateCallback callback);
+    void getCollage(List<Long> imageIds, CollageCreateCallback callback);
 
     void uploadImage(long userId, long spaceId, File sourceImage,
                      ImageUploadCallback callback);

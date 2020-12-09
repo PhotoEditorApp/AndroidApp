@@ -32,7 +32,7 @@ public interface ImageService {
 
     @GET("/image/get_collage")
     Call<ResponseBody> createCollage(@Header("Authorization") String token,
-                                     @Query("ids") long[] imageIds);
+                                     @Query("ids") List<Long> imageIds);
 
     @GET("/space/{space_id}/image")
     Call<List<ImageEntity>> getImagesBySpaceId(@Header("Authorization") String token,

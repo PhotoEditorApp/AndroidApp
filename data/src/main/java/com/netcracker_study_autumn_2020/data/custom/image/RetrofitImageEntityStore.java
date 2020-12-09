@@ -61,7 +61,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
     }
 
     @Override
-    public void getCollage(long[] imageIds, CollageCreateCallback callback) {
+    public void getCollage(List<Long> imageIds, CollageCreateCallback callback) {
         Response<ResponseBody> response;
         try {
             response = imageService.createCollage(SessionManager.getSessionToken(),

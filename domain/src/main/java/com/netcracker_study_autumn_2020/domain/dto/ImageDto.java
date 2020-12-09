@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.domain.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ImageDto {
     private long id;
@@ -13,6 +14,7 @@ public class ImageDto {
     private float rating;
     private long size;
     private Date modifiedTime;
+    private List<String> tags;
 
     public long getId() {
         return id;
@@ -92,5 +94,13 @@ public class ImageDto {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

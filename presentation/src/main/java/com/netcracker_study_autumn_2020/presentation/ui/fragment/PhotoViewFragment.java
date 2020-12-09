@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
@@ -143,7 +142,7 @@ public class PhotoViewFragment extends BaseFragment
         bottomBar = root.findViewById(R.id.photo_view_bottom_bar);
 
         ImageButton buttonSave = root.findViewById(R.id.button_save_photo);
-        MaterialButton buttonBack = root.findViewById(R.id.button_back_from_photo_view);
+        ImageButton buttonBack = root.findViewById(R.id.button_back_from_photo_view);
         ImageButton buttonEditPhoto = root.findViewById(R.id.button_edit_photo);
 
         ImageButton addImageTag = root.findViewById(R.id.button_add_image_tag);

@@ -12,6 +12,7 @@ public class ImageModelDtoMapper extends BaseMapper<ImageModel, ImageDto> {
         imageModel.setName(o2.getName());
         imageModel.setSize(o2.getSize());
         imageModel.setRating(o2.getRating());
+        imageModel.setTags(o2.getTags());
         imageModel.setCreateTime(o2.getCreateTime());
         imageModel.setModifiedTime(o2.getModifiedTime());
         imageModel.setUserId(o2.getUserId());
@@ -29,6 +30,7 @@ public class ImageModelDtoMapper extends BaseMapper<ImageModel, ImageDto> {
         imageDto.setName(o1.getName());
         imageDto.setSize(o1.getSize());
         imageDto.setRating(o1.getRating());
+        imageDto.setTags(o1.getTags());
         imageDto.setCreateTime(o1.getCreateTime());
         imageDto.setModifiedTime(o1.getModifiedTime());
         imageDto.setUserId(o1.getUserId());

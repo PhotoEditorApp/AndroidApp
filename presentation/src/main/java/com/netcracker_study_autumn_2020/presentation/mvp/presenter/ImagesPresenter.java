@@ -18,7 +18,9 @@ import com.netcracker_study_autumn_2020.presentation.ui.fragment.ImagesFragment;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,6 +35,10 @@ public class ImagesPresenter extends BasePresenter {
     private CreateCollageUseCase createCollageUseCase;
 
     private List<ImageModel> imageModels;
+    private List<ImageModel> bufferList;
+
+
+    private Set<String> uniqueImageTags;
     private long spaceId;
 
     private ImageModelDtoMapper imageModelDtoMapper;
@@ -53,6 +59,8 @@ public class ImagesPresenter extends BasePresenter {
         this.spaceId = spaceId;
 
         imageModels = new ArrayList<>();
+        bufferList = new ArrayList<>();
+        uniqueImageTags = new HashSet<>();
         imageModelDtoMapper = new ImageModelDtoMapper();
     }
 
@@ -67,20 +75,25 @@ public class ImagesPresenter extends BasePresenter {
                 List<ImageModel> wModels = imageModelDtoMapper.map1(images);
                 imageModels.clear();
                 imageModels.addAll(wModels);
+                bufferList.addAll(wModels);
+                for (ImageModel model : imageModels) {
+                    uniqueImageTags.addAll(model.getTags());
+                }
                 //workspaceModels = wModels;
                 Log.d(TAG, "onImagesLoaded: ");
-
+                imagesView.hideLoading();
                 imagesView.renderImages();
             }
 
             @Override
             public void onError(Exception e) {
+                imagesView.hideLoading();
                 e.printStackTrace();
             }
         });
     }
 
-    public void createCollage(long[] imageIds) {
+    public void createCollage(List<Long> imageIds) {
         createCollageUseCase.execute(imageIds, new CreateCollageUseCase.Callback() {
             @Override
             public void onCollageCreated() {
@@ -167,6 +180,10 @@ public class ImagesPresenter extends BasePresenter {
         return imageModels;
     }
 
+    public Set<String> getUniqueImageTags() {
+        return uniqueImageTags;
+    }
+
     public void sortByAverageColor() {
         imageModels.sort((o1, o2) -> {
             if (o1.getAverageColor() > o2.getAverageColor()) {
@@ -237,6 +254,21 @@ public class ImagesPresenter extends BasePresenter {
             }
             return 0;
         });
+        imagesView.renderImages();
+    }
+
+    public void sortByTag(String tag) {
+        if (tag.equals("-отмена-")) {
+            imageModels.clear();
+            imageModels.addAll(bufferList);
+        } else {
+            imageModels.clear();
+            for (ImageModel m : bufferList) {
+                if (m.getTags().contains(tag)) {
+                    imageModels.add(m);
+                }
+            }
+        }
         imagesView.renderImages();
     }
 }

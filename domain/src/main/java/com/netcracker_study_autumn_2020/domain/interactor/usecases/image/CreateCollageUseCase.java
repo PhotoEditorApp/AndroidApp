@@ -1,5 +1,7 @@
 package com.netcracker_study_autumn_2020.domain.interactor.usecases.image;
 
+import java.util.List;
+
 public interface CreateCollageUseCase {
     interface Callback {
         void onCollageCreated();
@@ -7,5 +9,5 @@ public interface CreateCollageUseCase {
         void onError(Exception e);
     }
 
-    void execute(long[] imageIds, CreateCollageUseCase.Callback callback);
+    void execute(List<Long> imageIds, CreateCollageUseCase.Callback callback);
 }

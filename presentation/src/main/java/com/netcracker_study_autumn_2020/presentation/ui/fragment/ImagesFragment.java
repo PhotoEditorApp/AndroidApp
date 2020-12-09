@@ -51,7 +51,9 @@ import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationA
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.ImagesGridRecyclerAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -61,7 +63,12 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     private ConstraintLayout emptyUI;
     private ConstraintLayout loadingUI;
+    private ConstraintLayout createCollageUI;
     private ConstraintLayout mainContainer;
+
+
+    private boolean isChoosingImagesForCollage = false;
+    private List<Long> chosenImageIds;
 
     private ImagesPresenter presenter;
     private RecyclerView recyclerView;
@@ -104,7 +111,6 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         CreateCollageUseCase createCollageUseCase = new CreateCollageUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
 
-        //TODO get spaceId properly
         presenter = new ImagesPresenter(workspaceModel.getId(),
                 addImageUseCase, getWorkspaceImagesInfoUseCase, editImageInfoUseCase,
                 deleteImageUseCase, rateImageUseCase, createCollageUseCase);
@@ -122,6 +128,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        chosenImageIds = new ArrayList<>();
         presenter.setView(this);
         presenter.updateImageList();
 
@@ -141,12 +148,43 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         mainContainer = root.findViewById(R.id.main_container);
         loadingUI = root.findViewById(R.id.loading_ui);
         emptyUI = root.findViewById(R.id.empty_ui);
+        createCollageUI = root.findViewById(R.id.create_collage_ui);
 
         buttonPanel = root.findViewById(R.id.photo_preview_button_panel);
         ImageButton hidePanel = root.findViewById(R.id.hide_panel_button);
         ImageButton addImage = root.findViewById(R.id.button_add_image);
         ImageButton sortImages = root.findViewById(R.id.button_choose_sort);
+        ImageButton sortByTags = root.findViewById(R.id.button_sort_by_tags);
+        ImageButton createCollage = root.findViewById(R.id.button_choose_images_for_collage);
 
+        ImageButton applyCollage = root.findViewById(R.id.button_create_collage);
+        ImageButton cancelCollage = root.findViewById(R.id.button_cancel);
+
+        applyCollage.setOnClickListener(l -> {
+            Log.d("APPLY", "check");
+            hidePanel.setVisibility(View.VISIBLE);
+            buttonPanel.setVisibility(View.VISIBLE);
+            createCollageUI.setVisibility(View.GONE);
+            isChoosingImagesForCollage = false;
+            presenter.createCollage(chosenImageIds);
+            showLoading();
+        });
+
+        createCollage.setOnClickListener(l -> {
+            isPanelHide = true;
+            buttonPanel.setVisibility(View.GONE);
+            hidePanel.setVisibility(View.GONE);
+            createCollageUI.setVisibility(View.VISIBLE);
+            isChoosingImagesForCollage = true;
+        });
+
+        cancelCollage.setOnClickListener(l -> {
+            Log.d("CANCEL", "check");
+            hidePanel.setVisibility(View.VISIBLE);
+            buttonPanel.setVisibility(View.VISIBLE);
+            createCollageUI.setVisibility(View.GONE);
+            isChoosingImagesForCollage = false;
+        });
 
         hidePanel.setOnClickListener(l -> {
             if (isPanelHide) {
@@ -200,7 +238,31 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
         });
 
+        sortByTags.setOnClickListener(l -> {
+            PopupMenu tagsMenu = new PopupMenu(getContext(), sortImages);
+            tagsMenu.inflate(R.menu.unique_tags_menu);
+            Set<String> tags = presenter.getUniqueImageTags();
+            int i = 1;
+            for (String tag : tags) {
+                tagsMenu.getMenu().add(1, R.id.menu_tag, i, tag);
+                i++;
+            }
+            tagsMenu.setOnMenuItemClickListener(menuItem -> {
+                if (menuItem.getItemId() == R.id.menu_tag) {
+                    presenter.sortByTag(menuItem.getTitle().toString());
+                    return true;
+                }
+                return false;
+
+            });
+            tagsMenu.show();
+        });
         //initImagePickUtils();
+    }
+
+    @Override
+    public boolean isChoosingImagesForCollage() {
+        return isChoosingImagesForCollage;
     }
 
     private AlertDialog initEditImageInfoDialog(ImageModel imageModel) {
@@ -339,6 +401,16 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     public void hideLoading() {
         mainContainer.setVisibility(View.VISIBLE);
         loadingUI.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void chooseImage(long imageId) {
+        chosenImageIds.add(imageId);
+    }
+
+    @Override
+    public void removeChosenImage(long imageId) {
+        chosenImageIds.remove(imageId);
     }
 
     public void navigateToPhotoView(ImageModel imageModel) {
