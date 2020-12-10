@@ -126,17 +126,18 @@ public class WorkspacesPresenter extends BasePresenter {
     }
 
     public void deleteWorkspace(WorkspaceModel data) {
-        deleteWorkspaceUseCase.execute(data.getId(), new DeleteWorkspaceUseCase.Callback() {
-            @Override
-            public void onWorkspaceDeleted() {
-                refreshData();
-            }
+        deleteWorkspaceUseCase.execute(SessionManager.getCurrentUserId(),
+                data.getId(), new DeleteWorkspaceUseCase.Callback() {
+                    @Override
+                    public void onWorkspaceDeleted() {
+                        refreshData();
+                    }
 
-            @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public long getCurrentUserId() {
@@ -168,9 +169,9 @@ public class WorkspacesPresenter extends BasePresenter {
             Date d1 = o1.getCreationTime();
             Date d2 = o2.getCreationTime();
             if (d1.after(d2)) {
-                return 1;
-            } else if (d1.before(d2)) {
                 return -1;
+            } else if (d1.before(d2)) {
+                return 1;
             }
             return 0;
         });
@@ -182,9 +183,9 @@ public class WorkspacesPresenter extends BasePresenter {
             Date d1 = o1.getModificationTime();
             Date d2 = o2.getModificationTime();
             if (d1.after(d2)) {
-                return 1;
-            } else if (d1.before(d2)) {
                 return -1;
+            } else if (d1.before(d2)) {
+                return 1;
             }
             return 0;
         });

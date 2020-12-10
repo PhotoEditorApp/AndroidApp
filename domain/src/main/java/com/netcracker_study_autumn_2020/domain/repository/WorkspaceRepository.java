@@ -26,7 +26,7 @@ public interface WorkspaceRepository {
         void onWorkspaceDeleted();
     }
 
-    interface WorkspaceEditCallback extends Error{
+    interface WorkspaceEditCallback extends Error {
         void onWorkspaceEdited();
     }
 
@@ -35,6 +35,8 @@ public interface WorkspaceRepository {
     void allWorkspaces(long userId, String accessType, WorkspaceListCallback callback);
 
     void createWorkspace(WorkspaceDto workspace, WorkspaceCreateCallback callback);
-    void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
+
+    void deleteWorkspace(long userId, long spaceId, WorkspaceDeleteCallback callback);
+
     void editWorkspace(WorkspaceDto workspace, WorkspaceEditCallback callback);
 }

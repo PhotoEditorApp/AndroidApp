@@ -27,7 +27,7 @@ public interface WorkspaceEntityStore {
         void onWorkspaceDeleted();
     }
 
-    interface WorkspaceEditCallback extends Error{
+    interface WorkspaceEditCallback extends Error {
         void onWorkspaceEdited();
     }
 
@@ -36,6 +36,8 @@ public interface WorkspaceEntityStore {
     void allWorkspaces(long userId, SpaceAccessType accessType, WorkspaceListCallback callback);
 
     void createWorkspace(WorkspaceEntity workspace, WorkspaceCreateCallback callback);
-    void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback);
+
+    void deleteWorkspace(long userId, long spaceId, WorkspaceDeleteCallback callback);
+
     void editWorkspace(WorkspaceEntity workspace, WorkspaceEditCallback callback);
 }

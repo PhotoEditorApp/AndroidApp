@@ -2,6 +2,7 @@ package com.netcracker_study_autumn_2020.data.custom.image;
 
 import android.graphics.Bitmap;
 
+import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 
 import java.io.File;
@@ -40,12 +41,43 @@ public interface ImageEntityStore {
         void onImageRated();
     }
 
+    interface ImageApplyFrameCallback extends ImageEntityStore.Error {
+        void onFrameApplied(Bitmap image);
+    }
+
+    interface ImageApplyFilterCallback extends ImageEntityStore.Error {
+        void onFilterApplied(Bitmap image);
+    }
+
+    interface FrameUploadCallback extends ImageEntityStore.Error {
+        void onFrameUploaded();
+    }
+
+    interface FrameGetPreviewCallback extends ImageEntityStore.Error {
+        void onFramePreviewLoaded();
+    }
+
+    interface UsersFramesGetCallback extends ImageEntityStore.Error {
+        void onUsersFramesLoaded(List<FrameEntity> usersFrames);
+    }
+
+
     void getImageById(long imageId, ImageDownloadByIdCallback callback);
 
     void getCollage(List<Long> imageIds, CollageCreateCallback callback);
 
     void uploadImage(long userId, long spaceId, File sourceImage,
                      ImageUploadCallback callback);
+
+    void getUsersFrames(UsersFramesGetCallback callback);
+
+    void getFramePreview(long frameId, FrameGetPreviewCallback callback);
+
+    void uploadFrame(File sourceFrame, FrameUploadCallback callback);
+
+    void applyFilter(long imageId, String filter, ImageApplyFilterCallback callback);
+
+    void applyFrame(long imageId, long frameId, ImageApplyFrameCallback callback);
 
     void getImagesBySpaceId(long spaceId, ImagesBySpaceIdCallback callback);
 

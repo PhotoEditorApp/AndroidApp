@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.domain.repository;
 
 
+import com.netcracker_study_autumn_2020.domain.dto.FrameDto;
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 
 import java.io.File;
@@ -39,6 +40,36 @@ public interface ImageRepository {
     interface ImageRateCallback extends ImageRepository.Error {
         void onImageRated();
     }
+
+    interface UsersFramesGetCallback extends ImageRepository.Error {
+        void onUsersFramesLoaded(List<FrameDto> usersFrames);
+    }
+
+    interface FrameGetPreviewCallback extends ImageRepository.Error {
+        void onFramePreviewLoaded();
+    }
+
+    interface FrameUploadCallback extends ImageRepository.Error {
+        void onFrameUploaded();
+    }
+
+    interface ImageApplyFilterCallback extends ImageRepository.Error {
+        void onFilterApplied(Object image);
+    }
+
+    interface ImageApplyFrameCallback extends ImageRepository.Error {
+        void onFrameApplied(Object image);
+    }
+
+    void getUsersFrames(UsersFramesGetCallback callback);
+
+    void getFramePreview(long frameId, FrameGetPreviewCallback callback);
+
+    void uploadFrame(File sourceFrame, FrameUploadCallback callback);
+
+    void applyFilter(long imageId, String filter, ImageApplyFilterCallback callback);
+
+    void applyFrame(long imageId, long frameId, ImageApplyFrameCallback callback);
 
     void downloadImage(long imageId, ImageDownloadByIdCallback callback);
 

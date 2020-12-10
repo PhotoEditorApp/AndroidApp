@@ -1,5 +1,6 @@
 package com.netcracker_study_autumn_2020.data.custom.services;
 
+import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 
 import java.util.List;
@@ -18,6 +19,29 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ImageService {
+
+    @GET("")
+    Call<ResponseBody> getFramePreview(@Header("Authorization") String token,
+                                       @Query("frameId") long frameId);
+
+    @GET("")
+    Call<List<FrameEntity>> getUsersFrames(@Header("Authorization") String token);
+
+    @Multipart
+    @POST("/image/upload_frame")
+    Call<ResponseBody> uploadFrame(@Header("Authorization") String token,
+                                   @Part MultipartBody.Part filePart);
+
+
+    @GET("/image/frame")
+    Call<ResponseBody> applyFrame(@Header("Authorization") String token,
+                                  @Query("id") long imageId,
+                                  @Query("frame_id") long frameId);
+
+    @GET("/image/filter")
+    Call<ResponseBody> applyFilter(@Header("Authorization") String token,
+                                   @Query("id") long imageId,
+                                   @Query("filter") String filterType);
 
     @Multipart
     @POST("/image/upload_image")

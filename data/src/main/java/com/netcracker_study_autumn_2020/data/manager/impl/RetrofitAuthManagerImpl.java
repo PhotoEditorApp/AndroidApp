@@ -74,9 +74,11 @@ public class RetrofitAuthManagerImpl extends SessionManager implements AuthManag
         });
     }
 
+
     @Override
     public void signOut(SignOutCallback signOut) {
-
+        closeSession();
+        signOut.onSignOutFinished();
     }
 
     //@Override

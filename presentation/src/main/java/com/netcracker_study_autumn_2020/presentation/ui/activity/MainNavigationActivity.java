@@ -31,11 +31,8 @@ public class MainNavigationActivity extends BaseActivity {
     private FindAndShareFragment findAndShareFragment;
 
     //Позволяет передать пары ключ-значение другой Activity при старте
-    public static Intent getCallingIntent(Context context, long userId) {
-        Intent callingIntent = new Intent(context, MainNavigationActivity.class);
-        callingIntent.putExtra(CURRENT_USER_ID_EXTRA_NAME, userId);
-
-        return callingIntent;
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, MainNavigationActivity.class);
     }
 
     @Override
@@ -125,6 +122,10 @@ public class MainNavigationActivity extends BaseActivity {
 
     public void navigateToFullSizePhotoView(ImageModel imageModel, long workspaceId) {
         navigator.navigateToPhotoView(this, imageModel, workspaceId);
+    }
+
+    public void navigateToStartActivity() {
+        navigator.navigateToStartActivity(this);
     }
 
 

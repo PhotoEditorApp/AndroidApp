@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.custom.services.ImageService;
+import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
@@ -74,7 +75,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
             }
 
         } catch (IOException e) {
-
+            callback.onError(e);
         }
     }
 
@@ -93,6 +94,94 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                 callback.onImagesUploaded();
             } else {
                 callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE uploadImage: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getUsersFrames(UsersFramesGetCallback callback) {
+        Response<List<FrameEntity>> response;
+        try {
+            response = imageService.getUsersFrames(SessionManager.getSessionToken()).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE getUsersFrames: code - " +
+                        +response.code()));
+            } else {
+                callback.onUsersFramesLoaded(response.body());
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getFramePreview(long frameId, FrameGetPreviewCallback callback) {
+        //TODO we won't need it no
+    }
+
+    @Override
+    public void uploadFrame(File sourceFrame, FrameUploadCallback callback) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), sourceFrame);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("frame", sourceFrame.getName(),
+                requestFile);
+        Response<ResponseBody> response;
+
+        try {
+            response = imageService.uploadFrame(SessionManager.getSessionToken(), filePart)
+                    .execute();
+            if (response.code() == 200) {
+                callback.onFrameUploaded();
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE uploadFrame: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void applyFilter(long imageId, String filter, ImageApplyFilterCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.applyFilter(SessionManager.getSessionToken(), imageId,
+                    filter)
+                    .execute();
+
+            if (response.code() == 200) {
+                if (response.body() != null) {
+                    InputStream imageStream = response.body().byteStream();
+                    Bitmap image = BitmapFactory.decodeStream(imageStream);
+                    callback.onFilterApplied(image);
+                }
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE applyFilter: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void applyFrame(long imageId, long frameId, ImageApplyFrameCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.applyFrame(SessionManager.getSessionToken(), imageId,
+                    frameId)
+                    .execute();
+
+            if (response.code() == 200) {
+                if (response.body() != null) {
+                    InputStream imageStream = response.body().byteStream();
+                    Bitmap image = BitmapFactory.decodeStream(imageStream);
+                    callback.onFrameApplied(image);
+                }
+            } else {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE applyFrame: code - " +
                         +response.code()));
             }
         } catch (IOException e) {

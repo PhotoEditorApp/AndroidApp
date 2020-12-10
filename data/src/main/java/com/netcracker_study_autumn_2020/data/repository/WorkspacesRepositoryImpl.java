@@ -80,9 +80,9 @@ public class WorkspacesRepositoryImpl implements WorkspaceRepository {
     }
 
     @Override
-    public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
+    public void deleteWorkspace(long userId, long spaceId, WorkspaceDeleteCallback callback) {
         WorkspaceEntityStore workspaceEntityStore = workspaceEntityStoreFactory.create();
-        workspaceEntityStore.deleteWorkspace(spaceId, new WorkspaceEntityStore.WorkspaceDeleteCallback() {
+        workspaceEntityStore.deleteWorkspace(userId, spaceId, new WorkspaceEntityStore.WorkspaceDeleteCallback() {
             @Override
             public void onWorkspaceDeleted() {
                 callback.onWorkspaceDeleted();

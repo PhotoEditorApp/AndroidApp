@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
+import com.netcracker_study_autumn_2020.data.mapper.FrameEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
@@ -89,12 +90,12 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     @Override
     void initializePresenter() {
-
+        FrameEntityDtoMapper frameEntityDtoMapper = new FrameEntityDtoMapper();
         ImageEntityDtoMapper imageEntityDtoMapper = new ImageEntityDtoMapper();
         ImageEntityStoreFactory imageEntityStoreFactory = new ImageEntityStoreFactory();
 
         ImageRepository imageRepository = ImageRepositoryImpl.getInstance(imageEntityStoreFactory,
-                imageEntityDtoMapper);
+                imageEntityDtoMapper, frameEntityDtoMapper);
         PostExecutionThread postExecutionThread = UIThread.getInstance();
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
 
@@ -198,7 +199,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
         addImage.setOnClickListener(l -> {
             Log.d("ARE_PERMISSIONS_GRANTED", String.valueOf(
-                    EasyPermissions.hasPermissions(getContext(), galleryPermissions)));
+                    EasyPermissions.hasPermissions(requireContext(), galleryPermissions)));
             if (EasyPermissions.hasPermissions(getContext(), galleryPermissions)) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
@@ -282,9 +283,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                             presenter.editImageInfo(imageModel);
                         })
                 .setNegativeButton("Отмена",
-                        (dialog, which) -> {
-                            dialog.cancel();
-                        });
+                        (dialog, which) -> dialog.cancel());
 
         return alertDialogBuilder.create();
     }
@@ -300,15 +299,10 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Оценить",
-                        (dialog, which) -> {
-                            presenter.rateImage(imageModel.getId(),
-                                    (int) ratingBar.getRating());
-
-                        })
+                        (dialog, which) -> presenter.rateImage(imageModel.getId(),
+                                (int) ratingBar.getRating()))
                 .setNegativeButton("Отмена",
-                        (dialog, which) -> {
-                            dialog.cancel();
-                        });
+                        (dialog, which) -> dialog.cancel());
 
         return alertDialogBuilder.create();
     }
@@ -329,7 +323,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     String absolutePath = FilesUtils.getPath(getContext(), selectedImage);
-                    File sourceImage = null;
+                    File sourceImage;
                     if (absolutePath != null && !absolutePath.isEmpty()) {
                         sourceImage = new File(absolutePath);
                         presenter.addImage(SessionManager.getCurrentUserId(),

@@ -32,4 +32,8 @@ public class CreateWorkspaceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_workspace);
     }
+
+    public void navigateToMainNavigationActivity() {
+        navigator.navigateToMainNavigationActivity(this);
+    }
 }

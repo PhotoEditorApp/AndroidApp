@@ -26,6 +26,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.custom.tags.TagEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
+import com.netcracker_study_autumn_2020.data.mapper.FrameEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.repository.ImageRepositoryImpl;
 import com.netcracker_study_autumn_2020.data.repository.TagRepositoryImpl;
@@ -48,6 +49,7 @@ import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.PhotoViewPresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PreviewImageView;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.PhotoViewActivity;
 import com.netcracker_study_autumn_2020.presentation.ui.adapter.TagsAdapter;
 import com.netcracker_study_autumn_2020.presentation.ui.viewmodel.PhotoViewModel;
 
@@ -94,6 +96,7 @@ public class PhotoViewFragment extends BaseFragment
         ThreadExecutor threadExecutor = JobExecutor.getInstance();
         PostExecutionThread postExecutionThread = UIThread.getInstance();
 
+        FrameEntityDtoMapper frameEntityDtoMapper = new FrameEntityDtoMapper();
         ImageEntityDtoMapper imageEntityDtoMapper = new ImageEntityDtoMapper();
         ImageEntityStoreFactory imageEntityStoreFactory = new ImageEntityStoreFactory();
 
@@ -101,7 +104,7 @@ public class PhotoViewFragment extends BaseFragment
 
         TagRepository tagRepository = new TagRepositoryImpl(tagEntityStoreFactory);
         ImageRepository imageRepository = ImageRepositoryImpl.getInstance(imageEntityStoreFactory,
-                imageEntityDtoMapper);
+                imageEntityDtoMapper, frameEntityDtoMapper);
 
         GetImageTagsUseCase getImageTagsUseCase = new GetImageTagsUseCaseImpl(tagRepository,
                 postExecutionThread, threadExecutor);
@@ -177,12 +180,13 @@ public class PhotoViewFragment extends BaseFragment
             showToastMessage("Изображение успешно сохранено в " +
                     "галерею", true);
         });
-        buttonEditPhoto.setOnClickListener(l -> {
+        buttonEditPhoto.setOnClickListener(l -> navigateToPhotoEditor());
+        buttonBack.setOnClickListener(l -> requireActivity().finish());
+    }
 
-        });
-        buttonBack.setOnClickListener(l -> {
-
-        });
+    private void navigateToPhotoEditor() {
+        ((PhotoViewActivity) requireActivity()).navigateToPhotoEditor(imageModel,
+                photoViewPresenter.getDownloadedImage());
     }
 
     private AlertDialog initAddImageTagDialog() {
@@ -207,9 +211,7 @@ public class PhotoViewFragment extends BaseFragment
                             photoViewPresenter.addImageTag(tagName);
                         })
                 .setNegativeButton("Отмена",
-                        (dialog, which) -> {
-                            dialog.cancel();
-                        });
+                        (dialog, which) -> dialog.cancel());
 
         return alertDialogBuilder.create();
     }

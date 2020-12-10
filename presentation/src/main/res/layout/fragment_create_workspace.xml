@@ -16,13 +16,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_back_to_sign_in"
+                android:id="@+id/button_back_to_workspaces_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:background="@android:color/transparent"
                 android:text="@string/back_to_previous_screen"
-
                 android:textColor="@color/black"
                 app:elevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,13 +137,14 @@
 
             <ImageButton
                 android:id="@+id/button_chose_workspace_color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/create_workspace_description_hint2"
                 app:layout_constraintEnd_toStartOf="@+id/create_workspace_color_marker"
                 app:layout_constraintTop_toTopOf="@+id/create_workspace_description_hint2"
-                app:srcCompat="@drawable/abc_vector_test" />
+                android:background="@drawable/ic_paint_board_and_brush"
+                android:backgroundTint="@color/primaryDark" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

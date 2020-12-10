@@ -2,6 +2,7 @@ package com.netcracker_study_autumn_2020.presentation.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -42,5 +43,9 @@ public class PhotoViewActivity extends BaseActivity {
         long workspaceId = intent.getLongExtra(CURRENT_WORKSPACE_ID, 0);
 
         addFragment(R.id.ft_container, new PhotoViewFragment(imageModel, workspaceId));
+    }
+
+    public void navigateToPhotoEditor(ImageModel imageModel, Bitmap sourceImage) {
+        navigator.navigateToPhotoEditor(this, imageModel, sourceImage);
     }
 }

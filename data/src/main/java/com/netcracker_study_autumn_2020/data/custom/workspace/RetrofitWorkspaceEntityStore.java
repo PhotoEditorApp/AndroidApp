@@ -86,10 +86,10 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     }
 
     @Override
-    public void deleteWorkspace(long spaceId, WorkspaceDeleteCallback callback) {
+    public void deleteWorkspace(long userId, long spaceId, WorkspaceDeleteCallback callback) {
         Response<ResponseBody> response;
         try {
-            response = workspaceService.deleteWorkspace(spaceId,
+            response = workspaceService.deleteWorkspace(userId, spaceId,
                     SessionManager.getSessionToken()).execute();
             assert response.body() != null;
             if (response.code() == 200) {
@@ -98,6 +98,7 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
                 callback.onError(new EntityStoreException("Delete workspace failed. Code:" +
                         " " + response.code() +
                         "\n Message: " + response.body().string()));
+
             }
         } catch (IOException e) {
             e.printStackTrace();

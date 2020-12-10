@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStore;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
+import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
+import com.netcracker_study_autumn_2020.data.mapper.FrameEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
@@ -19,23 +21,103 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     public static synchronized ImageRepositoryImpl getInstance(
             ImageEntityStoreFactory imageEntityStoreFactory,
-            ImageEntityDtoMapper imageEntityDtoMapper) {
+            ImageEntityDtoMapper imageEntityDtoMapper,
+            FrameEntityDtoMapper frameEntityDtoMapper) {
         if (INSTANCE == null) {
             INSTANCE = new ImageRepositoryImpl(imageEntityDtoMapper,
+                    frameEntityDtoMapper,
                     imageEntityStoreFactory);
         }
         return INSTANCE;
     }
 
     private ImageEntityDtoMapper imageEntityDtoMapper;
+    private FrameEntityDtoMapper frameEntityDtoMapper;
+
     private ImageEntityStoreFactory imageEntityStoreFactory;
 
     public ImageRepositoryImpl(ImageEntityDtoMapper imageEntityDtoMapper,
+                               FrameEntityDtoMapper frameEntityDtoMapper,
                                ImageEntityStoreFactory imageEntityStoreFactory) {
         this.imageEntityDtoMapper = imageEntityDtoMapper;
+        this.frameEntityDtoMapper = frameEntityDtoMapper;
         this.imageEntityStoreFactory = imageEntityStoreFactory;
     }
 
+
+    @Override
+    public void getUsersFrames(UsersFramesGetCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.getUsersFrames(new ImageEntityStore.UsersFramesGetCallback() {
+            @Override
+            public void onUsersFramesLoaded(List<FrameEntity> usersFrames) {
+                callback.onUsersFramesLoaded(
+                        frameEntityDtoMapper.map2(usersFrames));
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void getFramePreview(long frameId, FrameGetPreviewCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+    }
+
+    @Override
+    public void uploadFrame(File sourceFrame, FrameUploadCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.uploadFrame(sourceFrame, new ImageEntityStore.FrameUploadCallback() {
+            @Override
+            public void onFrameUploaded() {
+                callback.onFrameUploaded();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void applyFilter(long imageId, String filter, ImageApplyFilterCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.applyFilter(imageId, filter, new ImageEntityStore.ImageApplyFilterCallback() {
+            @Override
+            public void onFilterApplied(Bitmap image) {
+                callback.onFilterApplied(image);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+
+    @Override
+    public void applyFrame(long imageId, long frameId, ImageApplyFrameCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.applyFrame(imageId, frameId, new ImageEntityStore.ImageApplyFrameCallback() {
+            @Override
+            public void onFrameApplied(Bitmap image) {
+                callback.onFrameApplied(image);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
 
     @Override
     public void downloadImage(long imageId, ImageDownloadByIdCallback callback) {

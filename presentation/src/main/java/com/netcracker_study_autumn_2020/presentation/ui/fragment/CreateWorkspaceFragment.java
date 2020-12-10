@@ -1,6 +1,5 @@
 package com.netcracker_study_autumn_2020.presentation.ui.fragment;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.material.button.MaterialButton;
 import com.netcracker_study_autumn_2020.data.custom.workspace.WorkspaceEntityStoreFactory;
@@ -96,29 +93,28 @@ public class CreateWorkspaceFragment extends BaseFragment implements CreateWorks
         EditText workspaceDescription = root.findViewById(R.id.enter_workspace_description);
 
         MaterialButton createWorkspace = root.findViewById(R.id.button_create_workspace);
+        MaterialButton backToWorkspacesList = root.findViewById(R.id.button_back_to_workspaces_list);
+
+        backToWorkspacesList.setOnClickListener(l -> {
+            requireActivity().finish();
+            //((CreateWorkspaceActivity)requireActivity()).navigateToMainNavigationActivity();
+        });
+
         choseWorkspaceColor.setOnClickListener(l -> {
             ColorPickerDialogBuilder
-                    .with(getActivity())
+                    .with(requireActivity())
                     .setTitle("Выберете цвет карточки рабочего пространства:")
                     .initialColor(workspaceColor[0])
                     .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                     .lightnessSliderOnly()
                     .density(12)
-                    .setOnColorSelectedListener(new OnColorSelectedListener() {
-                        @Override
-                        public void onColorSelected(int selectedColor) { }
+                    .setOnColorSelectedListener(selectedColor -> {
                     })
-                    .setPositiveButton("Выбрать", new ColorPickerClickListener() {
-                        @Override
-                        public void onClick(DialogInterface d, int lastSelectedColor, Integer[] allColors) {
-                            marker.setColorFilter(lastSelectedColor);
-                            workspaceColor[0] = lastSelectedColor;
-                        }
+                    .setPositiveButton("Выбрать", (d, lastSelectedColor, allColors) -> {
+                        marker.setColorFilter(lastSelectedColor);
+                        workspaceColor[0] = lastSelectedColor;
                     })
-                    .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
+                    .setNegativeButton("Отмена", (dialog, which) -> {
                     })
                     .build()
                     .show();

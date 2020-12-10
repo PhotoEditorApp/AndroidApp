@@ -9,7 +9,7 @@ public class UserEntityDtoMapper extends BaseMapper<UserEntity, UserDto> {
     @Override
     public UserEntity map1(UserDto o2) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUser_id(o2.getUser_id());
+        userEntity.setId(o2.getUser_id());
         userEntity.setEmail(o2.getEmail());
         userEntity.setFirstName(o2.getFirstName());
         userEntity.setLastName(o2.getLastName());
@@ -21,7 +21,7 @@ public class UserEntityDtoMapper extends BaseMapper<UserEntity, UserDto> {
     @Override
     public UserDto map2(UserEntity o1) {
         UserDto userDto = new UserDto();
-        userDto.setUser_id(o1.getUser_id());
+        userDto.setUser_id(o1.getId());
         userDto.setEmail(o1.getEmail());
         userDto.setFirstName(o1.getFirstName() == null ? "FirstName" : o1.getFirstName());
         userDto.setLastName(o1.getLastName() == null ? "LastName" : o1.getLastName());

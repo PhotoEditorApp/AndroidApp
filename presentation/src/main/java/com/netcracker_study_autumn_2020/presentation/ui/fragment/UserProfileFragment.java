@@ -32,6 +32,7 @@ import com.netcracker_study_autumn_2020.presentation.mapper.UserModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.UserModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.presenter.UserProfilePresenter;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.UserProfileView;
+import com.netcracker_study_autumn_2020.presentation.ui.activity.MainNavigationActivity;
 import com.squareup.picasso.Picasso;
 
 public class UserProfileFragment extends BaseFragment implements UserProfileView {
@@ -84,6 +85,7 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
 
     private void initInteractions(View root) {
         MaterialButton editProfile = root.findViewById(R.id.button_edit_user_profile);
+        MaterialButton logOut = root.findViewById(R.id.button_log_out);
 
         userEmail = root.findViewById(R.id.user_profile_email);
         userFirstName = root.findViewById(R.id.user_profile_first_name);
@@ -97,8 +99,20 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
 
 
         AlertDialog alertDialog = initEditDialog();
-        editProfile.setOnClickListener(l -> {
-            alertDialog.show();
+        editProfile.setOnClickListener(l -> alertDialog.show());
+        logOut.setOnClickListener(l -> {
+            AuthManager authManager = new RetrofitAuthManagerImpl();
+            authManager.signOut(new AuthManager.SignOutCallback() {
+                @Override
+                public void onSignOutFinished() {
+                    navigateToStartActivity();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    e.printStackTrace();
+                }
+            });
         });
     }
 
@@ -124,9 +138,7 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
                             userProfilePresenter.editUserProfile(bufModel);
                         })
                 .setNegativeButton("Отмена",
-                        (dialog, which) -> {
-                            dialog.cancel();
-                        });
+                        (dialog, which) -> dialog.cancel());
 
         return alertDialogBuilder.create();
     }
@@ -138,5 +150,9 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
         userFirstName.setText(bufferModel.getFirstName());
         userLastName.setText(bufferModel.getLastName());
         userId.setText(String.valueOf(bufferModel.getUser_id()));
+    }
+
+    private void navigateToStartActivity() {
+        ((MainNavigationActivity) requireActivity()).navigateToStartActivity();
     }
 }

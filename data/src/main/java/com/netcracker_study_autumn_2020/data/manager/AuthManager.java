@@ -14,8 +14,9 @@ public interface AuthManager {
         void onError(Exception e);
     }
 
-    interface SignOutCallback{
-        void onSignOutFinished(String response);
+    interface SignOutCallback {
+        void onSignOutFinished();
+
         void onError(Exception e);
     }
 

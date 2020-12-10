@@ -40,15 +40,15 @@ public class StartActivity extends BaseActivity {
         replaceFragment(R.id.ft_container, signInFragment);
     }
 
-    public void navigateToSignUp(){
+    public void navigateToSignUp() {
         replaceFragment(R.id.ft_container, signUpFragment);
     }
 
-    public void navigateToResetPassword(){
+    public void navigateToResetPassword() {
 
     }
 
-    public void navigateToWorkspaces(long userId) {
-        navigator.navigateToMainNavigationActivity(this, userId);
+    public void navigateToWorkspaces() {
+        navigator.navigateToMainNavigationActivity(this);
     }
 }

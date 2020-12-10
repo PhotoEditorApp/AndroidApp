@@ -2,7 +2,7 @@ package com.netcracker_study_autumn_2020.data.entity;
 
 public class UserEntity {
 
-    private long user_id;
+    private long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -22,12 +22,12 @@ public class UserEntity {
         return email;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getId() {
+        return id;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {

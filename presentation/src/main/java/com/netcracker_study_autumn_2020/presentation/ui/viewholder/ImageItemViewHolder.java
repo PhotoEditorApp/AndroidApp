@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +37,10 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     private TextView imageName;
     private TextView rating;
 
+    public ConstraintLayout getPreviewContainer() {
+        return previewContainer;
+    }
+
     private boolean isChosen = false;
 
     public ImageItemViewHolder(@NonNull View itemView,
@@ -57,20 +60,6 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
     public void onBind(ImageModel imageModel, Fragment fragment) {
         //We'll show popup menu on a long click at ViewHolder
         // with image preview
-        previewContainer.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (!imagesView.isChoosingImagesForCollage()) {
-                    v.setBackgroundColor(Color.rgb(255, 255, 255));
-                }
-                return false;
-            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (!imagesView.isChoosingImagesForCollage()) {
-                    v.setBackgroundColor(Color.rgb(177, 247, 246));
-                }
-                return false;
-            }
-            return false;
-        });
         previewContainer.setOnClickListener(l -> {
             if (!imagesView.isChoosingImagesForCollage()) {
                 ((ImagesFragment) fragment).navigateToPhotoView(imageModel);

@@ -80,7 +80,7 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     public void editUserProfile(UserEntity userEntity, UserEditCallback callback) {
         Response<ResponseBody> response;
         try {
-            response = userService.editUser(userEntity.getUser_id(),
+            response = userService.editUser(userEntity.getId(),
                     SessionManager.getSessionToken(),
                     userEntity).execute();
             if (response.code() == 200) {

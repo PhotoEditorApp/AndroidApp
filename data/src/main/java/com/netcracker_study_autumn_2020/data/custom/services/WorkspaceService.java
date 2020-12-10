@@ -34,8 +34,9 @@ public interface WorkspaceService {
                                      @Header("Authorization") String token,
                                      @Body WorkspaceEntity workspaceEntity);
 
-    @DELETE("/space/{id}")
-    Call<ResponseBody> deleteWorkspace(@Path("id") long spaceId,
+    @DELETE("/user/{user_id}/space/{space_id}")
+    Call<ResponseBody> deleteWorkspace(@Path("user_id") long userId,
+                                       @Path("space_id") long spaceId,
                                        @Header("Authorization") String token);
 
 
