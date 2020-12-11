@@ -36,7 +36,7 @@ public interface ImageService {
     @GET("/image/frame")
     Call<ResponseBody> applyFrame(@Header("Authorization") String token,
                                   @Query("id") long imageId,
-                                  @Query("frame_id") long frameId);
+                                  @Query("frameId") long frameId);
 
     @GET("/image/filter")
     Call<ResponseBody> applyFilter(@Header("Authorization") String token,

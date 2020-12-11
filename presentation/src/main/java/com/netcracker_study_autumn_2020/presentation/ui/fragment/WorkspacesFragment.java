@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,10 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
         WorkspacesView {
 
     private ConstraintLayout emptyUI;
+    private TextView emptyUIHint;
+    private MaterialButton buttonCreateWorkspace;
+
+    private SpaceAccessType currentUserAccessType = SpaceAccessType.CREATOR;
 
     private WorkspacesPresenter workspacesPresenter;
     private CardStackView cardStackView;
@@ -90,9 +95,10 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
     private void initInteractions(View root) {
         emptyUI = root.findViewById(R.id.empty_ui);
+        emptyUIHint = root.findViewById(R.id.empty_ui_hint);
 
-        MaterialButton createWorkspace = root.findViewById(R.id.button_add_workspace);
-        createWorkspace.setOnClickListener(l -> {
+        buttonCreateWorkspace = root.findViewById(R.id.button_add_workspace);
+        buttonCreateWorkspace.setOnClickListener(l -> {
             navigateToCreateWorkspace();
         });
 
@@ -106,12 +112,18 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
             sortMenu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.menu_space_access_my_spaces:
-                        workspacesPresenter.setCurrentTab(SpaceAccessType.CREATOR);
+                        currentUserAccessType = SpaceAccessType.CREATOR;
+                        updateInterfaceBySpaceAccess();
+                        workspacesPresenter.setCurrentTab(currentUserAccessType);
                         return true;
                     case R.id.menu_space_access_editor:
-                        workspacesPresenter.setCurrentTab(SpaceAccessType.EDITOR);
+                        currentUserAccessType = SpaceAccessType.EDITOR;
+                        updateInterfaceBySpaceAccess();
+                        workspacesPresenter.setCurrentTab(currentUserAccessType);
                         return true;
                     case R.id.menu_space_access_viewer:
+                        currentUserAccessType = SpaceAccessType.VIEWER;
+                        updateInterfaceBySpaceAccess();
                         workspacesPresenter.setCurrentTab(SpaceAccessType.VIEWER);
                         return true;
                     default:
@@ -169,7 +181,9 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
          if (workspaceModels.isEmpty()) {
              emptyUI.setVisibility(View.VISIBLE);
+             cardStackView.setVisibility(View.INVISIBLE);
          } else {
+             cardStackView.setVisibility(View.VISIBLE);
              emptyUI.setVisibility(View.INVISIBLE);
          }
          workspaceCardAdapter.updateData(workspaceModels);
@@ -177,9 +191,28 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
          //cardStackView.invalidate();
      }
 
+    private void updateInterfaceBySpaceAccess() {
+        switch (currentUserAccessType) {
+            case EDITOR:
+            case VIEWER:
+                emptyUIHint.setText("Здесь пока ничего нет: никто " +
+                        "не поделился с Вами пространством :(");
+                buttonCreateWorkspace.setVisibility(View.INVISIBLE);
+                break;
+            case CREATOR:
+                emptyUIHint.setText("Здесь пока ничего нет, но Вы можете добавить" +
+                        "пространство!");
+                buttonCreateWorkspace.setVisibility(View.VISIBLE);
+                break;
+
+        }
+
+    }
+
     @Override
     public void navigateToPhotosScreen(WorkspaceModel workspaceModel) {
-        ((MainNavigationActivity) getActivity()).navigateToImagesView(workspaceModel);
+        ((MainNavigationActivity) getActivity()).navigateToImagesView(workspaceModel,
+                currentUserAccessType);
     }
 
     @Override

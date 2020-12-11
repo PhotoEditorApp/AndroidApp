@@ -20,7 +20,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/empty_ui_icon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     app:layout_constraintBottom_toBottomOf="@+id/empty_ui"
@@ -30,15 +30,16 @@
                     app:layout_constraintTop_toTopOf="@+id/empty_ui" />
 
                 <TextView
+                    android:id="@+id/empty_ui_hint"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Здесь пока ничего нет, но Вы можете добавить пространство!"
                     android:textColor="@color/primaryDark"
                     android:textSize="@dimen/font_size_16"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView"
-                    app:layout_constraintStart_toStartOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    app:layout_constraintEnd_toEndOf="@+id/empty_ui_icon"
+                    app:layout_constraintStart_toStartOf="@+id/empty_ui_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/empty_ui_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

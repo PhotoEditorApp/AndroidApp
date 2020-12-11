@@ -105,7 +105,7 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
             authManager.signOut(new AuthManager.SignOutCallback() {
                 @Override
                 public void onSignOutFinished() {
-                    navigateToStartActivity();
+                    requireActivity().finish();//navigateToStartActivity();
                 }
 
                 @Override

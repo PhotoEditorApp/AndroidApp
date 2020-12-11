@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
@@ -99,8 +100,8 @@ public class MainNavigationActivity extends BaseActivity {
     }
 
 
-    public void navigateToImagesView(WorkspaceModel workspaceModel) {
-        imagesFragment = new ImagesFragment(workspaceModel);
+    public void navigateToImagesView(WorkspaceModel workspaceModel, SpaceAccessType spaceAccessType) {
+        imagesFragment = new ImagesFragment(workspaceModel, spaceAccessType);
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.nav_host_fragment, imagesFragment)
@@ -120,8 +121,9 @@ public class MainNavigationActivity extends BaseActivity {
         navigator.navigateToCreateWorkspaceActivity(this, userId);
     }
 
-    public void navigateToFullSizePhotoView(ImageModel imageModel, long workspaceId) {
-        navigator.navigateToPhotoView(this, imageModel, workspaceId);
+    public void navigateToFullSizePhotoView(ImageModel imageModel, long workspaceId,
+                                            SpaceAccessType currentUserSpaceAccess) {
+        navigator.navigateToPhotoView(this, imageModel, workspaceId, currentUserSpaceAccess);
     }
 
     public void navigateToStartActivity() {

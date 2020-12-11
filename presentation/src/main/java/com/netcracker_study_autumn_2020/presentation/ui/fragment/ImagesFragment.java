@@ -41,6 +41,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.Ed
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetWorkspaceImagesInfoUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.RateImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 import com.netcracker_study_autumn_2020.library.files.FilesUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
@@ -67,6 +68,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private ConstraintLayout createCollageUI;
     private ConstraintLayout mainContainer;
 
+    private SpaceAccessType currentUserSpaceAccessType;
 
     private boolean isChoosingImagesForCollage = false;
     private List<Long> chosenImageIds;
@@ -84,8 +86,9 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private boolean isPanelHide = true;
     private WorkspaceModel workspaceModel;
 
-    public ImagesFragment(WorkspaceModel workspaceModel) {
+    public ImagesFragment(WorkspaceModel workspaceModel, SpaceAccessType currentUserSpaceAccessType) {
         this.workspaceModel = workspaceModel;
+        this.currentUserSpaceAccessType = currentUserSpaceAccessType;
     }
 
     @Override
@@ -259,6 +262,17 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
             tagsMenu.show();
         });
         //initImagePickUtils();
+
+        switch (currentUserSpaceAccessType) {
+            case VIEWER:
+                addImage.setVisibility(View.GONE);
+                createCollage.setVisibility(View.GONE);
+                break;
+            case EDITOR:
+            case CREATOR:
+                break;
+
+        }
     }
 
     @Override
@@ -368,6 +382,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
         imageMenu.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
+
                 case R.id.menu_item_image_preview_edit:
                     editImageInfoDialog = initEditImageInfoDialog(imageModel);
                     editImageInfoDialog.show();
@@ -382,7 +397,16 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
                     return false;
             }
         });
-        imageMenu.show();
+        switch (currentUserSpaceAccessType) {
+            case CREATOR:
+            case EDITOR:
+                imageMenu.show();
+                break;
+            case VIEWER:
+                showToastMessage("Недостаточно прав для " +
+                        "оценки, редактирования или удаления изображения!", true);
+
+        }
     }
 
     @Override
@@ -409,6 +433,6 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     public void navigateToPhotoView(ImageModel imageModel) {
         ((MainNavigationActivity) requireActivity()).navigateToFullSizePhotoView(imageModel,
-                workspaceModel.getId());
+                workspaceModel.getId(), currentUserSpaceAccessType);
     }
 }

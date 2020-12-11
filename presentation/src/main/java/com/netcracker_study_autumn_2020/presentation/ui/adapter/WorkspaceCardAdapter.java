@@ -25,6 +25,18 @@ public class WorkspaceCardAdapter extends StackAdapter<WorkspaceModel> {
             ColorItemViewHolder h = (ColorItemViewHolder) holder;
             h.onBind(data, position);
 
+            switch (workspacesPresenter.getCurrentTab()) {
+                case VIEWER:
+                case EDITOR:
+                    h.getButtonShare().setVisibility(View.INVISIBLE);
+                    h.getButtonDelete().setText("Покинуть");
+                    break;
+                case CREATOR:
+                    h.getButtonShare().setVisibility(View.VISIBLE);
+                    h.getButtonDelete().setText("Удалить");
+                    break;
+
+            }
             h.getButtonOpen().setOnClickListener(l -> {
                 workspacesPresenter.navigateToPhotosScreen(data);
             });

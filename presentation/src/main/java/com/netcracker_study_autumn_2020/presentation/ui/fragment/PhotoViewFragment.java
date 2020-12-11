@@ -44,6 +44,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.GetI
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.tag.impl.GetUserTagsUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.domain.repository.TagRepository;
+import com.netcracker_study_autumn_2020.library.data.SpaceAccessType;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
@@ -66,6 +67,8 @@ public class PhotoViewFragment extends BaseFragment
     private ConstraintLayout mainContainer;
     private ConstraintLayout loadingUi;
 
+    private SpaceAccessType currentUserSpaceAccessType;
+
     private boolean areBarsVisible = true;
     private ConstraintLayout topBar;
     private ConstraintLayout bottomBar;
@@ -85,9 +88,11 @@ public class PhotoViewFragment extends BaseFragment
     public PhotoViewFragment() {
     }
 
-    public PhotoViewFragment(ImageModel imageModel, long workspaceId) {
+    public PhotoViewFragment(ImageModel imageModel, long workspaceId,
+                             SpaceAccessType currentUserSpaceAccessType) {
         this.imageModel = imageModel;
         this.workspaceId = workspaceId;
+        this.currentUserSpaceAccessType = currentUserSpaceAccessType;
     }
 
     @Override
@@ -164,10 +169,18 @@ public class PhotoViewFragment extends BaseFragment
                 topBar.setVisibility(View.INVISIBLE);
                 bottomBar.setVisibility(View.INVISIBLE);
                 areBarsVisible = false;
+                View decorView = requireActivity().getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_IMMERSIVE;
+                decorView.setSystemUiVisibility(uiOptions);
             } else {
                 topBar.setVisibility(View.VISIBLE);
                 bottomBar.setVisibility(View.VISIBLE);
                 areBarsVisible = true;
+                View decorView = requireActivity().getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+                decorView.setSystemUiVisibility(uiOptions);
             }
 
         });
@@ -180,13 +193,23 @@ public class PhotoViewFragment extends BaseFragment
             showToastMessage("Изображение успешно сохранено в " +
                     "галерею", true);
         });
-        buttonEditPhoto.setOnClickListener(l -> navigateToPhotoEditor());
+        buttonEditPhoto.setOnClickListener(l -> {
+            showToastMessage("Открываю редактор изоражений...", true);
+            showLoading();
+            navigateToPhotoEditor();
+        });
         buttonBack.setOnClickListener(l -> requireActivity().finish());
+
+        if (currentUserSpaceAccessType == SpaceAccessType.VIEWER) {
+            addImageTag.setVisibility(View.GONE);
+            buttonEditPhoto.setVisibility(View.GONE);
+        }
     }
 
     private void navigateToPhotoEditor() {
-        ((PhotoViewActivity) requireActivity()).navigateToPhotoEditor(imageModel,
+        ((PhotoViewActivity) requireActivity()).setSourceImage(
                 photoViewPresenter.getDownloadedImage());
+        ((PhotoViewActivity) requireActivity()).navigateToPhotoEditor(imageModel);
     }
 
     private AlertDialog initAddImageTagDialog() {
@@ -233,7 +256,7 @@ public class PhotoViewFragment extends BaseFragment
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name));
             values.put(MediaStore.Images.Media.IS_PENDING, true);
 
-            Uri uri = this.getActivity()
+            Uri uri = this.requireActivity()
                     .getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             if (uri != null) {
                 try {
