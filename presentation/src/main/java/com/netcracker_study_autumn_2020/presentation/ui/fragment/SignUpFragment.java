@@ -46,7 +46,7 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
     private void initInteractions(View root) {
         StartActivity rootActivity = (StartActivity) getActivity();
         EditText email = root.findViewById(R.id.enter_email);
-        EditText username = root.findViewById(R.id.enter_workspace_description);
+        //EditText username = root.findViewById(R.id.enter_workspace_description);
         EditText password = root.findViewById(R.id.enter_password);
         EditText repeatPassword = root.findViewById(R.id.enter_password_repeat);
 
@@ -62,18 +62,18 @@ public class SignUpFragment  extends BaseFragment implements SignUpView {
             String password1 = password.getText().toString();
             String password2 = repeatPassword.getText().toString();
             String emailAddress = email.getText().toString();
-            String usernameInput = username.getText().toString();
+            //String usernameInput = username.getText().toString();
 
             if (password1.isEmpty() || password2.isEmpty() ||
-                    emailAddress.isEmpty() || usernameInput.isEmpty()){
+                    emailAddress.isEmpty()) {
                 showToastMessage(getString(R.string.empty_field_warning),
                         true);
-            } else if (!isValidEmail(emailAddress)){
-               showToastMessage(getString(R.string.bad_email_warning),
-                       true);
-            } else if (password1.equals(password2)){
-                authPresenter.registerUser(emailAddress, usernameInput, password1);
-            }else{
+            } else if (!isValidEmail(emailAddress)) {
+                showToastMessage(getString(R.string.bad_email_warning),
+                        true);
+            } else if (password1.equals(password2)) {
+                authPresenter.registerUser(emailAddress, "empty", password1);
+            } else {
                 this.showToastMessage(getString(R.string.passwords_warning),
                         true);
             }

@@ -2,7 +2,6 @@ package com.netcracker_study_autumn_2020.data.custom.image;
 
 import android.graphics.Bitmap;
 
-import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 
 import java.io.File;
@@ -58,7 +57,7 @@ public interface ImageEntityStore {
     }
 
     interface UsersFramesGetCallback extends ImageEntityStore.Error {
-        void onUsersFramesLoaded(List<FrameEntity> usersFrames);
+        void onUsersFramesLoaded(List<Long> usersFrames);
     }
 
 

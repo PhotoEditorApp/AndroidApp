@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStore;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
-import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 import com.netcracker_study_autumn_2020.data.mapper.FrameEntityDtoMapper;
 import com.netcracker_study_autumn_2020.data.mapper.ImageEntityDtoMapper;
@@ -51,9 +50,9 @@ public class ImageRepositoryImpl implements ImageRepository {
 
         imageEntityStore.getUsersFrames(new ImageEntityStore.UsersFramesGetCallback() {
             @Override
-            public void onUsersFramesLoaded(List<FrameEntity> usersFrames) {
+            public void onUsersFramesLoaded(List<Long> usersFrames) {
                 callback.onUsersFramesLoaded(
-                        frameEntityDtoMapper.map2(usersFrames));
+                        usersFrames);
             }
 
             @Override

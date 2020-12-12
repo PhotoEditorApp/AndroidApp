@@ -1,6 +1,5 @@
 package com.netcracker_study_autumn_2020.data.custom.services;
 
-import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 
 import java.util.List;
@@ -24,8 +23,8 @@ public interface ImageService {
     Call<ResponseBody> getFramePreview(@Header("Authorization") String token,
                                        @Query("frameId") long frameId);
 
-    @GET("")
-    Call<List<FrameEntity>> getUsersFrames(@Header("Authorization") String token);
+    @GET("/image/frame_previews_ids")
+    Call<List<Long>> getUsersFrames(@Header("Authorization") String token);
 
     @Multipart
     @POST("/image/upload_frame")

@@ -7,8 +7,12 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.loopeer.cardstack.CardStackView;
+import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.WorkspaceModel;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class ColorItemViewHolder extends CardStackView.ViewHolder {
     private View mLayout;
@@ -60,8 +64,11 @@ public class ColorItemViewHolder extends CardStackView.ViewHolder {
         cardTitle.setText(title);
         cardDescription.setText(data.getDescription());
 
-        cardModifiedTime.setText(data.getModificationTime().toString());
-        cardCreationTime.setText(data.getCreationTime().toString());
+
+        DateFormat df = new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DISPLAY);
+        cardModifiedTime.setText(df.format(data.getModificationTime()));
+
+        cardCreationTime.setText(df.format(data.getCreationTime()));
     }
 
 

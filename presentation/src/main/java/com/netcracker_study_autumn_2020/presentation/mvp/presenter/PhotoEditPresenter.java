@@ -3,14 +3,12 @@ package com.netcracker_study_autumn_2020.presentation.mvp.presenter;
 import android.graphics.Bitmap;
 
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
-import com.netcracker_study_autumn_2020.domain.dto.FrameDto;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddFrameUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFilterUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFrameUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetUsersFramesUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.FrameModelDtoMapper;
-import com.netcracker_study_autumn_2020.presentation.mvp.model.FrameModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.PhotoEditView;
 
@@ -29,7 +27,7 @@ public class PhotoEditPresenter extends BasePresenter {
     private GetUsersFramesUseCase getUsersFramesUseCase;
     private AddFrameUseCase addFrameUseCase;
 
-    private List<FrameModel> usersFrameModels;
+    private List<Long> usersFrameIds;
     private ImageModel imageModel;
 
     private FrameModelDtoMapper frameModelDtoMapper;
@@ -48,7 +46,25 @@ public class PhotoEditPresenter extends BasePresenter {
         this.imageModel = imageModel;
 
         frameModelDtoMapper = new FrameModelDtoMapper();
-        usersFrameModels = new ArrayList<>();
+        usersFrameIds = new ArrayList<>();
+    }
+
+    public void addFrame(File sourceFile) {
+        addFrameUseCase.execute(sourceFile, new AddFrameUseCase.Callback() {
+            @Override
+            public void onFrameAdded() {
+                updateFramesList();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void updateFramesList() {
+        getUsersFrames();
     }
 
     public void addImage(long spaceId, File sourceImage) {
@@ -56,12 +72,17 @@ public class PhotoEditPresenter extends BasePresenter {
                 sourceImage, new AddImageUseCase.Callback() {
                     @Override
                     public void onImageAdded() {
-
+                        photoEditView.hideLoading();
+                        photoEditView.deleteBufferFile();
                     }
 
                     @Override
                     public void onError(Exception e) {
                         e.printStackTrace();
+                        photoEditView.hideLoading();
+                        photoEditView.showToast("Не удалось сохранить, возможно," +
+                                "полученное изображение слишком велико. Попробуйте отредактировать " +
+                                "изображение поменьше...", true);
                     }
                 });
     }
@@ -79,6 +100,7 @@ public class PhotoEditPresenter extends BasePresenter {
                     @Override
                     public void onError(Exception e) {
                         e.printStackTrace();
+
                     }
                 });
     }
@@ -95,6 +117,7 @@ public class PhotoEditPresenter extends BasePresenter {
                     @Override
                     public void onError(Exception e) {
                         e.printStackTrace();
+                        photoEditView.hideLoading();
                     }
                 });
     }
@@ -102,8 +125,10 @@ public class PhotoEditPresenter extends BasePresenter {
     public void getUsersFrames() {
         getUsersFramesUseCase.execute(new GetUsersFramesUseCase.Callback() {
             @Override
-            public void onUsersFramesLoaded(List<FrameDto> usersFrames) {
-                usersFrameModels = frameModelDtoMapper.map1(usersFrames);
+            public void onUsersFramesLoaded(List<Long> usersFrames) {
+                usersFrameIds = usersFrames;
+                photoEditView.renderFrames();
+                photoEditView.hideLoading();
             }
 
             @Override
@@ -115,5 +140,9 @@ public class PhotoEditPresenter extends BasePresenter {
 
     public void setPhotoEditView(PhotoEditView photoEditView) {
         this.photoEditView = photoEditView;
+    }
+
+    public List<Long> getUsersFrameIds() {
+        return usersFrameIds;
     }
 }

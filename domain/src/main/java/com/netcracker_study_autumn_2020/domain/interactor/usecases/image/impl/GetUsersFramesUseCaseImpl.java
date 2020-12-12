@@ -1,6 +1,5 @@
 package com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl;
 
-import com.netcracker_study_autumn_2020.domain.dto.FrameDto;
 import com.netcracker_study_autumn_2020.domain.executor.PostExecutionThread;
 import com.netcracker_study_autumn_2020.domain.executor.ThreadExecutor;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetUsersFramesUseCase;
@@ -34,7 +33,7 @@ public class GetUsersFramesUseCaseImpl extends ImageUseCase implements GetUsersF
 
     private final ImageRepository.UsersFramesGetCallback repositoryCallback = new ImageRepository.UsersFramesGetCallback() {
         @Override
-        public void onUsersFramesLoaded(List<FrameDto> usersFrames) {
+        public void onUsersFramesLoaded(List<Long> usersFrames) {
             notifyGetUsersFramesSuccess(usersFrames);
         }
 
@@ -45,7 +44,7 @@ public class GetUsersFramesUseCaseImpl extends ImageUseCase implements GetUsersF
     };
 
 
-    private void notifyGetUsersFramesSuccess(List<FrameDto> usersFrames) {
+    private void notifyGetUsersFramesSuccess(List<Long> usersFrames) {
         this.postExecutionThread.post(() -> callback.onUsersFramesLoaded(usersFrames));
     }
 

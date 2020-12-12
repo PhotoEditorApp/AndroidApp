@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.custom.services.ImageService;
-import com.netcracker_study_autumn_2020.data.entity.FrameEntity;
 import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
@@ -73,9 +72,9 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                 callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE getCollage: code - " +
                         +response.code()));
             }
-
         } catch (IOException e) {
             callback.onError(e);
+
         }
     }
 
@@ -103,7 +102,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
 
     @Override
     public void getUsersFrames(UsersFramesGetCallback callback) {
-        Response<List<FrameEntity>> response;
+        Response<List<Long>> response;
         try {
             response = imageService.getUsersFrames(SessionManager.getSessionToken()).execute();
             if (response.body() == null) {

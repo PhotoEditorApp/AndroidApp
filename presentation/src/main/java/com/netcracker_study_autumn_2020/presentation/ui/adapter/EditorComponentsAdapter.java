@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.netcracker_study_autumn_2020.presentation.R;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditorComponentsAdapter extends RecyclerView.Adapter<EditorItemViewHolder> {
+    private Fragment rootFragment;
 
     private List<EditorItemModel> editorItemModels;
 
@@ -24,9 +26,11 @@ public class EditorComponentsAdapter extends RecyclerView.Adapter<EditorItemView
         return editorItemModels;
     }
 
-    public EditorComponentsAdapter(PhotoEditPresenter photoEditPresenter) {
+    public EditorComponentsAdapter(PhotoEditPresenter photoEditPresenter,
+                                   Fragment rootFragment) {
         this.editorItemModels = new ArrayList<>();
         this.photoEditPresenter = photoEditPresenter;
+        this.rootFragment = rootFragment;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class EditorComponentsAdapter extends RecyclerView.Adapter<EditorItemView
     @Override
     public void onBindViewHolder(@NonNull EditorItemViewHolder holder, int position) {
         EditorItemModel modelOnBind = editorItemModels.get(position);
-        holder.onBind(modelOnBind);
+        holder.onBind(modelOnBind, rootFragment);
         holder.itemView.setOnClickListener(l -> {
             switch (modelOnBind.getItemType()) {
                 case FILTER:

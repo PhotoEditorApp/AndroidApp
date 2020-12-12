@@ -9,7 +9,7 @@ import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.TimeZone;
 
 public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, WorkspaceDto> {
     @Override
@@ -34,10 +34,11 @@ public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, Worksp
         workspaceDto.setName(o1.getName());
         workspaceDto.setDescription(o1.getDescription());
         try {
+            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Moscow"));
             Log.d("MAPPER", "map2: " + o1.getCreatedTime());
-            workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB, Locale.ENGLISH)
+            workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
                     .parse(o1.getCreatedTime()));
-            workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB, Locale.ENGLISH)
+            workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
                     .parse(o1.getModifiedTime()));
         } catch (ParseException e) {
             e.printStackTrace();

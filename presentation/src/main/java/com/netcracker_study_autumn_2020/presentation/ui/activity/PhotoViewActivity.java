@@ -21,6 +21,7 @@ public class PhotoViewActivity extends BaseActivity {
     private static final String CURRENT_USER_SPACE_ACCESS_TYPE = "CURRENT_USER_SPACE_ACCESS_TYPE";
 
     private Bitmap sourceImage;
+    private long workspaceId;
 
     public static Intent getCallingIntent(Context context, ImageModel imageModel, long workspaceId,
                                           SpaceAccessType currentUserSpaceAccess) {
@@ -48,7 +49,7 @@ public class PhotoViewActivity extends BaseActivity {
         ImageModel imageModel =
                 (new Gson()).fromJson(intent.getStringExtra(CHOSEN_IMAGE_MODEL_JSON),
                         ImageModel.class);
-        long workspaceId = intent.getLongExtra(CURRENT_WORKSPACE_ID, 0);
+        workspaceId = intent.getLongExtra(CURRENT_WORKSPACE_ID, 0);
         SpaceAccessType currentUserSpaceAccess = SpaceAccessType.valueOf(intent.getStringExtra(
                 CURRENT_USER_SPACE_ACCESS_TYPE));
 
@@ -60,7 +61,7 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
     public void navigateToPhotoEditor(ImageModel imageModel) {
-        PhotoEditorFragment photoEditorFragment = new PhotoEditorFragment(imageModel, sourceImage);
+        PhotoEditorFragment photoEditorFragment = new PhotoEditorFragment(imageModel, sourceImage, workspaceId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.ft_container, photoEditorFragment)
                 .commit();

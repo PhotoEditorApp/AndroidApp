@@ -102,6 +102,8 @@ public class ImagesPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
+                getWorkspaceImagesInfo(spaceId);
+                imagesView.hideLoading();
                 e.printStackTrace();
             }
         });
@@ -119,6 +121,7 @@ public class ImagesPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
+                getWorkspaceImagesInfo(spaceId);
                 imagesView.hideLoading();
                 e.printStackTrace();
             }

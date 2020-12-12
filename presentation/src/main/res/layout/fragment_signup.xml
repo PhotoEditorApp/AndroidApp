@@ -58,6 +58,7 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:id="@+id/editText2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_field_height"
                 android:layout_marginStart="@dimen/indent_huge"
@@ -101,21 +102,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sign_in_password_repeat_hint" />
 
-            <EditText
-                android:id="@+id/enter_workspace_description"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_field_height"
-                android:layout_marginStart="@dimen/indent_huge"
-                android:layout_marginTop="@dimen/indent_medium"
-                android:layout_marginEnd="@dimen/indent_huge"
-                android:background="@drawable/input_field_shape"
-                android:inputType="text"
-                android:paddingStart="@dimen/indent_medium"
-                android:paddingEnd="@dimen/indent_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sign_in_username_hint" />
-
 
             <EditText
                 android:id="@+id/enter_email"
@@ -151,7 +137,7 @@
                 android:text="@string/password_field_hint"
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_workspace_description" />
+                app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
             <TextView
                 android:id="@+id/sign_in_password_repeat_hint"
@@ -163,17 +149,6 @@
                 android:textColor="@color/primaryMiddle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enter_password" />
-
-            <TextView
-                android:id="@+id/sign_in_username_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/username"
-                android:textColor="@color/primaryMiddle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_email" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

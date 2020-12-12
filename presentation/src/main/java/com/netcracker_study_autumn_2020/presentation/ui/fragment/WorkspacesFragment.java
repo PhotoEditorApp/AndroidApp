@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -12,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.button.MaterialButton;
 import com.loopeer.cardstack.CardStackView;
 import com.netcracker_study_autumn_2020.data.custom.workspace.WorkspaceEntityStoreFactory;
 import com.netcracker_study_autumn_2020.data.executor.JobExecutor;
@@ -48,7 +49,7 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
     private ConstraintLayout emptyUI;
     private TextView emptyUIHint;
-    private MaterialButton buttonCreateWorkspace;
+    private LinearLayout buttonCreateWorkspaceContainer;
 
     private SpaceAccessType currentUserAccessType = SpaceAccessType.CREATOR;
 
@@ -93,17 +94,23 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
         return root;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        workspacesPresenter.refreshData();
+    }
+
     private void initInteractions(View root) {
         emptyUI = root.findViewById(R.id.empty_ui);
         emptyUIHint = root.findViewById(R.id.empty_ui_hint);
 
-        buttonCreateWorkspace = root.findViewById(R.id.button_add_workspace);
+        ImageButton buttonCreateWorkspace = root.findViewById(R.id.button_add_workspace);
         buttonCreateWorkspace.setOnClickListener(l -> {
             navigateToCreateWorkspace();
         });
 
-        MaterialButton chooseTab = root.findViewById(R.id.button_choose_tab);
-        MaterialButton chooseSort = root.findViewById(R.id.button_show_sorts);
+        ImageButton chooseTab = root.findViewById(R.id.button_choose_tab);
+        ImageButton chooseSort = root.findViewById(R.id.button_show_sorts);
 
         chooseSort.setOnClickListener(l -> {
             PopupMenu sortMenu = new PopupMenu(getContext(), chooseSort);
@@ -197,12 +204,12 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
             case VIEWER:
                 emptyUIHint.setText("Здесь пока ничего нет: никто " +
                         "не поделился с Вами пространством :(");
-                buttonCreateWorkspace.setVisibility(View.INVISIBLE);
+                buttonCreateWorkspaceContainer.setVisibility(View.INVISIBLE);
                 break;
             case CREATOR:
                 emptyUIHint.setText("Здесь пока ничего нет, но Вы можете добавить" +
                         "пространство!");
-                buttonCreateWorkspace.setVisibility(View.VISIBLE);
+                buttonCreateWorkspaceContainer.setVisibility(View.VISIBLE);
                 break;
 
         }

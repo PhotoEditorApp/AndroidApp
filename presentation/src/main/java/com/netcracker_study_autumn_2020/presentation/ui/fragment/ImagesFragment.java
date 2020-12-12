@@ -138,6 +138,12 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.updateImageList();
+    }
+
     private void initRecyclerView(View root) {
 
         recyclerView = root.findViewById(R.id.photo_preview_list);

@@ -8,4 +8,10 @@ public interface PhotoEditView {
     void showLoading();
 
     void hideLoading();
+
+    void deleteBufferFile();
+
+    void renderFrames();
+
+    void showToast(String s, boolean b);
 }

@@ -1,7 +1,6 @@
 package com.netcracker_study_autumn_2020.domain.repository;
 
 
-import com.netcracker_study_autumn_2020.domain.dto.FrameDto;
 import com.netcracker_study_autumn_2020.domain.dto.ImageDto;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public interface ImageRepository {
     }
 
     interface UsersFramesGetCallback extends ImageRepository.Error {
-        void onUsersFramesLoaded(List<FrameDto> usersFrames);
+        void onUsersFramesLoaded(List<Long> usersFrames);
     }
 
     interface FrameGetPreviewCallback extends ImageRepository.Error {
