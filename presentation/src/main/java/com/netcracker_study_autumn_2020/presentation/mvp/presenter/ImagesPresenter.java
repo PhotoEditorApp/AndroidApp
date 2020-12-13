@@ -75,6 +75,7 @@ public class ImagesPresenter extends BasePresenter {
                 List<ImageModel> wModels = imageModelDtoMapper.map1(images);
                 imageModels.clear();
                 imageModels.addAll(wModels);
+                bufferList.clear();
                 bufferList.addAll(wModels);
                 for (ImageModel model : imageModels) {
                     uniqueImageTags.addAll(model.getTags());

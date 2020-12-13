@@ -103,6 +103,7 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
     private void initInteractions(View root) {
         emptyUI = root.findViewById(R.id.empty_ui);
         emptyUIHint = root.findViewById(R.id.empty_ui_hint);
+        buttonCreateWorkspaceContainer = root.findViewById(R.id.button_add_workspace_bg);
 
         ImageButton buttonCreateWorkspace = root.findViewById(R.id.button_add_workspace);
         buttonCreateWorkspace.setOnClickListener(l -> {
