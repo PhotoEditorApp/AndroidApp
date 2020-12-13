@@ -154,7 +154,6 @@ public class PhotoViewFragment extends BaseFragment
         ImageButton buttonEditPhoto = root.findViewById(R.id.button_edit_photo);
 
         ImageButton addImageTag = root.findViewById(R.id.button_add_image_tag);
-        ImageButton showImageInfo = root.findViewById(R.id.button_show_image_info);
 
         initRecyclerView(root);
         subsamplingScaleImageView = root.findViewById(R.id.subsampling_scale_image_view);
