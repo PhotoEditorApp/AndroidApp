@@ -1,13 +1,15 @@
 package com.netcracker_study_autumn_2020.data.entity;
 
+import java.util.Date;
+
 public class WorkspaceEntity {
     private long id;
     private long ownerId;
     private int color;
     private String name;
     private String description;
-    private String createdTime;
-    private String modifiedTime;
+    private Date createdTime;
+    private Date modifiedTime;
 
     public long getId() {
         return id;
@@ -49,19 +51,19 @@ public class WorkspaceEntity {
         this.description = description;
     }
 
-    public String getCreatedTime() {
+    public Date getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(String createdTime) {
+    public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
 
-    public String getModifiedTime() {
+    public Date getModifiedTime() {
         return modifiedTime;
     }
 
-    public void setModifiedTime(String modifiedTime) {
+    public void setModifiedTime(Date modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
 }

@@ -74,6 +74,7 @@ public class PhotoEditPresenter extends BasePresenter {
                     public void onImageAdded() {
                         photoEditView.hideLoading();
                         photoEditView.deleteBufferFile();
+                        photoEditView.showToast("Сохранение завершено", false);
                     }
 
                     @Override

@@ -118,7 +118,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
 
     @Override
     public void getFramePreview(long frameId, FrameGetPreviewCallback callback) {
-        //TODO we won't need it no
+        //TODO we won't need it
     }
 
     @Override

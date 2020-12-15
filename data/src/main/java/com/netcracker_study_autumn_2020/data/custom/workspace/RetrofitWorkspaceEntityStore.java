@@ -22,8 +22,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
     private WorkspaceService workspaceService;
 
-    //TODO обработка кодов ошибок и сключительных ситуаций
-
     public RetrofitWorkspaceEntityStore(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetworkUtils.API_ADDRESS)
@@ -43,7 +41,6 @@ public class RetrofitWorkspaceEntityStore implements WorkspaceEntityStore {
                               WorkspaceListCallback callback) {
         Response<List<WorkspaceEntity>> response;
         try {
-            //TODO get access type properly!
             response = workspaceService.getUserWorkspaces(SessionManager.getSessionToken(),
                     userId, accessType.toString()).execute();
             Log.d("TOKEN", SessionManager.getSessionToken());

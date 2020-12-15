@@ -1,8 +1,8 @@
 package com.netcracker_study_autumn_2020.domain.repository;
 
 import com.netcracker_study_autumn_2020.domain.dto.UserDto;
-import com.netcracker_study_autumn_2020.domain.dto.WorkspaceDto;
 
+import java.io.File;
 import java.util.List;
 
 public interface UserRepository {
@@ -28,9 +28,18 @@ public interface UserRepository {
         void onUserEdited();
     }
 
+    interface UserAvatarUploadCallback extends UserRepository.Error {
+        void onUserAvatarUploaded();
+    }
+
+    void uploadAvatar(File userAvatar, UserRepository.UserAvatarUploadCallback callback);
+
     void getUserById(long userId, UserRepository.UserByIdCallback callback);
+
     void getUsersByFullName(String fullName, UserRepository.UsersByFullNameListCallback callback);
+
     void getUserByEmail(String email, UserRepository.UserByEmailCallback callback);
+
     void editUser(UserDto user, UserRepository.UserEditCallback callback);
 
 }

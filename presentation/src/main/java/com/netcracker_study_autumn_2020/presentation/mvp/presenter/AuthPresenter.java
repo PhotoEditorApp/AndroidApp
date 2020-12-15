@@ -33,7 +33,6 @@ public class AuthPresenter extends BasePresenter {
             new AuthManager.RegisterUserCallback() {
                 @Override
                 public void onRegisterFinished(int code) {
-                    //TODO экраны с кратким гайдом по приложению
                     Log.d("AUTH_PRESENTER_UP", String.valueOf(code));
                     ((SignUpFragment)signUpView).showToastMessage(String.valueOf(code), false);
                     if (code == 200){
@@ -58,8 +57,8 @@ public class AuthPresenter extends BasePresenter {
                 public void onSignInFinished(int code, String sessionToken) {
                     Log.d("AUTH_PRESENTER_IN", String.valueOf(code));
                     Log.d("AUTH_PRESENTER_IN", sessionToken);
-                    ((SignInFragment)signInView).showToastMessage(code +
-                            sessionToken, false);
+                    //((SignInFragment)signInView).showToastMessage(code +
+                    //sessionToken, false);
                     if (SessionManager.isSessionOpened()) {
                         signInView.navigateToWorkspaces();
                     } else {

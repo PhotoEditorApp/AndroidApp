@@ -4,6 +4,7 @@ public abstract class NetworkUtils {
 
     //Таймаут в миллисекундах
     public static final int CONNECTION_TIMEOUT = 5000;
+    public static final String GET_AVATAR_BY_ID = "/image/photo_profile_id";
     //Текущий адрес бэкенда
     //Не final для динамической отладки
     public static String API_ADDRESS = "https://photo-editor-app.herokuapp.com";

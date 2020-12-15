@@ -2,14 +2,22 @@ package com.netcracker_study_autumn_2020.data.custom.user;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.netcracker_study_autumn_2020.data.custom.services.UserService;
 import com.netcracker_study_autumn_2020.data.entity.UserEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
+import com.netcracker_study_autumn_2020.data.mapper.DateConverter;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -20,11 +28,14 @@ public class RetrofitUserEntityStore implements UserEntityStore {
 
     private UserService userService;
 
-    public RetrofitUserEntityStore(){
+    public RetrofitUserEntityStore() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateConverter())
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetworkUtils.API_ADDRESS)
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         userService = retrofit.create(UserService.class);
     }
@@ -67,6 +78,27 @@ public class RetrofitUserEntityStore implements UserEntityStore {
     }
 
     @Override
+    public void uploadAvatar(File userAvatar, AvatarUploadCallback callback) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), userAvatar);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("photo", userAvatar.getName(),
+                requestFile);
+        Response<ResponseBody> response;
+
+        try {
+            response = userService.uploadAvatar(SessionManager.getSessionToken(), SessionManager.getCurrentUserId(),
+                    filePart).execute();
+            if (response.code() == 200) {
+                callback.onAvatarUploaded();
+            } else {
+                callback.onError(new EntityStoreException("USER_ENTITY_STORE uploadAvatar: code - " +
+                        +response.code()));
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+    }
+
+    @Override
     public void getUsersByFullName(String fullName, UsersByNameCallback callback) {
 
     }
@@ -95,6 +127,5 @@ public class RetrofitUserEntityStore implements UserEntityStore {
             callback.onError(e);
         }
         callback.onError(new EntityStoreException());
-
     }
 }

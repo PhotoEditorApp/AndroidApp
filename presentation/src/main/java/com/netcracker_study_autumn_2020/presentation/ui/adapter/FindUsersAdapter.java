@@ -33,7 +33,7 @@ public class FindUsersAdapter extends RecyclerView.Adapter<FindUserPreviewViewHo
 
     @Override
     public void onBindViewHolder(@NonNull FindUserPreviewViewHolder holder, int position) {
-        holder.onBind(foundUsersList.get(position));
+        holder.onBind(foundUsersList.get(position), holder.itemView.getContext());
         holder.itemView.setOnClickListener(l -> {
             holder.onTap();
             presenter.setChosenUserId(holder.getAssignedUserId());

@@ -5,11 +5,6 @@ import android.util.Log;
 import com.netcracker_study_autumn_2020.data.entity.WorkspaceEntity;
 import com.netcracker_study_autumn_2020.domain.dto.WorkspaceDto;
 import com.netcracker_study_autumn_2020.library.data.BaseMapper;
-import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, WorkspaceDto> {
     @Override
@@ -19,8 +14,8 @@ public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, Worksp
         workspaceEntity.setOwnerId(o2.getOwnerId());
         workspaceEntity.setName(o2.getName());
         workspaceEntity.setDescription(o2.getDescription());
-        workspaceEntity.setCreatedTime(o2.getCreationTime().toString());
-        workspaceEntity.setModifiedTime(o2.getModificationTime().toString());
+        workspaceEntity.setCreatedTime(o2.getCreationTime());
+        workspaceEntity.setModifiedTime(o2.getModificationTime());
         workspaceEntity.setColor(o2.getColor());
 
         return workspaceEntity;
@@ -33,17 +28,17 @@ public class WorkspaceEntityDtoMapper extends BaseMapper<WorkspaceEntity, Worksp
         workspaceDto.setOwnerId(o1.getOwnerId());
         workspaceDto.setName(o1.getName());
         workspaceDto.setDescription(o1.getDescription());
-        try {
-            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Moscow"));
-            Log.d("MAPPER", "map2: " + o1.getCreatedTime());
-            workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
-                    .parse(o1.getCreatedTime()));
-            workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
-                    .parse(o1.getModifiedTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        //try {
+        Log.d("MAPPER", "map2: " + o1.getCreatedTime());
+        workspaceDto.setCreationTime(o1.getCreatedTime());
+        workspaceDto.setModificationTime(o1.getModifiedTime());
+        //workspaceDto.setCreationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
+        //.parse(o1.getCreatedTime()));
+        //workspaceDto.setModificationTime(new SimpleDateFormat(NetworkUtils.DATE_PATTERN_DB)
+        //.parse(o1.getModifiedTime()));
+        //} catch (ParseException e) {
+        // e.printStackTrace();
+        //}
         workspaceDto.setColor(o1.getColor());
 
         return workspaceDto;

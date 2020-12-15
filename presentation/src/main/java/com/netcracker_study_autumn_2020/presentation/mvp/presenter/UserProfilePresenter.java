@@ -5,10 +5,13 @@ import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.domain.dto.UserDto;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.user.EditUserUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.user.GetUserByIdUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.user.UploadUserAvatarUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.UserModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.UserModel;
 import com.netcracker_study_autumn_2020.presentation.mvp.view.UserProfileView;
 import com.netcracker_study_autumn_2020.presentation.ui.fragment.UserProfileFragment;
+
+import java.io.File;
 
 public class UserProfilePresenter extends BasePresenter {
 
@@ -20,13 +23,18 @@ public class UserProfilePresenter extends BasePresenter {
     private GetUserByIdUseCase getUserByIdUseCase;
     private EditUserUseCase editUserUseCase;
 
+    private UploadUserAvatarUseCase uploadUserAvatarUseCase;
+
     private UserModelDtoMapper userModelDtoMapper;
 
     public UserProfilePresenter(AuthManager authManager, GetUserByIdUseCase getUserByIdUseCase,
-                                EditUserUseCase editUserUseCase, UserModelDtoMapper userModelDtoMapper) {
+                                EditUserUseCase editUserUseCase,
+                                UploadUserAvatarUseCase uploadUserAvatarUseCase,
+                                UserModelDtoMapper userModelDtoMapper) {
         this.authManager = authManager;
         this.getUserByIdUseCase = getUserByIdUseCase;
         this.editUserUseCase = editUserUseCase;
+        this.uploadUserAvatarUseCase = uploadUserAvatarUseCase;
         this.userModelDtoMapper = userModelDtoMapper;
     }
 
@@ -69,5 +77,21 @@ public class UserProfilePresenter extends BasePresenter {
 
     public UserModel getUserModel() {
         return userModel;
+    }
+
+    public void uploadAvatar(File userAvatar) {
+        uploadUserAvatarUseCase.execute(userAvatar, new UploadUserAvatarUseCase.Callback() {
+            @Override
+            public void onUserAvatarUploaded() {
+                userProfileView.hideLoading();
+                userProfileView.renderAvatar();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                userProfileView.hideLoading();
+                e.printStackTrace();
+            }
+        });
     }
 }

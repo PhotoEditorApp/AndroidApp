@@ -7,6 +7,8 @@ import com.netcracker_study_autumn_2020.data.mapper.UserEntityDtoMapper;
 import com.netcracker_study_autumn_2020.domain.dto.UserDto;
 import com.netcracker_study_autumn_2020.domain.repository.UserRepository;
 
+import java.io.File;
+
 public class UserRepositoryImpl implements UserRepository {
 
     private static UserRepositoryImpl INSTANCE;
@@ -31,6 +33,23 @@ public class UserRepositoryImpl implements UserRepository {
         this.userEntityStoreFactory = userEntityStoreFactory;
     }
 
+
+    @Override
+    public void uploadAvatar(File userAvatar, UserAvatarUploadCallback callback) {
+        UserEntityStore userEntityStore = userEntityStoreFactory.create();
+
+        userEntityStore.uploadAvatar(userAvatar, new UserEntityStore.AvatarUploadCallback() {
+            @Override
+            public void onAvatarUploaded() {
+                callback.onUserAvatarUploaded();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
 
     @Override
     public void getUserById(long userId, UserByIdCallback callback) {

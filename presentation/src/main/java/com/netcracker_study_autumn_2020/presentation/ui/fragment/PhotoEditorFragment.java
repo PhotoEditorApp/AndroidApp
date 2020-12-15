@@ -172,6 +172,7 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
         saveImage.setOnClickListener(l -> {
             showLoading();
             ImageLoader imageLoaderTask = new ImageLoader();
+            showToastMessage("Сохраняю...", false);
             imageLoaderTask.execute();
 
         });
@@ -217,6 +218,7 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
         filters.add(new EditorItemModel(FilterType.BLUR.toString(), R.drawable.blur));
         filters.add(new EditorItemModel(FilterType.WB.toString(), R.drawable.wb));
         filters.add(new EditorItemModel(FilterType.SHARP.toString(), R.drawable.sharp));
+        filters.add(new EditorItemModel(FilterType.SEPIA.toString(), R.drawable.wb));
 
         List<EditorItemModel> testFrames = new ArrayList<>();
         testFrames.add(new EditorItemModel(304, "Cool frame"));
@@ -316,6 +318,7 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
         protected String doInBackground(String... strings) {
             try {
                 //Write file
+
                 String filename = "edited_image_" + System.currentTimeMillis() + ".png";
                 FileOutputStream stream = requireActivity().openFileOutput(filename, Context.MODE_PRIVATE);
                 editedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -335,6 +338,12 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
         }
     }
 }

@@ -107,9 +107,7 @@ public class FindAndShareFragment extends BaseFragment implements FindAndShareVi
         criteriaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchCriteria.setAdapter(criteriaAdapter);
 
-        //TODO добавить проверки введенных значений
         find.setOnClickListener(l -> {
-
             if (searchCriteria.getSelectedItem().toString().equals(values[0])) {
                 try {
                     findAndSharePresenter.findUserById(

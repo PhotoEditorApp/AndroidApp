@@ -86,7 +86,6 @@ public class ImageItemViewHolder extends RecyclerView.ViewHolder {
         averageColorIndicator.getBackground().setColorFilter(imageModel.getAverageColor(),
                 PorterDuff.Mode.SRC_IN);
 
-        //TODO do something with that!
         final String previewPath = imageModel.getPreviewPath().replace("\\", "%2F");
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
