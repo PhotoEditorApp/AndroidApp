@@ -154,6 +154,7 @@ public class ImagesPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
+                getWorkspaceImagesInfo(spaceId);
                 e.printStackTrace();
             }
         });

@@ -60,6 +60,10 @@ public interface ImageRepository {
         void onFrameApplied(Object image);
     }
 
+    interface FrameDeleteCallback extends ImageRepository.Error {
+        void onFrameDeleted();
+    }
+
     void getUsersFrames(UsersFramesGetCallback callback);
 
     void getFramePreview(long frameId, FrameGetPreviewCallback callback);
@@ -86,6 +90,9 @@ public interface ImageRepository {
 
     void deleteImage(long imageId,
                      ImageRepository.ImageDeleteCallback callback);
+
+    void deleteFrame(long frameId,
+                     ImageRepository.FrameDeleteCallback callback);
 
     void rateImage(long userId, long imageId, int rating,
                    ImageRepository.ImageRateCallback callback);

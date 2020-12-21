@@ -60,6 +60,10 @@ public interface ImageEntityStore {
         void onUsersFramesLoaded(List<Long> usersFrames);
     }
 
+    interface FrameDeleteCallback extends ImageEntityStore.Error {
+        void onFrameDeleted();
+    }
+
 
     void getImageById(long imageId, ImageDownloadByIdCallback callback);
 
@@ -85,4 +89,6 @@ public interface ImageEntityStore {
     void rateImage(long userId, long imageId, int ratingNumber, ImageRateCallback callback);
 
     void deleteImage(long imageId, ImageDeleteCallback callback);
+
+    void deleteFrame(long frameId, FrameDeleteCallback callback);
 }

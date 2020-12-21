@@ -7,6 +7,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddFram
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFilterUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFrameUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteFrameUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetUsersFramesUseCase;
 import com.netcracker_study_autumn_2020.presentation.mapper.FrameModelDtoMapper;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.ImageModel;
@@ -26,6 +27,7 @@ public class PhotoEditPresenter extends BasePresenter {
     private ApplyFilterUseCase applyFilterUseCase;
     private GetUsersFramesUseCase getUsersFramesUseCase;
     private AddFrameUseCase addFrameUseCase;
+    private DeleteFrameUseCase deleteFrameUseCase;
 
     private List<Long> usersFrameIds;
     private ImageModel imageModel;
@@ -37,12 +39,14 @@ public class PhotoEditPresenter extends BasePresenter {
                               GetUsersFramesUseCase getUsersFramesUseCase,
                               AddFrameUseCase addFrameUseCase,
                               AddImageUseCase addImageUseCase,
+                              DeleteFrameUseCase deleteFrameUseCase,
                               ImageModel imageModel) {
         this.applyFrameUseCase = applyFrameUseCase;
         this.applyFilterUseCase = applyFilterUseCase;
         this.getUsersFramesUseCase = getUsersFramesUseCase;
         this.addFrameUseCase = addFrameUseCase;
         this.addImageUseCase = addImageUseCase;
+        this.deleteFrameUseCase = deleteFrameUseCase;
         this.imageModel = imageModel;
 
         frameModelDtoMapper = new FrameModelDtoMapper();
@@ -86,6 +90,21 @@ public class PhotoEditPresenter extends BasePresenter {
                                 "изображение поменьше...", true);
                     }
                 });
+    }
+
+    public void deleteFrame(long frameId) {
+        deleteFrameUseCase.execute(frameId, new DeleteFrameUseCase.Callback() {
+            @Override
+            public void onFrameDeleted() {
+                getUsersFrames();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                getUsersFrames();
+                e.printStackTrace();
+            }
+        });
     }
 
     public void applyFilter(String filterName) {

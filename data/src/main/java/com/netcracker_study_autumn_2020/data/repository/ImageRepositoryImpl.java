@@ -1,6 +1,7 @@
 package com.netcracker_study_autumn_2020.data.repository;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStore;
 import com.netcracker_study_autumn_2020.data.custom.image.ImageEntityStoreFactory;
@@ -177,6 +178,9 @@ public class ImageRepositoryImpl implements ImageRepository {
             @Override
             public void onImagesLoaded(List<ImageEntity> imageEntityList) {
                 List<ImageDto> imageDtos = imageEntityDtoMapper.map2(imageEntityList);
+                for (ImageDto image : imageDtos) {
+                    Log.d("IMAGE_NAME", image.getName());
+                }
                 callback.onImagesLoaded(imageDtos);
             }
 
@@ -213,6 +217,23 @@ public class ImageRepositoryImpl implements ImageRepository {
             @Override
             public void onImageDeleted() {
                 callback.onImageDeleted();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public void deleteFrame(long frameId, FrameDeleteCallback callback) {
+        ImageEntityStore imageEntityStore = imageEntityStoreFactory.create();
+
+        imageEntityStore.deleteFrame(frameId, new ImageEntityStore.FrameDeleteCallback() {
+            @Override
+            public void onFrameDeleted() {
+                callback.onFrameDeleted();
             }
 
             @Override

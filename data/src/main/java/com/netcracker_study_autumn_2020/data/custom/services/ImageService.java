@@ -75,4 +75,8 @@ public interface ImageService {
     @DELETE("/image/delete_image")
     Call<ResponseBody> deleteImage(@Header("Authorization") String token,
                                    @Query("id") long imageId);
+
+    @DELETE("/image/frame")
+    Call<ResponseBody> deleteFrame(@Header("Authorization") String token,
+                                   @Query("id") long frameId);
 }

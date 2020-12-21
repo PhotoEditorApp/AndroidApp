@@ -7,6 +7,7 @@ import com.netcracker_study_autumn_2020.data.entity.TagEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,7 @@ public class RetrofitTagEntityStore implements TagEntityStore {
 
     public RetrofitTagEntityStore() {
         Retrofit retrofit = new Retrofit.Builder()
+                .client(UnsafeOkHttpClient.getUnsafeOkHttpClient())
                 .baseUrl(NetworkUtils.API_ADDRESS)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

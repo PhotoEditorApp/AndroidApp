@@ -8,6 +8,9 @@ import com.netcracker_study_autumn_2020.data.manager.AuthManager;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.UserCredentials;
 import com.netcracker_study_autumn_2020.library.UserSessionValues;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,6 +28,7 @@ public class RetrofitAuthManagerImpl extends SessionManager implements AuthManag
 
     public RetrofitAuthManagerImpl() {
         Retrofit retrofit = new Retrofit.Builder()
+                .client(UnsafeOkHttpClient.getUnsafeOkHttpClient())
                 .baseUrl(API_ADDRESS)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -41,6 +45,13 @@ public class RetrofitAuthManagerImpl extends SessionManager implements AuthManag
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 signUpCallback.onRegisterFinished(response.code());
+                if (response.body() != null) {
+                    try {
+                        Log.d("REGISTER", response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override

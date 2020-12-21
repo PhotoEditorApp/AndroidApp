@@ -34,6 +34,7 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.user.impl.Upl
 import com.netcracker_study_autumn_2020.domain.repository.UserRepository;
 import com.netcracker_study_autumn_2020.library.files.FilesUtils;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.executor.UIThread;
 import com.netcracker_study_autumn_2020.presentation.mapper.UserModelDtoMapper;
@@ -48,7 +49,6 @@ import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
@@ -204,15 +204,8 @@ public class UserProfileFragment extends BaseFragment implements UserProfileView
 
     @Override
     public void renderAvatar() {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(chain -> {
-                    Request customImageRequest = chain.request().newBuilder()
-                            .addHeader("Authorization", SessionManager.getSessionToken())
-                            .build();
-
-                    return chain.proceed(customImageRequest);
-                })
-                .build();
+        OkHttpClient client = UnsafeOkHttpClient.getPicassoUnsafeOkHttpClient(
+                SessionManager.getSessionToken());
         Picasso picasso = new Picasso.Builder(this.requireContext())
                 .downloader(new OkHttp3Downloader(client))
                 .build();

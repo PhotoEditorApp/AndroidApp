@@ -9,6 +9,7 @@ import com.netcracker_study_autumn_2020.data.entity.ImageEntity;
 import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
 
     public RetrofitImageEntityStore() {
         Retrofit retrofit = new Retrofit.Builder()
+                .client(UnsafeOkHttpClient.getUnsafeOkHttpClient())
                 .baseUrl(NetworkUtils.API_ADDRESS)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -210,9 +212,13 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
     public void editImageInfo(ImageEntity imageEntity, ImageEditCallback callback) {
         Response<ResponseBody> response;
         try {
+            Log.d("IMAGE_ID", String.valueOf(imageEntity.getId()));
             response = imageService.editImageInfo(SessionManager.getSessionToken(),
                     imageEntity.getId(), imageEntity.getName()).execute();
             if (response.body() == null) {
+
+                Log.d("EDIT_IMAGE_INFO", response.message());
+
                 callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE editImageInfo(): code - " +
                         +response.code()));
             } else {
@@ -253,6 +259,24 @@ public class RetrofitImageEntityStore implements ImageEntityStore {
                         +response.code()));
             } else {
                 callback.onImageDeleted();
+            }
+        } catch (IOException e) {
+            callback.onError(e);
+        }
+        callback.onError(new EntityStoreException());
+    }
+
+    @Override
+    public void deleteFrame(long frameId, FrameDeleteCallback callback) {
+        Response<ResponseBody> response;
+        try {
+            response = imageService.deleteFrame(SessionManager.getSessionToken(),
+                    frameId).execute();
+            if (response.body() == null) {
+                callback.onError(new EntityStoreException("IMAGE_ENTITY_STORE deleteFrame(): code - " +
+                        +response.code()));
+            } else {
+                callback.onFrameDeleted();
             }
         } catch (IOException e) {
             callback.onError(e);

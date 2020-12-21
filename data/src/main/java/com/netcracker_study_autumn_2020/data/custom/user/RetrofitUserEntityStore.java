@@ -10,6 +10,7 @@ import com.netcracker_study_autumn_2020.data.exception.EntityStoreException;
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.data.mapper.DateConverter;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class RetrofitUserEntityStore implements UserEntityStore {
                 .registerTypeAdapter(Date.class, new DateConverter())
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
+                .client(UnsafeOkHttpClient.getUnsafeOkHttpClient())
                 .baseUrl(NetworkUtils.API_ADDRESS)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))

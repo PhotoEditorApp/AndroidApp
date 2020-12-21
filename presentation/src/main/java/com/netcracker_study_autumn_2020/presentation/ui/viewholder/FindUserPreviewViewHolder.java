@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.netcracker_study_autumn_2020.data.manager.SessionManager;
 import com.netcracker_study_autumn_2020.library.network.NetworkUtils;
+import com.netcracker_study_autumn_2020.library.network.UnsafeOkHttpClient;
 import com.netcracker_study_autumn_2020.presentation.R;
 import com.netcracker_study_autumn_2020.presentation.mvp.model.UserModel;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -19,7 +20,6 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class FindUserPreviewViewHolder extends RecyclerView.ViewHolder {
 
@@ -46,15 +46,9 @@ public class FindUserPreviewViewHolder extends RecyclerView.ViewHolder {
         String name = userModel.getLastName().concat(" ").concat(userModel.getFirstName());
         userName.setText(name);
         userEmail.setText(userModel.getEmail());
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(chain -> {
-                    Request customImageRequest = chain.request().newBuilder()
-                            .addHeader("Authorization", SessionManager.getSessionToken())
-                            .build();
 
-                    return chain.proceed(customImageRequest);
-                })
-                .build();
+        OkHttpClient client = UnsafeOkHttpClient.getPicassoUnsafeOkHttpClient(
+                SessionManager.getSessionToken());
         Picasso picasso = new Picasso.Builder(context)
                 .downloader(new OkHttp3Downloader(client))
                 .build();

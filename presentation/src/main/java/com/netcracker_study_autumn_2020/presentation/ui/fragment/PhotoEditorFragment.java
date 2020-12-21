@@ -33,11 +33,13 @@ import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddFram
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.AddImageUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFilterUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.ApplyFrameUseCase;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.DeleteFrameUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.GetUsersFramesUseCase;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.AddFrameUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.AddImageUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.ApplyFilterUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.ApplyFrameUseCaseImpl;
+import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.DeleteFrameUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.interactor.usecases.image.impl.GetUsersFramesUseCaseImpl;
 import com.netcracker_study_autumn_2020.domain.repository.ImageRepository;
 import com.netcracker_study_autumn_2020.library.files.FilesUtils;
@@ -114,9 +116,12 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
                 postExecutionThread, threadExecutor);
         AddImageUseCase addImageUseCase = new AddImageUseCaseImpl(imageRepository,
                 postExecutionThread, threadExecutor);
+        DeleteFrameUseCase deleteFrameUseCase = new DeleteFrameUseCaseImpl(imageRepository,
+                postExecutionThread, threadExecutor);
 
         photoEditPresenter = new PhotoEditPresenter(applyFrameUseCase, applyFilterUseCase,
-                getUsersFramesUseCase, addFrameUseCase, addImageUseCase, imageModel);
+                getUsersFramesUseCase, addFrameUseCase, addImageUseCase, deleteFrameUseCase,
+                imageModel);
 
     }
 
@@ -310,6 +315,10 @@ public class PhotoEditorFragment extends BaseFragment implements PhotoEditView {
         Log.d("GETTING_IMAGE", "5");
         //show loading
 
+    }
+
+    public void deleteFrame(long frameId) {
+        photoEditPresenter.deleteFrame(frameId);
     }
 
     private class ImageLoader extends AsyncTask<String, String, String> {

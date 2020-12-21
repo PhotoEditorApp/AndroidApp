@@ -5,6 +5,17 @@
     android:layout_height="wrap_content"
     android:elevation="10dp">
 
+    <ImageButton
+        android:id="@+id/button_delete_frame"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:elevation="5dp"
+        android:background="@drawable/ic_delete"
+        android:backgroundTint="@color/primaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/editor_item_preview"
         android:layout_width="60dp"
