@@ -99,6 +99,27 @@
         android:layout_height="match_parent"
         android:id="@+id/main_container">
 
+        <LinearLayout
+            android:id="@+id/button_refresh_workspace_bg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_workspace_actions_button"
+            android:visibility="gone"
+            android:elevation="10dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_refresh_images"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_refresh"
+                android:backgroundTint="@color/white" />
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/empty_ui"
             android:visibility="gone"
@@ -189,12 +210,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_hide_button_panel"
             android:elevation="5dp"
-            android:paddingBottom="5dp"
             android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/photo_preview_list"
             app:layout_constraintEnd_toEndOf="parent">
 

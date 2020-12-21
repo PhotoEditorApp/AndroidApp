@@ -68,6 +68,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private ConstraintLayout createCollageUI;
     private ConstraintLayout mainContainer;
 
+
     private SpaceAccessType currentUserSpaceAccessType;
 
     private boolean isChoosingImagesForCollage = false;
@@ -77,6 +78,7 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
     private RecyclerView recyclerView;
     private ImagesGridRecyclerAdapter imagesGridRecyclerAdapter;
     private LinearLayout buttonPanel;
+    private ImageButton refreshImageList;
     private AlertDialog editImageInfoDialog;
 
     private String[] galleryPermissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -166,9 +168,16 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         ImageButton sortImages = root.findViewById(R.id.button_choose_sort);
         ImageButton sortByTags = root.findViewById(R.id.button_sort_by_tags);
         ImageButton createCollage = root.findViewById(R.id.button_choose_images_for_collage);
+        refreshImageList = root.findViewById(R.id.button_refresh_images);
+
+        LinearLayout refreshImageListBg = root.findViewById(R.id.button_refresh_workspace_bg);
 
         ImageButton applyCollage = root.findViewById(R.id.button_create_collage);
         ImageButton cancelCollage = root.findViewById(R.id.button_cancel);
+
+        refreshImageList.setOnClickListener(l -> {
+            presenter.updateImageList();
+        });
 
         applyCollage.setOnClickListener(l -> {
             Log.d("APPLY", "check");
@@ -199,9 +208,11 @@ public class ImagesFragment extends BaseFragment implements ImagesView {
         hidePanel.setOnClickListener(l -> {
             if (isPanelHide) {
                 buttonPanel.setVisibility(View.VISIBLE);
+                refreshImageListBg.setVisibility(View.VISIBLE);
                 isPanelHide = false;
             } else {
                 buttonPanel.setVisibility(View.GONE);
+                refreshImageListBg.setVisibility(View.GONE);
                 isPanelHide = true;
             }
         });

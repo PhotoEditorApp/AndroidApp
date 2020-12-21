@@ -112,6 +112,11 @@ public class WorkspacesFragment extends BaseFragment implements CardStackView.It
 
         ImageButton chooseTab = root.findViewById(R.id.button_choose_tab);
         ImageButton chooseSort = root.findViewById(R.id.button_show_sorts);
+        ImageButton refreshWorkspaces = root.findViewById(R.id.button_refresh_workspace);
+
+        refreshWorkspaces.setOnClickListener(l -> {
+            workspacesPresenter.refreshData();
+        });
 
         chooseSort.setOnClickListener(l -> {
             PopupMenu sortMenu = new PopupMenu(getContext(), chooseSort);
