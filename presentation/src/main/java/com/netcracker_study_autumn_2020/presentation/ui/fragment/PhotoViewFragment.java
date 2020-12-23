@@ -193,7 +193,7 @@ public class PhotoViewFragment extends BaseFragment
                     "галерею", true);
         });
         buttonEditPhoto.setOnClickListener(l -> {
-            showToastMessage("Открываю редактор изоражений...", true);
+            showToastMessage("Открываю редактор изображений...", true);
             showLoading();
             navigateToPhotoEditor();
         });

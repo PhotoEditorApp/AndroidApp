@@ -126,6 +126,7 @@ public class PhotoEditPresenter extends BasePresenter {
     }
 
     public void applyFrame(long frameId) {
+        photoEditView.showLoading();
         applyFrameUseCase.execute(imageModel.getId(),
                 frameId, new ApplyFrameUseCase.Callback() {
                     @Override
